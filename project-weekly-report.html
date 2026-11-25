@@ -12,18 +12,34 @@
 @media(max-width:1050px){.indicator-grid{grid-template-columns:minmax(170px,.8fr) minmax(260px,1.2fr)}.indicator-grid .qms-focus{grid-column:1/-1}.lower-layout{grid-template-columns:1fr}.stake-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.indicator-grid,.status-grid{grid-template-columns:1fr}.indicator-grid .qms-focus{grid-column:auto}.stake-grid{grid-template-columns:1fr}}
 @media print{@page{size:A3 landscape;margin:5mm}body{background:white;font-size:8px;line-height:1.2}header.top,.tabs,.no-print,.dashboard{display:none!important}main{max-width:none;padding:0;margin:0}.sheet{border:0;box-shadow:none;padding:0;break-inside:avoid}.sheet h1{font-size:16px}.sheet-head{margin-bottom:4px;padding-bottom:4px}.sheet-head p,.hint{font-size:8px}.meta{grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin-bottom:5px}.field label{font-size:8px;margin-bottom:1px}.indicator-grid{grid-template-columns:minmax(190px,.8fr) minmax(300px,1.25fr) minmax(190px,.8fr);gap:4px}.indicator-grid .qms-focus{grid-column:auto}.lower-layout{grid-template-columns:minmax(250px,.8fr) minmax(0,1.7fr);gap:5px}.stack{gap:4px}.status-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.status-grid textarea{min-height:0}.card-head{padding:3px 5px}.card-head h2{font-size:9px}.card-body{padding:4px 5px}.full{margin-top:5px}.stake-grid{grid-template-columns:1fr;gap:4px}.stake-group{padding:3px}.stake-row{margin:1px 0;grid-template-columns:minmax(0,1fr) minmax(70px,.8fr) 22px}.stake-row button{display:none}.gantt{min-width:0}.gantt-head,.gantt-row{grid-template-columns:minmax(460px,1.2fr) minmax(260px,1fr)}.gantt-head{font-size:8px}.gantt-title{padding:3px}.gantt-axis{min-height:20px}.gantt-axis span{padding:3px 1px}.gantt-row{min-height:24px}.gantt-editor{padding:1px 3px}.gantt-fields{grid-template-columns:minmax(65px,1.2fr) minmax(50px,1fr) minmax(50px,1fr) 25px minmax(55px,1fr);gap:1px}.gantt-fields input{display:none}.gantt-fields .print-value{display:block;font-size:7px}.gantt-fields button{display:none}.gantt-note{font-size:7px!important}.gantt-track{height:15px}.gantt-bar{top:2px;height:11px}.gantt-bar-label{font-size:7px;line-height:11px}.matrix th,.matrix td{padding:2px}.table-wrap{overflow:visible}.table-wrap table{min-width:0}.hint{font-size:7px}.card{break-inside:avoid}.issue-box{display:none}}
-.status-grid textarea{min-height:112px}
-.traffic-panel>.card-body>.indicator-grid{margin:0}
+.priority-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(390px,.9fr);gap:10px;align-items:stretch}
+.priority-layout>.card,.priority-layout>.traffic-panel{margin-top:0}
+.status-panel{display:flex;flex-direction:column}
+.status-panel>.card-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));flex:1;min-height:0}
+.status-panel .status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.status-panel .status-grid .field{display:flex;flex-direction:column}
+.status-panel .status-grid textarea{height:100%;min-height:132px;flex:1}
+.traffic-panel>.card-body>.indicator-grid{grid-template-columns:1fr;margin:0}
+.traffic-panel>.card-body>.indicator-grid>.card{height:auto}
 .traffic-panel .indicator-grid .card-body{padding:6px}
 .traffic-panel .matrix{font-size:11px}
 .traffic-panel .matrix select{padding:4px;font-size:10px}
 .stakeholder-panel{border-color:#e2ecef}
+.stakeholder-panel .stake-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:1050px){.priority-layout{grid-template-columns:minmax(0,1.2fr) minmax(330px,.8fr)}}
+@media(max-width:760px){.priority-layout{grid-template-columns:1fr}.priority-layout>.traffic-panel{order:2}.status-panel .status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.status-panel .status-grid,.stakeholder-panel .stake-grid{grid-template-columns:1fr}}
 @media print{
-  .status-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
-  .status-grid textarea{height:58px;min-height:58px}
+  .priority-layout{grid-template-columns:minmax(0,1.45fr) minmax(300px,.8fr);gap:5px}
+  .status-panel .status-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+  .status-panel .status-grid textarea{height:76px;min-height:76px;flex:none}
   .traffic-panel>.card-body{padding:4px}
-  .traffic-panel>.card-body>.indicator-grid{grid-template-columns:minmax(180px,.8fr) minmax(290px,1.25fr) minmax(180px,.8fr);gap:4px}
+  .traffic-panel>.card-body>.indicator-grid{grid-template-columns:1fr;gap:3px}
   .traffic-panel .indicator-grid .card-body{padding:3px}
+  .traffic-panel .card-head{padding:2px 4px}
+  .traffic-panel .card-head h2{font-size:8px}
+  .traffic-panel .matrix th,.traffic-panel .matrix td{padding:2px}
+  .stakeholder-panel .stake-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .stakeholder-panel{margin-top:4px}
   .stakeholder-panel>.card-head{padding:2px 4px}
   .stakeholder-panel>.card-body{padding:3px 4px}
@@ -56,22 +72,24 @@
     <div class="field"><label for="itPM">IT PM / TAM *</label><input id="itPM" placeholder="姓名"></div>
     <div class="field"><label for="phase">Project phase *</label><input id="phase" placeholder="如 Implementation & SIT"></div>
   </div>
-  <section class="card full"><div class="card-head"><h2>01 / STATUS, RISKS, NEXT STEPS & MITIGATIONS</h2><span class="hint">主要填写区 · 请描述当前工作、风险和应对行动</span></div><div class="card-body status-grid">
-    <div class="field"><label for="status">Status / 当前主要工作 *</label><textarea id="status" placeholder="项目目前正在进行的主要工作、进展和状态"></textarea></div>
-    <div class="field"><label for="nextSteps">Next Steps / 下一步工作 *</label><textarea id="nextSteps" placeholder="接下来要完成什么？请尽量写明负责人和目标日期"></textarea></div>
-    <div class="field"><label for="riskDetails">Key Risks / 当前主要风险 *</label><textarea id="riskDetails" placeholder="当前主要风险或问题、影响及可能性；如无重大风险请注明"></textarea></div>
-    <div class="field"><label for="mitigations">Mitigations / 风险应对措施 *</label><textarea id="mitigations" placeholder="如何降低风险或解决问题？请写明负责人和目标日期"></textarea></div>
-  </div></section>
-  <section class="card full traffic-panel"><div class="card-head"><h2>02 / TRAFFIC LIGHT INDICATORS</h2><span class="hint">项目状态 · 由本周三级、二级指标逐级汇总</span></div><div class="card-body">
-    <div class="indicator-grid" aria-label="Project indicators">
+  <div class="priority-layout full">
+    <section class="card status-panel"><div class="card-head"><h2>01 / STATUS, RISKS, NEXT STEPS & MITIGATIONS</h2><span class="hint">主要填写区 · 请描述当前工作、风险和应对行动</span></div><div class="card-body status-grid">
+      <div class="field"><label for="status">Status / 当前主要工作 *</label><textarea id="status" placeholder="项目目前正在进行的主要工作、进展和状态"></textarea></div>
+      <div class="field"><label for="nextSteps">Next Steps / 下一步工作 *</label><textarea id="nextSteps" placeholder="接下来要完成什么？请尽量写明负责人和目标日期"></textarea></div>
+      <div class="field"><label for="riskDetails">Key Risks / 当前主要风险 *</label><textarea id="riskDetails" placeholder="当前主要风险或问题、影响及可能性；如无重大风险请注明"></textarea></div>
+      <div class="field"><label for="mitigations">Mitigations / 风险应对措施 *</label><textarea id="mitigations" placeholder="如何降低风险或解决问题？请写明负责人和目标日期"></textarea></div>
+    </div></section>
+    <section class="card traffic-panel"><div class="card-head"><h2>02 / TRAFFIC LIGHT INDICATORS</h2><span class="hint">项目状态 · 由低层级向上汇总</span></div><div class="card-body">
+      <div class="indicator-grid" aria-label="Project indicators">
       <section class="card indicator-level l1"><div class="card-head"><h2>L1 / OVERALL</h2><span class="hint">项目汇总</span></div><div class="card-body"><div class="field key-risk"><label for="keyRiskReason">Key Risk Reason / 主要影响因素</label><select id="keyRiskReason"><option value="">请选择（AMBER / RED 必填）</option></select></div><table class="matrix"><thead><tr><th>指标</th><th>Old / 上周</th><th>New / 本周</th></tr></thead><tbody id="overallRows"></tbody></table></div></section>
       <section class="card indicator-level l2"><div class="card-head"><h2>L2 / PROJECT INDICATORS</h2><span class="hint">四个项目维度</span></div><div class="card-body"><table class="matrix"><thead><tr><th>指标</th><th>Old / 上周</th><th>New / 本周</th></tr></thead><tbody id="indicatorRows"></tbody></table></div></section>
       <section class="card qms-focus"><div class="card-head"><h2>L3 / QMS INDICATOR</h2><span class="hint">重点关注</span></div><div class="card-body"><div class="field"><label for="qg">Quality gate *</label><input id="qg" placeholder="例如 QG1.2"></div><table class="matrix"><thead><tr><th>项目文档</th><th>Old / 上周</th><th>New / 本周</th></tr></thead><tbody><tr><td>QMS</td><td><select id="qmsOld" class="indicator" aria-label="QMS 上周状态"></select></td><td><select id="qmsNew" class="indicator" aria-label="QMS 本周状态"></select></td></tr></tbody></table><p class="hint">QMS 状态向上关联 Quality 和 Overall。</p></div></section>
-    </div>
-    <section class="card stakeholder-panel"><div class="card-head"><h2>L3 / STAKEHOLDER INDICATORS</h2><span class="hint">名称及本周状态</span></div><div class="card-body">
-      <div class="stake-grid" id="stakeGroups"></div>
-      <p class="hint">相关方状态可能影响多个 L2 指标，无需指定单一关联维度；没有相关方可留空。</p>
+      </div>
     </div></section>
+  </div>
+  <section class="card full stakeholder-panel"><div class="card-head"><h2>L3 / STAKEHOLDER INDICATORS</h2><span class="hint">独立记录本周相关方状态</span></div><div class="card-body">
+    <div class="stake-grid" id="stakeGroups"></div>
+    <p class="hint">相关方状态可能影响多个 L2 指标，无需指定单一关联维度；没有相关方可留空。</p>
   </div></section>
   <section class="card full"><div class="card-head"><h2>03 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ 添加阶段</button></div><div class="card-body table-wrap">
     <div class="gantt" id="gantt">
