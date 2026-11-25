@@ -8,9 +8,9 @@
 :root{--ink:#172b3a;--muted:#607688;--line:#d7e3e9;--navy:#123449;--teal:#007f78;--bg:#edf3f5;--red:#c9363c;--yellow:#af7400;--green:#18835d}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.45 "Segoe UI","Microsoft YaHei",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}header.top{background:var(--navy);color:white;padding:13px max(20px,calc((100vw - 1500px)/2));display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-size:16px;font-weight:750}.brand small{display:block;color:#a9c5d0;font-size:11px;font-weight:400}.toolbar{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid #c9d9df;background:white;color:var(--navy);border-radius:5px;padding:7px 11px;font-weight:650}.btn.primary{background:#00a797;border-color:#00a797;color:white}.btn.ghost{background:transparent;color:white;border-color:#698493}.btn.danger{color:#a9353a}.btn.tiny{padding:3px 7px;font-size:11px}main{max-width:1500px;margin:18px auto;padding:0 16px}.tabs{display:flex;gap:6px;margin-bottom:12px}.tabs button{border:0;border-bottom:3px solid transparent;background:transparent;padding:9px 14px;color:var(--muted);font-weight:700}.tabs button.active{border-color:var(--teal);color:var(--teal)}.sheet,.dashboard{background:#fff;border:1px solid var(--line);box-shadow:0 5px 20px #173a4b0d}.sheet{padding:20px}.sheet-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:2px solid var(--navy);padding-bottom:10px;margin-bottom:12px}.eyebrow{color:var(--teal);font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.sheet h1{font-size:24px;line-height:1.1;margin:4px 0}.sheet-head p,.hint{color:var(--muted);font-size:11px;margin:3px 0}.tag{color:var(--teal);background:#e7f5f2;border-radius:20px;padding:5px 10px;font-size:11px;font-weight:700;white-space:nowrap}.meta{display:grid;grid-template-columns:1.1fr 2fr 1fr 1.1fr 1.1fr 1fr 1.2fr;gap:8px;margin-bottom:12px}.field label,.label{display:block;color:#536c7a;font-size:10px;letter-spacing:.03em;font-weight:700;margin-bottom:3px}.field input,.field select,.field textarea,td input,td select,td textarea{width:100%;border:1px solid #d5e1e6;border-radius:4px;background:#fbfdfe;color:var(--ink);padding:6px;min-width:0}textarea{resize:vertical;min-height:60px}input:focus,select:focus,textarea:focus{outline:2px solid #95d5cb;outline-offset:0}.layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:12px}.stack{display:grid;gap:12px;align-content:start}.card{border:1px solid var(--line);border-radius:5px;min-width:0}.card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#eef5f7;padding:7px 10px;border-bottom:1px solid var(--line)}.card-head h2{margin:0;color:var(--navy);font-size:12px;letter-spacing:.025em}.card-body{padding:9px 10px}.split{display:grid;grid-template-columns:1fr 1fr;gap:9px}.summary{min-height:48px}.matrix{width:100%;border-collapse:collapse;table-layout:fixed}.matrix th,.matrix td{padding:5px;border-bottom:1px solid #e6eef1;text-align:left;vertical-align:middle}.matrix th{font-size:10px;color:#607688}.matrix tr:last-child td{border-bottom:0}.matrix select,.matrix input{padding:5px;font-size:11px}.matrix .overall td{font-weight:bold;background:#f1f8f6}.indicator{font-weight:700}.indicator[data-value="Green"]{color:var(--green);background:#e9f7ef}.indicator[data-value="Yellow"]{color:var(--yellow);background:#fff7dc}.indicator[data-value="Red"]{color:var(--red);background:#fff0f0}.full{margin-top:12px}.stake-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.stake-group{border:1px solid #e2ecef;border-radius:4px;padding:8px}.stake-group h3{margin:0 0 6px;color:var(--navy);font-size:11px}.stake-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr) auto;gap:4px;margin:4px 0}.stake-row input,.stake-row select{width:100%;min-width:0;padding:5px;border:1px solid #d5e1e6;border-radius:4px;font-size:11px}.stake-row button{border:0;background:#f5f8f9;color:#a13239;border-radius:4px}.table-wrap{overflow-x:auto}.table-wrap table{min-width:650px}.issue-box{margin:12px 0 0;padding:10px 12px;border-radius:5px;background:#fff8e6;border:1px solid #ead9a2}.issue-box.good{background:#edf9f3;border-color:#bde5cd}.issue-box strong{display:block}.issue-box ul{margin:5px 0 0;padding-left:20px}.issue-box li{margin:2px 0}.dashboard{padding:20px}.dash-head{display:flex;align-items:start;justify-content:space-between;gap:12px;flex-wrap:wrap}.dash-head h1{margin:0;font-size:21px}.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.stat{background:#f4f8fa;border:1px solid var(--line);padding:12px}.stat b{display:block;font-size:23px;color:var(--navy)}.dash-table{width:100%;border-collapse:collapse;min-width:850px}.dash-table th,.dash-table td{text-align:left;padding:9px;border-bottom:1px solid var(--line);vertical-align:top}.dash-table th{color:#607688;font-size:11px;background:#f2f7f9}.dash-table td{font-size:12px}.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:11px;font-weight:700;background:#edf2f4}.badge.Red{color:var(--red);background:#fff0f0}.badge.Yellow{color:var(--yellow);background:#fff7dc}.badge.Green{color:var(--green);background:#e9f7ef}.badge.missing{color:#687986}.details{max-width:430px}.details ul{padding-left:17px;margin:5px 0}.notice{font-size:11px;color:var(--muted);margin:10px 0}.hidden{display:none!important}.empty{text-align:center;padding:35px;color:var(--muted)}
 @media(max-width:1050px){.meta{grid-template-columns:repeat(3,1fr)}.stake-grid{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.dash-stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){main{padding:0 8px}.sheet,.dashboard{padding:12px}.meta,.split,.status-grid{grid-template-columns:1fr}.sheet-head{flex-wrap:wrap}.stake-row{grid-template-columns:1fr 1fr 1fr auto}}
-.indicator-level{border-left:3px solid #78a7b3}.indicator-level.l1{border-left-color:var(--teal)}.indicator-level.l2{border-left-color:#3e718c}.l3-grid{display:grid;grid-template-columns:285px minmax(0,1fr);gap:12px}.qms-focus{border:2px solid #d5ab45;background:#fffcf2}.qms-focus .card-head{background:#fff4d6}.qms-focus .card-head h2{color:#765000}.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.status-grid textarea{min-height:76px}.key-risk{margin-bottom:7px}.key-risk select{padding:5px}.print-value{display:none}
+.indicator-level{border-left:3px solid #78a7b3}.indicator-level.l1{border-left-color:var(--teal)}.indicator-level.l2{border-left-color:#3e718c}.l3-grid{display:grid;grid-template-columns:285px minmax(0,1fr);gap:12px}.qms-focus{border:2px solid #d5ab45;background:#fffcf2}.qms-focus .card-head{background:#fff4d6}.qms-focus .card-head h2{color:#765000}.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.status-grid textarea{min-height:76px}.key-risk{margin-bottom:7px}.key-risk select{padding:5px}.gantt{min-width:850px}.gantt-head,.gantt-row{display:grid;grid-template-columns:minmax(430px,1.05fr) minmax(380px,1fr);align-items:stretch}.gantt-head{background:#f2f7f9;border-bottom:1px solid var(--line);font-size:10px;font-weight:700;color:#536c7a}.gantt-title{padding:7px;border-right:1px solid var(--line)}.gantt-axis{display:grid;min-height:30px}.gantt-axis span{padding:6px 3px;text-align:center;border-left:1px solid #dce7eb;white-space:nowrap}.gantt-row{min-height:55px;border-bottom:1px solid #e6eef1}.gantt-row:last-child{border-bottom:0}.gantt-editor{padding:5px 7px;border-right:1px solid var(--line);display:grid;align-content:center;gap:3px}.gantt-fields{display:grid;grid-template-columns:minmax(110px,1.3fr) minmax(95px,1fr) minmax(95px,1fr) 68px 28px;gap:4px;align-items:center}.gantt-fields input{width:100%;min-width:0;padding:4px;border:1px solid #d5e1e6;border-radius:4px;font-size:10px}.gantt-note{font-size:10px!important}.gantt-track{position:relative;align-self:center;height:27px;margin:0 4px;background-color:#f7fafb;border-radius:3px;overflow:hidden}.gantt-bar{position:absolute;top:5px;height:17px;min-width:5px;border-radius:4px;background:#a9d8d1;overflow:hidden}.gantt-progress{height:100%;background:var(--teal)}.gantt-bar-label{position:absolute;inset:0 4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:9px;line-height:17px;color:#123449;font-weight:700}.gantt-today{position:absolute;top:0;bottom:0;width:2px;background:#d03742;z-index:2;pointer-events:none}.gantt-empty{padding:18px;text-align:center;color:var(--muted);font-size:11px}.print-value{display:none}
 @media(max-width:1050px){.l3-grid{grid-template-columns:1fr}}
-@media print{@page{size:A3 landscape;margin:8mm}body{background:white;font-size:10px}.top,.tabs,.no-print,.dashboard{display:none!important}main{max-width:none;padding:0;margin:0}.sheet{border:0;box-shadow:none;padding:0}.sheet h1{font-size:18px}.sheet-head{margin-bottom:5px;padding-bottom:5px}.meta{gap:4px;margin-bottom:5px}#report input,#report select,#report textarea{display:none}.print-value{display:block;white-space:pre-wrap;overflow-wrap:anywhere;min-height:1em}.layout{grid-template-columns:minmax(0,1fr) 220px;gap:5px}.l3-grid{grid-template-columns:220px minmax(0,1fr);gap:5px}.stack{gap:5px}.card-head{padding:3px 5px}.card-body{padding:4px 5px}.full{margin-top:5px}.stake-grid{grid-template-columns:repeat(3,1fr);gap:4px}.stake-group{padding:3px}.stake-row{margin:1px 0;grid-template-columns:1.3fr 1fr 1fr}.stake-row button{display:none}.matrix th,.matrix td{padding:2px}.table-wrap{overflow:visible}.table-wrap table{min-width:0}.hint{font-size:9px}.card{break-inside:avoid}.issue-box{display:none}}
+@media print{@page{size:A3 landscape;margin:8mm}body{background:white;font-size:10px}.top,.tabs,.no-print,.dashboard{display:none!important}main{max-width:none;padding:0;margin:0}.sheet{border:0;box-shadow:none;padding:0}.sheet h1{font-size:18px}.sheet-head{margin-bottom:5px;padding-bottom:5px}.meta{gap:4px;margin-bottom:5px}#report input,#report select,#report textarea{display:none}.print-value{display:block;white-space:pre-wrap;overflow-wrap:anywhere;min-height:1em}.layout{grid-template-columns:minmax(0,1fr) 220px;gap:5px}.l3-grid{grid-template-columns:220px minmax(0,1fr);gap:5px}.stack{gap:5px}.card-head{padding:3px 5px}.card-body{padding:4px 5px}.full{margin-top:5px}.stake-grid{grid-template-columns:repeat(3,1fr);gap:4px}.stake-group{padding:3px}.stake-row{margin:1px 0;grid-template-columns:1.3fr 1fr 1fr}.stake-row button{display:none}.gantt{min-width:0}.gantt-head,.gantt-row{grid-template-columns:minmax(310px,1.05fr) minmax(280px,1fr)}.gantt-fields{grid-template-columns:minmax(80px,1.3fr) minmax(65px,1fr) minmax(65px,1fr) 35px}.gantt-fields input{display:none}.gantt-fields .print-value{display:block;font-size:9px}.gantt-fields button{display:none}.gantt-note{font-size:9px!important}.gantt-track{height:23px}.gantt-bar{top:4px;height:15px}.gantt-bar-label{line-height:15px}.matrix th,.matrix td{padding:2px}.table-wrap{overflow:visible}.table-wrap table{min-width:0}.hint{font-size:9px}.card{break-inside:avoid}.issue-box{display:none}}
 </style>
 </head>
 <body>
@@ -60,8 +60,14 @@
       <p class="hint">归属按实际影响选择；有影响多个维度时分别添加记录。没有相关方可留空；空白行请删除。相关方仅记录本周，不能据此判断上周三级状态。</p>
     </div></section>
   </div>
-  <section class="card full"><div class="card-head"><h2>02 / TIMELINE & QUALITY GATES</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ 里程碑</button></div><div class="card-body table-wrap"><table class="matrix"><thead><tr><th style="width:25%">阶段 / 里程碑</th><th style="width:17%">计划日期</th><th style="width:17%">实际 / 预测日期</th><th>进度 / 备注</th><th class="no-print" style="width:40px"></th></tr></thead><tbody id="milestones"></tbody></table><p class="hint">至少填写一个里程碑；阶段命名应与 Project phase 一致，实际与预测请注明。</p></div></section>
-  <section class="card full"><div class="card-head"><h2>03 / RISK & ISSUE LOG</h2><button class="btn tiny no-print" id="addRisk" type="button">＋ 风险 / 问题</button></div><div class="card-body table-wrap"><table class="matrix"><thead><tr><th style="width:26%">风险 / 问题</th><th style="width:30%">缓解 / 解决措施</th><th style="width:15%">负责人</th><th style="width:15%">目标日期</th><th>状态</th><th class="no-print" style="width:40px"></th></tr></thead><tbody id="risks"></tbody></table><p class="hint">AMBER / RED 项目请填写主要风险及对应措施；本表可列出需跟踪的详细风险事项。</p></div></section>
+  <section class="card full"><div class="card-head"><h2>02 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ 添加阶段</button></div><div class="card-body table-wrap">
+    <div class="gantt" id="gantt">
+      <div class="gantt-head"><div class="gantt-title">阶段 / 开始日期 / 结束日期 / 完成度</div><div class="gantt-axis" id="ganttAxis"></div></div>
+      <div id="milestones"></div>
+      <div class="gantt-empty hidden" id="ganttEmpty">添加阶段并填写开始、结束日期后，将在此显示项目甘特图。</div>
+    </div>
+    <p class="hint">每个阶段填写计划开始与结束日期、完成度；条形填充部分表示已完成比例。旧版里程碑日期将作为迁移范围导入，请检查并调整为真实的阶段起止日期。</p>
+  </div></section>
   <div id="validation" class="issue-box no-print" aria-live="polite"></div>
   <p class="notice no-print">规则：RED &gt; AMBER &gt; GREEN。QMS → Quality；每个相关方 → 所选二级指标；Overall 等于四个二级指标中的最严重状态。Overall 为 RED 时，本周二级和三级均须存在 RED；不要求 QMS 必须为 RED。上周未记录相关方，仅检查已知的 QMS 和二级、一级关系。项目自身风险可使二级比所关联三级更严重。打印默认为 A3 横向；内容过多时请缩放或精简，避免跨页。</p>
 </section>
@@ -113,7 +119,7 @@ function initialize() {
   }
 }
 function input(placeholder,value="",type="text") {const e=document.createElement("input"); e.type=type; e.placeholder=placeholder; e.value=value; e.setAttribute("aria-label",placeholder); return e;}
-function removeButton(row) {const b=document.createElement("button"); b.type="button"; b.className="btn tiny no-print"; b.textContent="×"; b.setAttribute("aria-label","删除此行"); b.onclick=()=>{row.remove(); refreshValidation();}; return b;}
+function removeButton(row) {const b=document.createElement("button"); b.type="button"; b.className="btn tiny no-print"; b.textContent="×"; b.setAttribute("aria-label","删除此行"); b.onclick=()=>{row.remove(); refreshValidation(); renderGantt();}; return b;}
 function addStake(group, data={}) {
   const row=document.createElement("div"); row.className="stake-row";
   row.appendChild(input("名称",data.name||""));
@@ -122,24 +128,71 @@ function addStake(group, data={}) {
   row.appendChild(removeButton(row));
   document.querySelector(`[data-group="${group}"]`).appendChild(row);
 }
-function addTableRow(id,data={}) {
-  const row=document.createElement("tr");
-  const specs=id==="milestones"
-    ? [["阶段 / 里程碑","name","text"],["计划日期","plan","date"],["实际 / 预测日期","forecast","date"],["进度 / 备注","note","text"]]
-    : [["风险 / 问题","description","text"],["缓解 / 解决措施","mitigation","text"],["负责人","owner","text"],["目标日期","due","date"],["状态","status","text"]];
-  for(const [placeholder,key,type] of specs) {const td=document.createElement("td"); const el=input(placeholder,data[key]||"",type); el.dataset.key=key; td.appendChild(el); row.appendChild(td);}
-  const td=document.createElement("td"); td.className="no-print"; td.appendChild(removeButton(row)); row.appendChild(td); $(id).appendChild(row);
+function addGanttRow(data={}) {
+  const row=document.createElement("div"); row.className="gantt-row";
+  const editor=document.createElement("div"); editor.className="gantt-editor";
+  const fields=document.createElement("div"); fields.className="gantt-fields";
+  const definitions=[["阶段名称","name","text"],["开始日期","start","date"],["结束日期","end","date"],["完成%","progress","number"]];
+  for(const [placeholder,key,type] of definitions) {
+    const el=input(placeholder,data[key]??"",type);
+    el.dataset.key=key; if(key==="progress"){el.min="0";el.max="100";el.step="5";}
+    fields.appendChild(el);
+  }
+  fields.appendChild(removeButton(row));
+  const note=input("进度说明 / 备注（选填）",data.note||""); note.className="gantt-note"; note.dataset.key="note";
+  editor.append(fields,note);
+  const track=document.createElement("div"); track.className="gantt-track";
+  row.append(editor,track); $("milestones").appendChild(row);
+}
+function collectGantt() {
+  return [...$("milestones").querySelectorAll(".gantt-row")].map(row=>{
+    const item={}; row.querySelectorAll("input").forEach(el=>item[el.dataset.key]=el.value.trim()); return item;
+  });
+}
+function renderGantt() {
+  const rows=collectGantt(), complete=rows.filter(r=>r.name&&isDate(r.start)&&isDate(r.end)&&r.end>=r.start);
+  const axis=$("ganttAxis"); axis.replaceChildren();
+  $("ganttEmpty").classList.toggle("hidden",complete.length>0);
+  $("milestones").querySelectorAll(".gantt-row").forEach(row=>{
+    const track=row.querySelector(".gantt-track"); track.replaceChildren(); track.style.backgroundImage=""; track.style.backgroundSize="";
+  });
+  if(!complete.length) return;
+  const from=Math.min(...complete.map(r=>Date.parse(r.start+"T00:00:00Z")));
+  const to=Math.max(...complete.map(r=>Date.parse(r.end+"T00:00:00Z")));
+  const first=new Date(from); first.setUTCDate(1);
+  const after=new Date(to); after.setUTCDate(1); after.setUTCMonth(after.getUTCMonth()+1);
+  const rangeStart=first.getTime(), rangeEnd=after.getTime(), monthCount=(after.getUTCFullYear()-first.getUTCFullYear())*12+after.getUTCMonth()-first.getUTCMonth();
+  const monthLabels=[];
+  for(let i=0;i<monthCount;i++){const month=new Date(Date.UTC(first.getUTCFullYear(),first.getUTCMonth()+i,1)); monthLabels.push(month.toLocaleDateString("en",{month:"short",year:"2-digit",timeZone:"UTC"}));}
+  axis.style.gridTemplateColumns=`repeat(${monthCount},minmax(0,1fr))`; monthLabels.forEach(label=>{const span=document.createElement("span");span.textContent=label;axis.appendChild(span);});
+  $("milestones").querySelectorAll(".gantt-row").forEach(row=>{
+    const controls={}; row.querySelectorAll("input").forEach(el=>controls[el.dataset.key]=el.value.trim());
+    if(!controls.name||!isDate(controls.start)||!isDate(controls.end)||controls.end<controls.start) return;
+    const start=Date.parse(controls.start+"T00:00:00Z"),end=Date.parse(controls.end+"T00:00:00Z");
+    const left=(start-rangeStart)/(rangeEnd-rangeStart)*100, width=Math.max((end-start)/(rangeEnd-rangeStart)*100,1);
+    const track=row.querySelector(".gantt-track");
+    track.style.backgroundImage="repeating-linear-gradient(to right, transparent 0, transparent calc(100% - 1px), #dce7eb 100%)";
+    track.style.backgroundSize=`${100/monthCount}% 100%`;
+    track.style.backgroundRepeat="repeat-x";
+    const bar=document.createElement("div");bar.className="gantt-bar";bar.style.left=`${left}%`;bar.style.width=`${Math.min(width,100-left)}%`;
+    const progress=document.createElement("div");progress.className="gantt-progress";const percent=Number(controls.progress);
+    progress.style.width=Number.isFinite(percent)?`${Math.min(100,Math.max(0,percent))}%`:"0%";
+    const label=document.createElement("span");label.className="gantt-bar-label";label.textContent=`${controls.name} · ${controls.progress||0}%`;
+    bar.append(progress,label);track.appendChild(bar);
+  });
+  $("milestones").querySelectorAll(".gantt-track").forEach(track=>{
+    const today=Date.now();
+    if(today>=rangeStart&&today<=rangeEnd){const line=document.createElement("span");line.className="gantt-today";line.style.left=`${(today-rangeStart)/(rangeEnd-rangeStart)*100}%`;track.appendChild(line);}
+  });
 }
 function collect() {
-  const report={schema:"pmo-project-weekly-report",version:2, indicators:{}, stakeholders:[], milestones:[], risks:[]};
+  const report={schema:"pmo-project-weekly-report",version:3, indicators:{}, stakeholders:[], milestones:[]};
   textFields.forEach(id=>report[id]=$(id).value.trim());
   dimensions.forEach(d=>report.indicators[d]={old:$(d+"Old").value,new:$(d+"New").value});
   groups.forEach(group=>document.querySelectorAll(`[data-group="${group}"] .stake-row`).forEach(row=>{
     const controls=row.querySelectorAll("input,select"); report.stakeholders.push({group,name:controls[0].value.trim(),status:controls[1].value,dimension:controls[2].value});
   }));
-  for(const id of ["milestones","risks"]) $(id).querySelectorAll("tr").forEach(row=>{
-    const item={}; row.querySelectorAll("input").forEach(el=>item[el.dataset.key]=el.value.trim()); report[id].push(item);
-  });
+  report.milestones=collectGantt();
   return report;
 }
 function isDate(s) { if(typeof s!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false; const d=new Date(s+"T00:00:00Z"); return !Number.isNaN(d.valueOf())&&d.toISOString().slice(0,10)===s; }
@@ -173,11 +226,13 @@ function validate(r) {
     if(third.every(s=>levels[s])&&!third.includes("Red")) add("本周 Overall 为 RED，但已填写的三级指标没有 RED");
   }
   const filledMilestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
-  if(!filledMilestones.length) add("至少填写一个里程碑");
-  filledMilestones.forEach((m,i)=>{if(!m.name||!m.plan) add(`里程碑第 ${i+1} 条需填写名称和计划日期`); if((m.plan&&!isDate(m.plan))||(m.forecast&&!isDate(m.forecast))) add(`里程碑第 ${i+1} 条日期无效`);});
-  const filledRisks=r.risks.filter(x=>Object.values(x).some(Boolean));
-  filledRisks.forEach((x,i)=>{if(!x.description||!x.mitigation||!x.owner||!x.due||!x.status) add(`风险第 ${i+1} 条需填写问题、措施、负责人、目标日期和状态`); if(x.due&&!isDate(x.due)) add(`风险第 ${i+1} 条目标日期无效`);});
-  if((r.indicators.Overall.new==="Yellow"||r.indicators.Overall.new==="Red")&&!filledRisks.length) add("本周 Overall 为 AMBER / RED，需在风险台账记录风险或问题及措施");
+  if(!filledMilestones.length) add("至少添加一个甘特图阶段");
+  filledMilestones.forEach((m,i)=>{
+    if(!m.name||!m.start||!m.end||m.progress==="") add(`甘特图阶段第 ${i+1} 条需填写名称、开始 / 结束日期和完成度`);
+    if((m.start&&!isDate(m.start))||(m.end&&!isDate(m.end))) add(`甘特图阶段第 ${i+1} 条日期无效`);
+    if(isDate(m.start)&&isDate(m.end)&&m.end<m.start) add(`甘特图阶段第 ${i+1} 条结束日期早于开始日期`);
+    if(m.progress!==""&&(!Number.isFinite(Number(m.progress))||Number(m.progress)<0||Number(m.progress)>100)) add(`甘特图阶段第 ${i+1} 条完成度须为 0 至 100`);
+  });
   return issues;
 }
 function refreshValidation() {
@@ -191,18 +246,27 @@ function validShape(r) {
   const fields=(x,keys)=>plain(x)&&keys.every(k=>str(x[k]));
   const status=x=>x===""||Boolean(levels[x]);
   const date=x=>x===""||isDate(x);
-  const correctFields=r?.version===1?legacyTextFields.every(k=>str(r[k])):r?.version===2&&textFields.every(k=>str(r[k]));
+  const correctFields=r?.version===1?legacyTextFields.every(k=>str(r[k])):(r?.version===2||r?.version===3)&&textFields.every(k=>str(r[k]));
+  const legacyMilestones=r=>Array.isArray(r.milestones)&&r.milestones.every(m=>fields(m,["name","plan","forecast","note"])&&date(m.plan)&&date(m.forecast));
+  const ganttMilestones=r=>Array.isArray(r.milestones)&&r.milestones.every(m=>fields(m,["name","start","end","progress","note"])&&date(m.start)&&date(m.end)&&(m.progress===""||(Number.isFinite(Number(m.progress))&&Number(m.progress)>=0&&Number(m.progress)<=100)));
+  const oldRiskLog=r=>Array.isArray(r.risks)&&r.risks.every(x=>fields(x,["description","mitigation","owner","due","status"])&&date(x.due));
   return plain(r)&&r.schema==="pmo-project-weekly-report"&&correctFields&&plain(r.indicators)&&dimensions.every(d=>fields(r.indicators[d],["old","new"]))&&
     date(r.week)&&status(r.qmsOld)&&status(r.qmsNew)&&dimensions.every(d=>status(r.indicators[d].old)&&status(r.indicators[d].new))&&
     (r.version===1||r.keyRiskReason===""||keyRiskReasons.includes(r.keyRiskReason))&&
     Array.isArray(r.stakeholders)&&r.stakeholders.every(s=>fields(s,["group","name","status","dimension"])&&groups.includes(s.group)&&status(s.status)&&(s.dimension===""||dimensions.slice(0,4).includes(s.dimension)))&&
-    Array.isArray(r.milestones)&&r.milestones.every(m=>fields(m,["name","plan","forecast","note"])&&date(m.plan)&&date(m.forecast))&&
-    Array.isArray(r.risks)&&r.risks.every(x=>fields(x,["description","mitigation","owner","due","status"])&&date(x.due));
+    (r.version<3?legacyMilestones(r)&&oldRiskLog(r):ganttMilestones(r));
 }
 function normalizeReport(r) {
-  if(r.version===2) return r;
-  const {summary,highlights,...legacy}=r;
-  return {...legacy,version:2,keyRiskReason:"",status:[summary,highlights].filter(Boolean).join("\n\n"),riskDetails:"",mitigations:""};
+  if(r.version===3) return r;
+  const legacyRisks=r.risks||[];
+  const {summary,highlights,risks,...legacy}=r;
+  const milestones=legacy.milestones.map(m=>{
+    const dates=[m.plan,m.forecast].filter(isDate).sort();
+    const start=dates[0]||"",end=dates[dates.length-1]||"";
+    const datesNote=dates.length?`旧版计划 / 实际预测日期：${m.plan||"未填写"} / ${m.forecast||"未填写"}。请调整为真实阶段起止日期。`:"";
+    return {name:m.name,start,end,progress:"",note:[m.note,datesNote].filter(Boolean).join(" ")};
+  });
+  return {...legacy,version:3,keyRiskReason:legacy.keyRiskReason||"",status:legacy.status||[summary,highlights].filter(Boolean).join("\n\n"),riskDetails:legacy.riskDetails||legacyRisks.map(x=>x.description).filter(Boolean).join("\n"),mitigations:legacy.mitigations||legacyRisks.map(x=>x.mitigation).filter(Boolean).join("\n"),milestones};
 }
 function load(r) {
   if(!validShape(r)) throw new Error("不是受支持的项目周报 JSON（schema / version / 字段不匹配）");
@@ -211,15 +275,14 @@ function load(r) {
   dimensions.forEach(d=>["old","new"].forEach(p=>{const el=$(d+(p==="old"?"Old":"New")); el.value=r.indicators[d][p]; el.dataset.value=el.value;}));
   groups.forEach(g=>document.querySelector(`[data-group="${g}"]`).replaceChildren());
   r.stakeholders.forEach(s=>addStake(s.group,s));
-  $("milestones").replaceChildren(); r.milestones.forEach(m=>addTableRow("milestones",m));
-  $("risks").replaceChildren(); r.risks.forEach(x=>addTableRow("risks",x));
-  refreshValidation(); showTab("report");
+  $("milestones").replaceChildren(); r.milestones.forEach(m=>addGanttRow(m));
+  refreshValidation(); renderGantt(); showTab("report");
 }
 function blank() {
   textFields.forEach(id=>{$(id).value=""; if($(id).classList.contains("indicator")) $(id).dataset.value="";});
   dimensions.forEach(d=>["Old","New"].forEach(p=>{$(d+p).value=""; $(d+p).dataset.value="";}));
   groups.forEach(g=>document.querySelector(`[data-group="${g}"]`).replaceChildren());
-  $("milestones").replaceChildren(); $("risks").replaceChildren(); addTableRow("milestones"); refreshValidation(); showTab("report");
+  $("milestones").replaceChildren(); addGanttRow(); refreshValidation(); renderGantt(); showTab("report");
 }
 function showTab(tab) {
   $("report").classList.toggle("hidden",tab!=="report"); $("dashboard").classList.toggle("hidden",tab!=="dashboard");
@@ -277,8 +340,8 @@ function renderDashboard() {
   });
 }
 initialize(); blank();
-$("report").addEventListener("input",refreshValidation); $("report").addEventListener("change",refreshValidation);
-$("addMilestone").onclick=()=>addTableRow("milestones"); $("addRisk").onclick=()=>addTableRow("risks");
+$("report").addEventListener("input",()=>{refreshValidation();renderGantt();}); $("report").addEventListener("change",()=>{refreshValidation();renderGantt();});
+$("addMilestone").onclick=()=>{addGanttRow();refreshValidation();renderGantt();};
 $("newReport").onclick=()=>{if(confirm("新建将清空当前编辑内容，请先导出需要保留的周报。继续？")) blank();};
 $("export").onclick=exportReport; $("print").onclick=()=>{showTab("report"); window.print();};
 $("tabReport").onclick=()=>showTab("report"); $("tabDashboard").onclick=()=>showTab("dashboard");
