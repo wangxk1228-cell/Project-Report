@@ -46,6 +46,7 @@
 }
 .priority-layout{grid-template-columns:minmax(0,1fr) minmax(0,25%);gap:0}
 .priority-layout>.status-panel{margin-right:10px}
+.indicator-stack{display:grid;align-content:start;gap:8px;min-width:0}
 .priority-layout>.traffic-panel{align-self:start}
 .traffic-panel .card-head{padding:6px}
 .traffic-panel .card-head h2{font-size:11px}
@@ -59,6 +60,16 @@
 .qms-label{display:flex;align-items:center;gap:3px;white-space:nowrap;color:#765000;font-weight:700}
 .qms-label select{min-width:0;font-weight:400}
 .key-risk{margin:0 0 4px}
+.stakeholder-panel{margin-top:0}
+.stakeholder-panel>.card-body{padding:4px}
+.stakeholder-panel .matrix th,.stakeholder-panel .matrix td{padding:2px}
+.stakeholder-panel .matrix th:first-child{width:46%}
+.stakeholder-panel .matrix th:nth-child(2){width:27%}
+.stakeholder-panel .matrix th:last-child{width:27%}
+.stakeholder-panel .matrix input,.stakeholder-panel .matrix select{width:100%;min-width:0;padding:2px 1px;font-size:9px}
+.stakeholder-panel .matrix .qms-row td{background:#fffae9;border-top:2px solid #d5ab45}
+.stakeholder-panel .matrix .group-label{font-size:9px;font-weight:650;line-height:1.15}
+.stakeholder-panel .matrix .qms-group{color:#765000;font-weight:750}
 @media(max-width:1050px){.priority-layout{grid-template-columns:1fr;gap:10px}.priority-layout>.status-panel{margin-right:0}}
 @media print{
   .priority-layout{grid-template-columns:minmax(0,1fr) minmax(0,25%);gap:0}
@@ -102,20 +113,23 @@
       <div class="field"><label for="riskDetails">Key Risks / 当前主要风险 *</label><textarea id="riskDetails" placeholder="当前主要风险或问题、影响及可能性；如无重大风险请注明"></textarea></div>
       <div class="field"><label for="mitigations">Mitigations / 风险应对措施 *</label><textarea id="mitigations" placeholder="如何降低风险或解决问题？请写明负责人和目标日期"></textarea></div>
     </div></section>
+    <div class="indicator-stack">
     <section class="card traffic-panel"><div class="card-head"><h2>02 / TRAFFIC LIGHT INDICATORS</h2></div><div class="card-body">
       <div class="field key-risk"><label for="keyRiskReason">Key Risk Reason / 主要影响因素</label><select id="keyRiskReason"><option value="">请选择（AMBER / RED 必填）</option></select></div>
-      <table class="matrix" aria-label="Project and QMS indicators">
+      <table class="matrix" aria-label="Project indicators">
         <thead><tr><th>指标</th><th>Old / 上周</th><th>New / 本周</th></tr></thead>
         <tbody id="overallRows"></tbody>
         <tbody id="indicatorRows"></tbody>
-        <tbody><tr class="qms-row"><td><div class="qms-label"><label for="qg">↳ QMS</label><select id="qg" aria-label="Quality gate"><option value="">选择 QG</option><option value="QG1.0">QG1.0</option><option value="QG1.2">QG1.2</option><option value="QG2.0">QG2.0</option><option value="QG3.0">QG3.0</option></select></div></td><td><select id="qmsOld" class="indicator" aria-label="QMS 上周状态"></select></td><td><select id="qmsNew" class="indicator" aria-label="QMS 本周状态"></select></td></tr></tbody>
       </table>
     </div></section>
+    <section class="card stakeholder-panel"><div class="card-head"><h2>L3 / STAKEHOLDER INDICATORS</h2></div><div class="card-body">
+      <table class="matrix" aria-label="QMS and stakeholder indicators">
+        <thead><tr><th>类型</th><th>Name / QG</th><th>Traffic Light / 本周</th></tr></thead>
+        <tbody id="stakeRows"></tbody>
+      </table>
+    </div></section>
+    </div>
   </div>
-  <section class="card full stakeholder-panel"><div class="card-head"><h2>L3 / STAKEHOLDER INDICATORS</h2><span class="hint">独立记录本周相关方状态</span></div><div class="card-body">
-    <div class="stake-grid" id="stakeGroups"></div>
-    <p class="hint">相关方状态可能影响多个 L2 指标，无需指定单一关联维度；没有相关方可留空。</p>
-  </div></section>
   <section class="card full"><div class="card-head"><h2>03 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ 添加阶段</button></div><div class="card-body table-wrap">
     <div class="gantt" id="gantt">
       <div class="gantt-head"><div class="gantt-title">阶段 / 开始日期 / 结束日期 / 完成度</div><div class="gantt-axis" id="ganttAxis"></div></div>
@@ -125,13 +139,13 @@
     <p class="hint">每个阶段填写计划开始与结束日期、完成度；条形填充部分表示已完成比例。旧版里程碑日期将作为迁移范围导入，请检查并调整为真实的阶段起止日期。</p>
     </div></section>
   <div id="validation" class="issue-box no-print" aria-live="polite"></div>
-  <p class="notice no-print">规则：RED &gt; AMBER &gt; GREEN。QMS → Quality；相关方可能同时影响多个二级指标，相关方为 AMBER / RED 时至少一个二级指标须达到相同或更严重状态；Overall 等于四个二级指标中的最严重状态。Overall 为 RED 时，本周二级和三级均须存在 RED；不要求 QMS 必须为 RED。上周未记录相关方，仅检查已知的 QMS 和二级、一级关系。打印默认为 A3 横向；内容过多时请缩放或精简，避免跨页。</p>
+  <p class="notice no-print">规则：RED &gt; AMBER &gt; GREEN。QMS 本周状态 → Quality 和 Overall；相关方可能同时影响多个二级指标，相关方为 AMBER / RED 时至少一个二级指标须达到相同或更严重状态；Overall 等于四个二级指标中的最严重状态。Overall 为 RED 时，本周二级和三级均须存在 RED；不要求 QMS 必须为 RED。上周未记录相关方或 QMS，仅检查已知的二级、一级关系。打印默认为 A3 横向；内容过多时请缩放或精简，避免跨页。</p>
 </section>
 <section class="dashboard hidden" id="dashboard">
   <div class="dash-head"><div><div class="eyebrow">Portfolio / quality review</div><h1>Weekly Report Dashboard</h1><p class="notice">导入多个项目 JSON；可按报告周筛选，点击检查详情。数据仅在当前浏览器页面内处理。</p></div><div class="toolbar"><button class="btn primary" id="importDashboard" type="button">导入项目 JSON（可多选）</button><button class="btn danger" id="clearDashboard" type="button">清空汇总</button></div></div>
   <div class="field" style="max-width:240px"><label for="weekFilter">报告周筛选</label><select id="weekFilter"><option value="">全部报告周</option></select></div>
   <div class="dash-stats" id="stats"></div>
-  <div class="table-wrap"><table class="dash-table"><thead><tr><th>项目 / 报告周</th><th>负责人 / 阶段</th><th>Overall<br>上周 → 本周</th><th>QMS<br>上周 → 本周</th><th>检查结果</th><th>检查详情</th><th>操作</th></tr></thead><tbody id="dashboardRows"></tbody></table></div>
+  <div class="table-wrap"><table class="dash-table"><thead><tr><th>项目 / 报告周</th><th>负责人 / 阶段</th><th>Overall<br>上周 → 本周</th><th>QMS<br>本周</th><th>检查结果</th><th>检查详情</th><th>操作</th></tr></thead><tbody id="dashboardRows"></tbody></table></div>
   <p class="notice">仅按明确的结构和状态规则检查；内容是否真实、阶段语义是否一致及风险措施是否有效仍需人工审核。同一项目相邻 7 天的周报同时导入时，额外核对上周状态与前一周本周状态。</p>
 </section>
 </main>
@@ -144,7 +158,8 @@ const dimensions = ["Scope","Time","Financial","Quality","Overall"];
 const levels = Object.assign(Object.create(null), {Green:1, Yellow:2, Red:3});
 const labels = {Green:"GREEN", Yellow:"AMBER", Red:"RED"};
 const groups = ["BU","IT","Supporting Applications"];
-const textFields = ["projectId","name","week","entity","bizPM","itPM","phase","keyRiskReason","status","nextSteps","riskDetails","mitigations","qg","qmsOld","qmsNew"];
+const textFields = ["projectId","name","week","entity","bizPM","itPM","phase","keyRiskReason","status","nextSteps","riskDetails","mitigations","qg","qmsNew"];
+const previousTextFields = [...textFields,"qmsOld"];
 const legacyTextFields = ["projectId","name","week","entity","bizPM","itPM","phase","summary","highlights","nextSteps","qg","qmsOld","qmsNew"];
 const keyRiskReasons = ["Scope & Requirements","Decisions & Approvals","Internal Resources & Priorities","Techology, Data & IT Security","Testing & Business Readiness","Cost & Procurement","Vendor Delivery","External Dependencies"];
 const qualityGates = ["QG1.0","QG1.2","QG2.0","QG3.0"];
@@ -159,30 +174,30 @@ function statusSelect(id, value="") {
 }
 function initialize() {
   keyRiskReasons.forEach(reason=>option($("keyRiskReason"),reason,reason));
-  for (const id of ["qmsOld","qmsNew"]) { const old=$(id), select=statusSelect(id); select.setAttribute("aria-label",old.getAttribute("aria-label")); old.replaceWith(select); }
+  const qmsStatus=statusSelect("qmsNew"); qmsStatus.setAttribute("aria-label","QMS 本周状态");
+  const qg=document.createElement("select"); qg.id="qg"; qg.setAttribute("aria-label","Quality gate");
+  option(qg,"","选择 QG"); qualityGates.forEach(g=>option(qg,g,g));
   for (const d of dimensions) {
     const tr=document.createElement("tr"); if(d==="Overall") tr.className="overall";
     const name=document.createElement("td"); name.textContent=d; tr.appendChild(name);
     for (const period of ["Old","New"]) {const td=document.createElement("td"); td.appendChild(statusSelect(d+period)); tr.appendChild(td);}
     $(d==="Overall"?"overallRows":"indicatorRows").appendChild(tr);
   }
-  for (const group of groups) {
-    const section=document.createElement("div"); section.className="stake-group";
-    const title=document.createElement("h3"); title.textContent=group; section.appendChild(title);
-    const note=document.createElement("div"); note.className="hint"; note.textContent="名称 / 本周状态"; section.appendChild(note);
-    const rows=document.createElement("div"); rows.dataset.group=group; section.appendChild(rows);
-    const button=document.createElement("button"); button.type="button"; button.className="btn tiny no-print"; button.textContent="＋ 添加相关方"; button.onclick=()=>addStake(group); section.appendChild(button);
-    $("stakeGroups").appendChild(section);
-  }
+  const qmsRow=document.createElement("tr"); qmsRow.className="qms-row"; qmsRow.dataset.group="QMS";
+  const qmsName=document.createElement("td"); qmsName.className="group-label qms-group"; qmsName.textContent="QMS";
+  const qmsGate=document.createElement("td"); qmsGate.appendChild(qg);
+  const qmsTraffic=document.createElement("td"); qmsTraffic.appendChild(qmsStatus);
+  qmsRow.append(qmsName,qmsGate,qmsTraffic); $("stakeRows").appendChild(qmsRow);
+  groups.forEach(group=>{for(let i=0;i<3;i++) addStakeRow(group,i);});
 }
 function input(placeholder,value="",type="text") {const e=document.createElement("input"); e.type=type; e.placeholder=placeholder; e.value=value; e.setAttribute("aria-label",placeholder); return e;}
 function removeButton(row) {const b=document.createElement("button"); b.type="button"; b.className="btn tiny no-print"; b.textContent="×"; b.setAttribute("aria-label","删除此行"); b.onclick=()=>{row.remove(); refreshValidation(); renderGantt();}; return b;}
-function addStake(group, data={}) {
-  const row=document.createElement("div"); row.className="stake-row";
-  row.appendChild(input("名称",data.name||""));
-  const status=statusSelect("stake-"+crypto.randomUUID(),data.status||""); status.setAttribute("aria-label",group+" 状态"); row.appendChild(status);
-  row.appendChild(removeButton(row));
-  document.querySelector(`[data-group="${group}"]`).appendChild(row);
+function addStakeRow(group,index,data={}) {
+  const row=document.createElement("tr"); row.dataset.group=group; row.dataset.index=index;
+  const groupCell=document.createElement("td"); groupCell.className="group-label"; groupCell.textContent=group;
+  const nameCell=document.createElement("td"), name=input("Name",data.name||""); name.className="stake-name"; name.setAttribute("aria-label",`${group} name`); nameCell.appendChild(name);
+  const statusCell=document.createElement("td"), status=statusSelect(`stake-${groups.indexOf(group)}-${index}`,data.status||""); status.setAttribute("aria-label",`${group} Traffic Light`); statusCell.appendChild(status);
+  row.append(groupCell,nameCell,statusCell); $("stakeRows").appendChild(row); return row;
 }
 function addGanttRow(data={}) {
   const row=document.createElement("div"); row.className="gantt-row";
@@ -242,11 +257,12 @@ function renderGantt() {
   });
 }
 function collect() {
-  const report={schema:"pmo-project-weekly-report",version:4, indicators:{}, stakeholders:[], milestones:[]};
+  const report={schema:"pmo-project-weekly-report",version:5, indicators:{}, stakeholders:[], milestones:[]};
   textFields.forEach(id=>report[id]=$(id).value.trim());
   dimensions.forEach(d=>report.indicators[d]={old:$(d+"Old").value,new:$(d+"New").value});
-  groups.forEach(group=>document.querySelectorAll(`[data-group="${group}"] .stake-row`).forEach(row=>{
-    const controls=row.querySelectorAll("input,select"); report.stakeholders.push({group,name:controls[0].value.trim(),status:controls[1].value});
+  groups.forEach(group=>document.querySelectorAll(`#stakeRows tr[data-group="${group}"]`).forEach(row=>{
+    const name=row.querySelector(".stake-name").value.trim(), status=row.querySelector(".indicator").value;
+    if(name||status) report.stakeholders.push({group,name,status});
   }));
   report.milestones=collectGantt();
   return report;
@@ -260,14 +276,14 @@ function validate(r) {
   if(r.qg&&!qualityGates.includes(r.qg)) add("Quality gate 不是指定选项，请核对旧值并选择 QG1.0、QG1.2、QG2.0 或 QG3.0");
   if(r.week&&!isDate(r.week)) add("报告周截止日不是有效日期");
   for(const p of ["old","new"]) {
-    const period=p==="old"?"上周":"本周", q=r[p==="old"?"qmsOld":"qmsNew"];
-    if(!levels[q]) add(`QMS ${period}状态未选择`);
+    const period=p==="old"?"上周":"本周", q=p==="new"?r.qmsNew:"";
+    if(p==="new"&&!levels[q]) add("QMS 本周状态未选择");
     dimensions.forEach(d=>{if(!levels[r.indicators[d][p]]) add(`${d} ${period}状态未选择`);});
     const quality=r.indicators.Quality[p], overall=r.indicators.Overall[p];
-    if(levels[q]&&levels[quality]&&levels[quality]<levels[q]) add(`${period} QMS 为 ${labels[q]}，Quality 不能低于 ${labels[q]}`);
+    if(p==="new"&&levels[q]&&levels[quality]&&levels[quality]<levels[q]) add(`本周 QMS 为 ${labels[q]}，Quality 不能低于 ${labels[q]}`);
     const l2=dimensions.slice(0,4).map(d=>r.indicators[d][p]);
     if(levels[overall]&&l2.every(s=>levels[s])&&levels[overall]!==Math.max(...l2.map(s=>levels[s]))) add(`${period} Overall 应等于四个二级指标中的最深色`);
-    if(levels[q]&&levels[overall]&&levels[overall]<levels[q]) add(`${period} Overall 不能低于 QMS 的 ${labels[q]}`);
+    if(p==="new"&&levels[q]&&levels[overall]&&levels[overall]<levels[q]) add(`本周 Overall 不能低于 QMS 的 ${labels[q]}`);
   }
   if((r.indicators.Overall.new==="Yellow"||r.indicators.Overall.new==="Red")&&!keyRiskReasons.includes(r.keyRiskReason)) add("Overall 为 AMBER / RED 时必须选择 Key Risk Reason");
   if(r.keyRiskReason&&!keyRiskReasons.includes(r.keyRiskReason)) add("Key Risk Reason 不是有效选项");
@@ -306,7 +322,7 @@ function validShape(r) {
   const fields=(x,keys)=>plain(x)&&keys.every(k=>str(x[k]));
   const status=x=>x===""||Boolean(levels[x]);
   const date=x=>x===""||isDate(x);
-  const correctFields=r?.version===1?legacyTextFields.every(k=>str(r[k])):[2,3,4].includes(r?.version)&&textFields.every(k=>str(r[k]));
+  const correctFields=r?.version===1?legacyTextFields.every(k=>str(r[k])):r?.version===5?textFields.every(k=>str(r[k])):[2,3,4].includes(r?.version)&&previousTextFields.every(k=>str(r[k]));
   const legacyMilestones=r=>Array.isArray(r.milestones)&&r.milestones.every(m=>fields(m,["name","plan","forecast","note"])&&date(m.plan)&&date(m.forecast));
   const ganttMilestones=r=>Array.isArray(r.milestones)&&r.milestones.every(m=>fields(m,["name","start","end","progress","note"])&&date(m.start)&&date(m.end)&&(m.progress===""||(Number.isFinite(Number(m.progress))&&Number(m.progress)>=0&&Number(m.progress)<=100)));
   const oldRiskLog=r=>Array.isArray(r.risks)&&r.risks.every(x=>fields(x,["description","mitigation","owner","due","status"])&&date(x.due));
@@ -316,15 +332,15 @@ function validShape(r) {
       :fields(s,["group","name","status"])&&groups.includes(s.group)&&status(s.status)
   );
   return plain(r)&&r.schema==="pmo-project-weekly-report"&&correctFields&&plain(r.indicators)&&dimensions.every(d=>fields(r.indicators[d],["old","new"]))&&
-    date(r.week)&&status(r.qmsOld)&&status(r.qmsNew)&&dimensions.every(d=>status(r.indicators[d].old)&&status(r.indicators[d].new))&&
+    date(r.week)&&(r.version===5||status(r.qmsOld))&&status(r.qmsNew)&&dimensions.every(d=>status(r.indicators[d].old)&&status(r.indicators[d].new))&&
     (r.version===1||r.keyRiskReason===""||keyRiskReasons.includes(r.keyRiskReason))&&
     stakeholders(r)&&
     (r.version<3?legacyMilestones(r)&&oldRiskLog(r):ganttMilestones(r));
 }
 function normalizeReport(r) {
-  if(r.version===4) return r;
+  if(r.version===5) return r;
   const legacyRisks=r.risks||[];
-  const {summary,highlights,risks,...legacy}=r;
+  const {summary,highlights,risks,qmsOld,...legacy}=r;
   const milestones=r.version<3?legacy.milestones.map(m=>{
     const dates=[m.plan,m.forecast].filter(isDate).sort();
     const start=dates[0]||"",end=dates[dates.length-1]||"";
@@ -332,7 +348,24 @@ function normalizeReport(r) {
     return {name:m.name,start,end,progress:"",note:[m.note,datesNote].filter(Boolean).join(" ")};
   }):legacy.milestones;
   const stakeholders=legacy.stakeholders.map(({dimension,...stakeholder})=>stakeholder);
-  return {...legacy,version:4,keyRiskReason:legacy.keyRiskReason||"",status:legacy.status||[summary,highlights].filter(Boolean).join("\n\n"),riskDetails:legacy.riskDetails||legacyRisks.map(x=>x.description).filter(Boolean).join("\n"),mitigations:legacy.mitigations||legacyRisks.map(x=>x.mitigation).filter(Boolean).join("\n"),milestones,stakeholders};
+  return {...legacy,version:5,keyRiskReason:legacy.keyRiskReason||"",status:legacy.status||[summary,highlights].filter(Boolean).join("\n\n"),riskDetails:legacy.riskDetails||legacyRisks.map(x=>x.description).filter(Boolean).join("\n"),mitigations:legacy.mitigations||legacyRisks.map(x=>x.mitigation).filter(Boolean).join("\n"),milestones,stakeholders};
+}
+function setStakeholders(stakeholders) {
+  $("stakeRows").querySelectorAll('tr[data-group]:not([data-group="QMS"])').forEach(row=>{
+    row.querySelector(".stake-name").value="";
+    row.querySelector(".indicator").value="";
+    row.querySelector(".indicator").dataset.value="";
+    if(row.dataset.extra) row.remove();
+  });
+  groups.forEach(group=>{
+    const entries=stakeholders.filter(s=>s.group===group);
+    entries.forEach((s,index)=>{
+      let row=$("stakeRows").querySelector(`tr[data-group="${group}"][data-index="${index}"]`);
+      if(!row) {row=addStakeRow(group,index); row.dataset.extra="true";}
+      row.querySelector(".stake-name").value=s.name;
+      const status=row.querySelector(".indicator"); status.value=s.status; status.dataset.value=s.status;
+    });
+  });
 }
 function load(r) {
   if(!validShape(r)) throw new Error("不是受支持的项目周报 JSON（schema / version / 字段不匹配）");
@@ -343,8 +376,7 @@ function load(r) {
   }
   textFields.forEach(id=>{$(id).value=r[id]; if($(id).classList.contains("indicator")) $(id).dataset.value=$(id).value;});
   dimensions.forEach(d=>["old","new"].forEach(p=>{const el=$(d+(p==="old"?"Old":"New")); el.value=r.indicators[d][p]; el.dataset.value=el.value;}));
-  groups.forEach(g=>document.querySelector(`[data-group="${g}"]`).replaceChildren());
-  r.stakeholders.forEach(s=>addStake(s.group,s));
+  setStakeholders(r.stakeholders);
   $("milestones").replaceChildren(); r.milestones.forEach(m=>addGanttRow(m));
   refreshValidation(); renderGantt(); showTab("report");
 }
@@ -352,7 +384,7 @@ function blank() {
   $("qg").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
   textFields.forEach(id=>{$(id).value=""; if($(id).classList.contains("indicator")) $(id).dataset.value="";});
   dimensions.forEach(d=>["Old","New"].forEach(p=>{$(d+p).value=""; $(d+p).dataset.value="";}));
-  groups.forEach(g=>document.querySelector(`[data-group="${g}"]`).replaceChildren());
+  setStakeholders([]);
   $("milestones").replaceChildren(); addGanttRow(); refreshValidation(); renderGantt(); showTab("report");
 }
 function showTab(tab) {
@@ -381,7 +413,6 @@ function priorIssues(r) {
   const previous=reports.find(x=>x.projectId.trim().toLowerCase()===r.projectId.trim().toLowerCase()&&x.week===prevDate);
   if(!previous) return [];
   const issues=[];
-  if(levels[r.qmsOld]&&levels[previous.qmsNew]&&r.qmsOld!==previous.qmsNew) issues.push(`QMS 上周状态与 ${prevDate} 报告的本周状态不一致`);
   dimensions.forEach(d=>{if(levels[r.indicators[d].old]&&levels[previous.indicators[d].new]&&r.indicators[d].old!==previous.indicators[d].new) issues.push(`${d} 上周状态与 ${prevDate} 报告的本周状态不一致`);});
   return issues;
 }
@@ -403,7 +434,7 @@ function renderDashboard() {
     const name=document.createElement("strong"); name.textContent=(r.projectId||"未填编号")+" · "+(r.name||"未填名称"); project.append(name,document.createElement("br"),document.createTextNode(r.week||"未填日期"));
     if(r.keyRiskReason) {const reason=document.createElement("div"); reason.className="hint"; reason.textContent="Key Risk: "+r.keyRiskReason; project.appendChild(reason);} cell(row,project);
     cell(row,`${r.bizPM||"未填 Biz PM"} / ${r.itPM||"未填 IT PM"} · ${r.phase||"未填阶段"}`);
-    cell(row,statusPair(r.indicators.Overall.old,r.indicators.Overall.new)); cell(row,statusPair(r.qmsOld,r.qmsNew));
+    cell(row,statusPair(r.indicators.Overall.old,r.indicators.Overall.new));     cell(row,badge(r.qmsNew));
     cell(row,issues.length?`${issues.length} 项待完善`:"已知规则通过");
     const detail=document.createElement("details"); detail.className="details"; const summary=document.createElement("summary"); summary.textContent=issues.length?"查看问题":"查看说明"; detail.appendChild(summary);
     if(issues.length) {const ul=document.createElement("ul"); issues.forEach(issue=>{const li=document.createElement("li"); li.textContent=issue; ul.appendChild(li);}); detail.appendChild(ul);} else {const p=document.createElement("p"); p.textContent="未发现本工具覆盖的规则问题，内容仍需人工审核。"; detail.appendChild(p);} cell(row,detail);
