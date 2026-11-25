@@ -78,7 +78,7 @@
   #report .print-value{display:block;white-space:pre-wrap;overflow-wrap:anywhere;min-height:1em}
   .qms-label .print-value{white-space:normal}
 }
-.priority-layout{grid-template-areas:"status indicators" "timeline indicators";grid-template-columns:minmax(0,1fr) minmax(0,25%);gap:8px;align-items:stretch}
+.priority-layout{grid-template-areas:"status indicators" "timeline indicators";grid-template-columns:minmax(0,1fr) minmax(0,20%);gap:8px;align-items:stretch}
 .priority-layout>.status-panel{grid-area:status;margin-right:0}
 .priority-layout>.indicator-stack{grid-area:indicators;grid-template-rows:auto 1fr;align-content:stretch}
 .priority-layout>.timeline-panel{grid-area:timeline;margin-top:0}
@@ -87,7 +87,7 @@
 .gantt-fields{grid-template-columns:minmax(85px,1fr) 110px 110px 44px 22px}
 .gantt-fields input{font-size:10px;height:24px}
 .gantt-fields input[type="date"]{width:110px}
-.key-milestone-row{min-height:38px;border-bottom:1px solid #e6eef1}
+.key-milestone-row{display:grid;grid-template-columns:minmax(390px,1fr) minmax(220px,1fr);align-items:stretch;min-height:38px;border-bottom:1px solid #e6eef1}
 .key-milestone-editor{height:100%;padding:2px 4px;border-right:1px solid var(--line);display:flex;align-items:center}
 .key-milestone-fields{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
 .key-milestone-fields label{min-width:0;color:#536c7a;font-size:8px;font-weight:700;line-height:1.1}
@@ -101,12 +101,12 @@
   .priority-layout{grid-template-areas:"status" "indicators" "timeline";grid-template-columns:1fr}
 }
 @media print{
-  .priority-layout{grid-template-areas:"status indicators" "timeline indicators";grid-template-columns:minmax(0,1fr) minmax(0,25%);gap:4px}
+  .priority-layout{grid-template-areas:"status indicators" "timeline indicators";grid-template-columns:minmax(0,1fr) minmax(0,20%);gap:4px}
   .priority-layout>.status-panel{margin-right:0}
   .gantt{min-width:0}
   .gantt-head,.gantt-row{grid-template-columns:minmax(300px,1fr) minmax(140px,1fr)}
   .gantt-fields{grid-template-columns:minmax(65px,1fr) 66px 66px 30px}
-  .key-milestone-row{display:grid;grid-template-columns:minmax(260px,1fr) minmax(140px,1fr)}
+  .key-milestone-row{grid-template-columns:minmax(300px,1fr) minmax(140px,1fr)}
   .key-milestone-fields input{height:18px;font-size:7px}
   .key-milestone-marker span{font-size:6px}
 }
@@ -271,7 +271,7 @@ function renderGantt() {
   const rows=collectGantt(), complete=rows.filter(r=>r.name&&isDate(r.start)&&isDate(r.end)&&r.end>=r.start);
   const keyDates=Object.values(collectKeyMilestones()).filter(isDate).map(date=>Date.parse(date+"T00:00:00Z"));
   const axis=$("ganttAxis"); axis.replaceChildren();
-  $("ganttEmpty").classList.toggle("hidden",complete.length>0);
+  $("ganttEmpty").classList.toggle("hidden",complete.length>0||keyDates.length>0);
   $("milestones").querySelectorAll(".gantt-row").forEach(row=>{
     const track=row.querySelector(".gantt-track"); track.replaceChildren(); track.style.backgroundImage=""; track.style.backgroundSize="";
   });
