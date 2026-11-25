@@ -78,6 +78,25 @@
   #report .print-value{display:block;white-space:pre-wrap;overflow-wrap:anywhere;min-height:1em}
   .qms-label .print-value{white-space:normal}
 }
+.priority-layout{grid-template-areas:"status indicators" "timeline indicators";grid-template-columns:minmax(0,1fr) minmax(0,25%);gap:8px;align-items:stretch}
+.priority-layout>.status-panel{grid-area:status;margin-right:0}
+.priority-layout>.indicator-stack{grid-area:indicators;grid-template-rows:auto 1fr;align-content:stretch}
+.priority-layout>.timeline-panel{grid-area:timeline;margin-top:0}
+.gantt{min-width:630px}
+.gantt-head,.gantt-row{grid-template-columns:minmax(390px,1fr) minmax(220px,1fr)}
+.gantt-fields{grid-template-columns:minmax(85px,1fr) 110px 110px 44px 22px}
+.gantt-fields input{font-size:10px;height:24px}
+.gantt-fields input[type="date"]{width:110px}
+@media(max-width:1050px){
+  .priority-layout{grid-template-areas:"status" "indicators" "timeline";grid-template-columns:1fr}
+}
+@media print{
+  .priority-layout{grid-template-areas:"status indicators" "timeline indicators";grid-template-columns:minmax(0,1fr) minmax(0,25%);gap:4px}
+  .priority-layout>.status-panel{margin-right:0}
+  .gantt{min-width:0}
+  .gantt-head,.gantt-row{grid-template-columns:minmax(300px,1fr) minmax(140px,1fr)}
+  .gantt-fields{grid-template-columns:minmax(65px,1fr) 66px 66px 30px}
+}
 </style>
 </head>
 <body>
@@ -129,15 +148,16 @@
       </table>
     </div></section>
     </div>
-  </div>
-  <section class="card full"><div class="card-head"><h2>03 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ 添加阶段</button></div><div class="card-body table-wrap">
+  <section class="card timeline-panel"><div class="card-head"><h2>03 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ 添加阶段（最多 9 行）</button></div><div class="card-body table-wrap">
     <div class="gantt" id="gantt">
       <div class="gantt-head"><div class="gantt-title">阶段 / 开始日期 / 结束日期 / 完成度</div><div class="gantt-axis" id="ganttAxis"></div></div>
       <div id="milestones"></div>
       <div class="gantt-empty hidden" id="ganttEmpty">添加阶段并填写开始、结束日期后，将在此显示项目甘特图。</div>
     </div>
     <p class="hint">每个阶段填写计划开始与结束日期、完成度；条形填充部分表示已完成比例。旧版里程碑日期将作为迁移范围导入，请检查并调整为真实的阶段起止日期。</p>
+    <p class="hint no-print hidden" id="legacyGanttNotes">旧版阶段备注已保留在导出 JSON 中，不显示于周报；删除阶段也将删除其备注。</p>
     </div></section>
+  </div>
   <div id="validation" class="issue-box no-print" aria-live="polite"></div>
   <p class="notice no-print">规则：RED &gt; AMBER &gt; GREEN。QMS 本周状态 → Quality 和 Overall；相关方可能同时影响多个二级指标，相关方为 AMBER / RED 时至少一个二级指标须达到相同或更严重状态；Overall 等于四个二级指标中的最严重状态。Overall 为 RED 时，本周二级和三级均须存在 RED；不要求 QMS 必须为 RED。上周未记录相关方或 QMS，仅检查已知的二级、一级关系。打印默认为 A3 横向；内容过多时请缩放或精简，避免跨页。</p>
 </section>
@@ -163,6 +183,7 @@ const previousTextFields = [...textFields,"qmsOld"];
 const legacyTextFields = ["projectId","name","week","entity","bizPM","itPM","phase","summary","highlights","nextSteps","qg","qmsOld","qmsNew"];
 const keyRiskReasons = ["Scope & Requirements","Decisions & Approvals","Internal Resources & Priorities","Techology, Data & IT Security","Testing & Business Readiness","Cost & Procurement","Vendor Delivery","External Dependencies"];
 const qualityGates = ["QG1.0","QG1.2","QG2.0","QG3.0"];
+const maxGanttRows = 9;
 let reports = [];
 
 function option(select, value, label) { const el = document.createElement("option"); el.value=value; el.textContent=label; select.appendChild(el); }
@@ -191,7 +212,7 @@ function initialize() {
   groups.forEach(group=>{for(let i=0;i<3;i++) addStakeRow(group,i);});
 }
 function input(placeholder,value="",type="text") {const e=document.createElement("input"); e.type=type; e.placeholder=placeholder; e.value=value; e.setAttribute("aria-label",placeholder); return e;}
-function removeButton(row) {const b=document.createElement("button"); b.type="button"; b.className="btn tiny no-print"; b.textContent="×"; b.setAttribute("aria-label","删除此行"); b.onclick=()=>{row.remove(); refreshValidation(); renderGantt();}; return b;}
+function removeButton(row) {const b=document.createElement("button"); b.type="button"; b.className="btn tiny no-print"; b.textContent="×"; b.setAttribute("aria-label","删除此行"); b.onclick=()=>{if(row.dataset.note&&!confirm("此阶段包含旧版备注，删除阶段也会删除备注。继续？")) return; row.remove(); updateGanttControls(); refreshValidation(); renderGantt();}; return b;}
 function addStakeRow(group,index,data={}) {
   const row=document.createElement("tr"); row.dataset.group=group; row.dataset.index=index;
   const groupCell=document.createElement("td"); groupCell.className="group-label"; groupCell.textContent=group;
@@ -200,7 +221,9 @@ function addStakeRow(group,index,data={}) {
   row.append(groupCell,nameCell,statusCell); $("stakeRows").appendChild(row); return row;
 }
 function addGanttRow(data={}) {
+  if($("milestones").children.length>=maxGanttRows) throw new Error("甘特图最多允许 9 个阶段");
   const row=document.createElement("div"); row.className="gantt-row";
+  row.dataset.note=data.note||"";
   const editor=document.createElement("div"); editor.className="gantt-editor";
   const fields=document.createElement("div"); fields.className="gantt-fields";
   const definitions=[["阶段名称","name","text"],["开始日期","start","date"],["结束日期","end","date"],["完成%","progress","number"]];
@@ -209,15 +232,18 @@ function addGanttRow(data={}) {
     el.dataset.key=key; if(key==="progress"){el.min="0";el.max="100";el.step="5";}
     fields.appendChild(el);
   }
-  const note=input("备注",data.note||""); note.className="gantt-note"; note.dataset.key="note"; fields.appendChild(note);
   fields.appendChild(removeButton(row));
   editor.append(fields);
   const track=document.createElement("div"); track.className="gantt-track";
-  row.append(editor,track); $("milestones").appendChild(row);
+  row.append(editor,track); $("milestones").appendChild(row); updateGanttControls();
+}
+function updateGanttControls() {
+  $("addMilestone").disabled=$("milestones").children.length>=maxGanttRows;
+  $("legacyGanttNotes").classList.toggle("hidden",![...$("milestones").children].some(row=>row.dataset.note));
 }
 function collectGantt() {
   return [...$("milestones").querySelectorAll(".gantt-row")].map(row=>{
-    const item={}; row.querySelectorAll("input").forEach(el=>item[el.dataset.key]=el.value.trim()); return item;
+    const item={note:row.dataset.note||""}; row.querySelectorAll("input").forEach(el=>item[el.dataset.key]=el.value.trim()); return item;
   });
 }
 function renderGantt() {
@@ -300,6 +326,7 @@ function validate(r) {
   }
   const filledMilestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
   if(!filledMilestones.length) add("至少添加一个甘特图阶段");
+  if(filledMilestones.length>maxGanttRows) add("甘特图最多允许 9 个阶段");
   filledMilestones.forEach((m,i)=>{
     if(!m.name||!m.start||!m.end||m.progress==="") add(`甘特图阶段第 ${i+1} 条需填写名称、开始 / 结束日期和完成度`);
     if((m.start&&!isDate(m.start))||(m.end&&!isDate(m.end))) add(`甘特图阶段第 ${i+1} 条日期无效`);
@@ -370,6 +397,11 @@ function setStakeholders(stakeholders) {
 function load(r) {
   if(!validShape(r)) throw new Error("不是受支持的项目周报 JSON（schema / version / 字段不匹配）");
   r=normalizeReport(r);
+  const milestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
+  if(milestones.length>maxGanttRows) {
+    alert("此周报包含超过 9 个甘特图阶段，无法在新模板中打开。请先使用旧模板精简阶段后重新导入；原文件不会被修改。");
+    return;
+  }
   $("qg").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
   if(r.qg&&!qualityGates.includes(r.qg)) {
     const legacy=document.createElement("option"); legacy.value=r.qg; legacy.textContent=`旧值：${r.qg}（请核对）`; legacy.dataset.legacy="true"; $("qg").appendChild(legacy);
@@ -377,7 +409,7 @@ function load(r) {
   textFields.forEach(id=>{$(id).value=r[id]; if($(id).classList.contains("indicator")) $(id).dataset.value=$(id).value;});
   dimensions.forEach(d=>["old","new"].forEach(p=>{const el=$(d+(p==="old"?"Old":"New")); el.value=r.indicators[d][p]; el.dataset.value=el.value;}));
   setStakeholders(r.stakeholders);
-  $("milestones").replaceChildren(); r.milestones.forEach(m=>addGanttRow(m));
+  $("milestones").replaceChildren(); (milestones.length?milestones:[{}]).forEach(m=>addGanttRow(m));
   refreshValidation(); renderGantt(); showTab("report");
 }
 function blank() {
