@@ -122,8 +122,11 @@
 .key-milestone-fields label{min-width:0;color:#536c7a;font-size:8px;font-weight:700;line-height:1.1}
 .key-milestone-fields input{display:block;width:100%;height:22px;margin-top:2px;padding:1px 2px;border:1px solid #d5e1e6;border-radius:3px;font-size:9px}
 .key-milestone-track{position:relative;align-self:center;height:30px;margin:0 4px;overflow:visible}
-.key-milestone-marker{position:absolute;top:3px;transform:translateX(-50%);height:23px;border-left:2px solid #b37913;z-index:3}
-.key-milestone-marker::before{content:"";position:absolute;top:0;left:-4px;width:6px;height:6px;border-radius:50%;background:#b37913}
+.key-milestone-marker{position:absolute;top:2px;transform:translateX(-50%);width:20px;height:25px;z-index:3;color:var(--teal)}
+.key-milestone-marker.start{color:#007f78}
+.key-milestone-marker.go-live{color:#2877b8}
+.key-milestone-marker.closure{color:#b37913}
+.key-milestone-marker svg{display:block;width:100%;height:100%;overflow:visible}
 @media(max-width:1050px){
   .priority-layout{grid-template-areas:"status" "indicators" "timeline";grid-template-columns:1fr}
 }
@@ -220,9 +223,9 @@
       <div class="gantt-head"><div class="gantt-title">Task / Start / End / Progress</div><div class="gantt-axis" id="ganttAxis"></div></div>
       <div class="key-milestone-row" id="keyMilestoneRow">
         <div class="key-milestone-editor"><div class="key-milestone-fields">
-          <label>Project Start<input type="date" id="projectStart"></label>
-          <label>Project Final Go-live<input type="date" id="finalGoLive"></label>
-          <label>Project Closure<input type="date" id="projectClosure"></label>
+          <label>Project Start<input type="date" id="projectStart" required></label>
+          <label>Project Final Go-live<input type="date" id="finalGoLive" required></label>
+          <label>Project Closure<input type="date" id="projectClosure" required></label>
         </div></div>
         <div class="key-milestone-track" id="keyMilestoneTrack" aria-label="Project milestones"></div>
       </div>
@@ -400,13 +403,34 @@ function renderGantt() {
     if(today>=rangeStart&&today<=rangeEnd){const line=document.createElement("span");line.className="gantt-today";line.style.left=`${(today-rangeStart)/(rangeEnd-rangeStart)*100}%`;track.appendChild(line);}
   });
   const milestoneTrack=$("keyMilestoneTrack"); milestoneTrack.replaceChildren();
-  const namedDates=[["Project Start","projectStart"],["Final Go-live","finalGoLive"],["Project Closure","projectClosure"]];
-  namedDates.forEach(([,key],index)=>{
+  const namedDates=[
+    {label:"Project Start",key:"projectStart",kind:"start"},
+    {label:"Project Final Go-live",key:"finalGoLive",kind:"go-live"},
+    {label:"Project Closure",key:"projectClosure",kind:"closure"}
+  ];
+  namedDates.forEach(({label,key,kind})=>{
     const date=collectKeyMilestones()[key]; if(!isDate(date)) return;
     const timestamp=Date.parse(date+"T00:00:00Z");
-    const marker=document.createElement("div"); marker.className="key-milestone-marker"+(index===namedDates.length-1?" end":"");
+    const marker=document.createElement("div"); marker.className=`key-milestone-marker ${kind}`;
     marker.style.left=`${(timestamp-rangeStart)/(rangeEnd-rangeStart)*100}%`;
-    marker.setAttribute("aria-label",`${key}: ${date}`); milestoneTrack.appendChild(marker);
+    marker.setAttribute("role","img"); marker.setAttribute("aria-label",`${label}: ${date}`);
+    const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+    svg.setAttribute("viewBox","0 0 24 30"); svg.setAttribute("aria-hidden","true");
+    const shape=(tag,attrs)=>{
+      const element=document.createElementNS("http://www.w3.org/2000/svg",tag);
+      Object.entries(attrs).forEach(([name,value])=>element.setAttribute(name,value));
+      svg.appendChild(element);
+    };
+    if(kind==="start") {
+      shape("path",{d:"M5 28V3M6 4h13l-3.5 4L19 12H6",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});
+    } else if(kind==="go-live") {
+      shape("circle",{cx:"12",cy:"15",r:"10",fill:"none",stroke:"currentColor","stroke-width":"2"});
+      shape("path",{d:"m10 10 7 5-7 5z",fill:"currentColor"});
+    } else {
+      shape("path",{d:"M5 28V3M6 4h13v13H6",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});
+      [["6","4"],["12.5","10.5"],["12.5","4"]].forEach(([x,y])=>shape("rect",{x,y,width:"6.5",height:"6.5",fill:"currentColor"}));
+    }
+    marker.appendChild(svg); milestoneTrack.appendChild(marker);
   });
 }
 function collectKeyMilestones() {
@@ -469,7 +493,12 @@ function validate(r) {
     if(isDate(m.start)&&isDate(m.end)&&m.end<m.start) add(`Timeline task ${i+1} ends before it starts.`);
     if(m.progress!==""&&(!Number.isFinite(Number(m.progress))||Number(m.progress)<0||Number(m.progress)>100)) add(`Timeline task ${i+1} progress must be between 0 and 100.`);
   });
-  Object.entries(r.keyMilestones).forEach(([key,date])=>{if(date&&!isDate(date)) add(`${key} milestone date is invalid.`);});
+  const milestoneLabels={projectStart:"Project Start",finalGoLive:"Project Final Go-live",projectClosure:"Project Closure"};
+  Object.entries(milestoneLabels).forEach(([key,label])=>{
+    const date=r.keyMilestones[key];
+    if(!date) add(`${label} milestone date is required.`);
+    else if(!isDate(date)) add(`${label} milestone date is invalid.`);
+  });
   return issues;
 }
 function refreshValidation() {
