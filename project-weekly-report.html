@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Project Weekly Report | PMO</title>
 <style>
 :root{--ink:#172b3a;--muted:#607688;--line:#d7e3e9;--navy:#123449;--teal:#007f78;--bg:#edf3f5;--red:#c9363c;--yellow:#af7400;--green:#18835d}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.45 "Segoe UI","Microsoft YaHei",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}header.top{background:var(--navy);color:white;padding:13px max(20px,calc((100vw - 1500px)/2));display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-size:16px;font-weight:750}.brand small{display:block;color:#a9c5d0;font-size:11px;font-weight:400}.toolbar{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid #c9d9df;background:white;color:var(--navy);border-radius:5px;padding:7px 11px;font-weight:650}.btn.primary{background:#00a797;border-color:#00a797;color:white}.btn.ghost{background:transparent;color:white;border-color:#698493}.btn.danger{color:#a9353a}.btn.tiny{padding:3px 7px;font-size:11px}main{max-width:1500px;margin:18px auto;padding:0 16px}.tabs{display:flex;gap:6px;margin-bottom:12px}.tabs button{border:0;border-bottom:3px solid transparent;background:transparent;padding:9px 14px;color:var(--muted);font-weight:700}.tabs button.active{border-color:var(--teal);color:var(--teal)}.sheet,.dashboard{background:#fff;border:1px solid var(--line);box-shadow:0 5px 20px #173a4b0d}.sheet{padding:20px}.sheet-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:2px solid var(--navy);padding-bottom:10px;margin-bottom:12px}.eyebrow{color:var(--teal);font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.sheet h1{font-size:24px;line-height:1.1;margin:4px 0}.sheet-head p,.hint{color:var(--muted);font-size:11px;margin:3px 0}.tag{color:var(--teal);background:#e7f5f2;border-radius:20px;padding:5px 10px;font-size:11px;font-weight:700;white-space:nowrap}.meta{display:grid;grid-template-columns:1.2fr 1.8fr 1.1fr 1fr 1fr 1fr 1fr 1.2fr;gap:8px;margin-bottom:12px}.field label,.label{display:block;color:#536c7a;font-size:10px;letter-spacing:.03em;font-weight:700;margin-bottom:3px}.field input,.field select,.field textarea,td input,td select,td textarea{width:100%;border:1px solid #d5e1e6;border-radius:4px;background:#fbfdfe;color:var(--ink);padding:6px;min-width:0}textarea{resize:vertical;min-height:60px}input:focus,select:focus,textarea:focus{outline:2px solid #95d5cb;outline-offset:0}.layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:12px}.stack{display:grid;gap:12px;align-content:start}.card{border:1px solid var(--line);border-radius:5px;min-width:0}.card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#eef5f7;padding:7px 10px;border-bottom:1px solid var(--line)}.card-head h2{margin:0;color:var(--navy);font-size:12px;letter-spacing:.025em}.card-body{padding:9px 10px}.split{display:grid;grid-template-columns:1fr 1fr;gap:9px}.summary{min-height:48px}.matrix{width:100%;border-collapse:collapse;table-layout:fixed}.matrix th,.matrix td{padding:5px;border-bottom:1px solid #e6eef1;text-align:left;vertical-align:middle}.matrix th{font-size:10px;color:#607688}.matrix tr:last-child td{border-bottom:0}.matrix select,.matrix input{padding:5px;font-size:11px}.matrix .overall td{font-weight:bold;background:#f1f8f6}.indicator{font-weight:700}.indicator[data-value="Green"]{color:var(--green);background:#e9f7ef}.indicator[data-value="Yellow"]{color:var(--yellow);background:#fff7dc}.indicator[data-value="Red"]{color:var(--red);background:#fff0f0}.full{margin-top:12px}.stake-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.stake-group{border:1px solid #e2ecef;border-radius:4px;padding:8px}.stake-group h3{margin:0 0 6px;color:var(--navy);font-size:11px}.stake-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:4px;margin:4px 0}.stake-row input,.stake-row select{width:100%;min-width:0;padding:5px;border:1px solid #d5e1e6;border-radius:4px;font-size:11px}.stake-row button{border:0;background:#f5f8f9;color:#a13239;border-radius:4px}.table-wrap{overflow-x:auto}.table-wrap table{min-width:650px}.issue-box{margin:12px 0 0;padding:10px 12px;border-radius:5px;background:#fff8e6;border:1px solid #ead9a2}.issue-box.good{background:#edf9f3;border-color:#bde5cd}.issue-box strong{display:block}.issue-box ul{margin:5px 0 0;padding-left:20px}.issue-box li{margin:2px 0}.dashboard{padding:20px}.dash-head{display:flex;align-items:start;justify-content:space-between;gap:12px;flex-wrap:wrap}.dash-head h1{margin:0;font-size:21px}.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.stat{background:#f4f8fa;border:1px solid var(--line);padding:12px}.stat b{display:block;font-size:23px;color:var(--navy)}.dash-table{width:100%;border-collapse:collapse;min-width:850px}.dash-table th,.dash-table td{text-align:left;padding:9px;border-bottom:1px solid var(--line);vertical-align:top}.dash-table th{color:#607688;font-size:11px;background:#f2f7f9}.dash-table td{font-size:12px}.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:11px;font-weight:700;background:#edf2f4}.badge.Red{color:var(--red);background:#fff0f0}.badge.Yellow{color:var(--yellow);background:#fff7dc}.badge.Green{color:var(--green);background:#e9f7ef}.badge.missing{color:#687986}.details{max-width:430px}.details ul{padding-left:17px;margin:5px 0}.notice{font-size:11px;color:var(--muted);margin:10px 0}.hidden{display:none!important}.empty{text-align:center;padding:35px;color:var(--muted)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.45 "Segoe UI",Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}header.top{background:var(--navy);color:white;padding:13px max(20px,calc((100vw - 1500px)/2));display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-size:16px;font-weight:750}.brand small{display:block;color:#a9c5d0;font-size:11px;font-weight:400}.toolbar{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid #c9d9df;background:white;color:var(--navy);border-radius:5px;padding:7px 11px;font-weight:650}.btn.primary{background:#00a797;border-color:#00a797;color:white}.btn.ghost{background:transparent;color:white;border-color:#698493}.btn.danger{color:#a9353a}.btn.tiny{padding:3px 7px;font-size:11px}main{max-width:1500px;margin:18px auto;padding:0 16px}.tabs{display:flex;gap:6px;margin-bottom:12px}.tabs button{border:0;border-bottom:3px solid transparent;background:transparent;padding:9px 14px;color:var(--muted);font-weight:700}.tabs button.active{border-color:var(--teal);color:var(--teal)}.sheet,.dashboard{background:#fff;border:1px solid var(--line);box-shadow:0 5px 20px #173a4b0d}.sheet{padding:20px}.sheet-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:2px solid var(--navy);padding-bottom:10px;margin-bottom:12px}.eyebrow{color:var(--teal);font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.sheet h1{font-size:24px;line-height:1.1;margin:4px 0}.sheet-head p,.hint{color:var(--muted);font-size:11px;margin:3px 0}.tag{color:var(--teal);background:#e7f5f2;border-radius:20px;padding:5px 10px;font-size:11px;font-weight:700;white-space:nowrap}.meta{display:grid;grid-template-columns:minmax(100px,.8fr) minmax(180px,1.5fr) minmax(78px,.65fr) minmax(250px,2.1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(140px,1.15fr) minmax(130px,1fr);gap:8px;margin-bottom:12px}.field label,.label{display:block;color:#536c7a;font-size:10px;letter-spacing:.03em;font-weight:700;margin-bottom:3px}.field input,.field select,.field textarea,td input,td select,td textarea{width:100%;border:1px solid #d5e1e6;border-radius:4px;background:#fbfdfe;color:var(--ink);padding:6px;min-width:0}textarea{resize:vertical;min-height:60px}.rich-text{width:100%;min-height:250px;padding:8px;border:1px solid #d5e1e6;border-radius:4px;background:#fbfdfe;color:var(--ink);overflow:auto;white-space:pre-wrap}.rich-text:empty:before{content:attr(data-placeholder);color:#8294a0;pointer-events:none}.rich-text:focus{outline:2px solid #95d5cb}.rich-text p{margin:0 0 .45em}.rich-text ul,.rich-text ol{margin:.25em 0;padding-left:22px}input:focus,select:focus,textarea:focus{outline:2px solid #95d5cb;outline-offset:0}.layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:12px}.stack{display:grid;gap:12px;align-content:start}.card{border:1px solid var(--line);border-radius:5px;min-width:0}.card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#eef5f7;padding:7px 10px;border-bottom:1px solid var(--line)}.card-head h2{margin:0;color:var(--navy);font-size:12px;letter-spacing:.025em}.card-body{padding:9px 10px}.split{display:grid;grid-template-columns:1fr 1fr;gap:9px}.summary{min-height:48px}.matrix{width:100%;border-collapse:collapse;table-layout:fixed}.matrix th,.matrix td{padding:5px;border-bottom:1px solid #e6eef1;text-align:left;vertical-align:middle}.matrix th{font-size:10px;color:#607688}.matrix tr:last-child td{border-bottom:0}.matrix select,.matrix input{padding:5px;font-size:11px}.matrix .overall td{font-weight:bold;background:#f1f8f6}.indicator{font-weight:700}.indicator[data-value="Green"]{color:var(--green);background:#e9f7ef}.indicator[data-value="Yellow"]{color:var(--yellow);background:#fff7dc}.indicator[data-value="Red"]{color:var(--red);background:#fff0f0}.full{margin-top:12px}.stake-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.stake-group{border:1px solid #e2ecef;border-radius:4px;padding:8px}.stake-group h3{margin:0 0 6px;color:var(--navy);font-size:11px}.stake-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:4px;margin:4px 0}.stake-row input,.stake-row select{width:100%;min-width:0;padding:5px;border:1px solid #d5e1e6;border-radius:4px;font-size:11px}.stake-row button{border:0;background:#f5f8f9;color:#a13239;border-radius:4px}.table-wrap{overflow-x:auto}.table-wrap table{min-width:650px}.issue-box{margin:12px 0 0;padding:10px 12px;border-radius:5px;background:#fff8e6;border:1px solid #ead9a2}.issue-box.good{background:#edf9f3;border-color:#bde5cd}.issue-box strong{display:block}.issue-box ul{margin:5px 0 0;padding-left:20px}.issue-box li{margin:2px 0}.dashboard{padding:20px}.dash-head{display:flex;align-items:start;justify-content:space-between;gap:12px;flex-wrap:wrap}.dash-head h1{margin:0;font-size:21px}.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.stat{background:#f4f8fa;border:1px solid var(--line);padding:12px}.stat b{display:block;font-size:23px;color:var(--navy)}.dash-table{width:100%;border-collapse:collapse;min-width:850px}.dash-table th,.dash-table td{text-align:left;padding:9px;border-bottom:1px solid var(--line);vertical-align:top}.dash-table th{color:#607688;font-size:11px;background:#f2f7f9}.dash-table td{font-size:12px}.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:11px;font-weight:700;background:#edf2f4}.badge.Red{color:var(--red);background:#fff0f0}.badge.Yellow{color:var(--yellow);background:#fff7dc}.badge.Green{color:var(--green);background:#e9f7ef}.badge.missing{color:#687986}.details{max-width:430px}.details ul{padding-left:17px;margin:5px 0}.notice{font-size:11px;color:var(--muted);margin:10px 0}.hidden{display:none!important}.empty{text-align:center;padding:35px;color:var(--muted)}
 @media(max-width:1050px){.meta{grid-template-columns:repeat(3,1fr)}.stake-grid{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.layout>.stack:nth-child(2){grid-template-columns:minmax(0,1fr) minmax(0,1.35fr)}.l3-stack{grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr)}.lower-layout{grid-template-columns:1fr}.dash-stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){main{padding:0 8px}.sheet,.dashboard{padding:12px}.meta,.split,.status-grid{grid-template-columns:1fr}.layout>.stack:nth-child(2),.l3-stack{grid-template-columns:1fr}.sheet-head{flex-wrap:wrap}.stake-row{grid-template-columns:1fr 1fr 1fr auto}}
 .indicator-level{border-left:3px solid #78a7b3}.indicator-level.l1{border-left-color:var(--teal)}.indicator-level.l2{border-left-color:#3e718c}.indicator-grid{display:grid;grid-template-columns:minmax(190px,.8fr) minmax(300px,1.25fr) minmax(190px,.8fr);gap:8px;align-items:start}.indicator-grid .card{height:auto}.indicator-grid .qms-focus{grid-column:auto}.indicator-grid .matrix th,.indicator-grid .matrix td{padding:4px 5px}.indicator-grid .matrix select{width:100%}.lower-layout{display:block}.qms-focus{border:2px solid #d5ab45;background:#fffcf2}.qms-focus .card-head{background:#fff4d6}.qms-focus .card-head h2{color:#765000}.status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.status-grid textarea{min-height:112px}.key-risk{margin-bottom:7px}.key-risk select{padding:5px}.traffic-panel>.card-body{padding:8px}.stakeholder-panel{margin-top:8px}.stakeholder-panel>.card-head{padding:5px 8px}.stakeholder-panel>.card-body{padding:7px 8px}.stakeholder-panel .stake-group{padding:5px}.stakeholder-panel .stake-group h3{margin-bottom:3px}.stakeholder-panel .stake-group>.hint{display:none}.stakeholder-panel .stake-row{margin:2px 0}.gantt{min-width:0}.gantt-head,.gantt-row{display:grid;grid-template-columns:minmax(480px,1.2fr) minmax(260px,1fr);align-items:stretch}.gantt-head{background:#f2f7f9;border-bottom:1px solid var(--line);font-size:10px;font-weight:700;color:#536c7a}.gantt-title{padding:7px;border-right:1px solid var(--line)}.gantt-axis{display:grid;min-height:30px}.gantt-axis span{padding:6px 3px;text-align:center;border-left:1px solid #dce7eb;white-space:nowrap}.gantt-row{min-height:29px;border-bottom:1px solid #e6eef1}.gantt-row:last-child{border-bottom:0}.gantt-editor{padding:2px 4px;border-right:1px solid var(--line);display:grid;align-content:center}.gantt-fields{display:grid;grid-template-columns:minmax(85px,1.2fr) minmax(65px,1fr) minmax(65px,1fr) 40px minmax(65px,1fr) 22px;gap:2px;align-items:center}.gantt-fields input{width:100%;min-width:0;height:19px;padding:1px 3px;border:1px solid #d5e1e6;border-radius:3px;font-size:8px}.gantt-note{font-size:8px!important}.gantt-track{position:relative;align-self:center;height:19px;margin:0 4px;background-color:#f7fafb;border-radius:3px;overflow:hidden}.gantt-bar{position:absolute;top:3px;height:13px;min-width:5px;border-radius:4px;background:#a9d8d1;overflow:hidden}.gantt-progress{height:100%;background:var(--teal)}.gantt-bar-label{position:absolute;inset:0 4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:7px;line-height:13px;color:#123449;font-weight:700}.gantt-today{position:absolute;top:0;bottom:0;width:2px;background:#d03742;z-index:2;pointer-events:none}.gantt-empty{padding:10px;text-align:center;color:var(--muted);font-size:9px}.print-value{display:none}
 @media(max-width:1050px){.indicator-grid{grid-template-columns:minmax(170px,.8fr) minmax(260px,1.2fr)}.indicator-grid .qms-focus{grid-column:1/-1}.lower-layout{grid-template-columns:1fr}.stake-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -80,8 +80,25 @@
 }
 .priority-layout{grid-template-areas:"status indicators" "timeline indicators";grid-template-columns:minmax(0,1fr) minmax(0,20%);gap:8px;align-items:stretch}
 .priority-layout>.status-panel{grid-area:status;margin-right:0}
-.priority-layout>.indicator-stack{grid-area:indicators;grid-template-rows:auto 1fr;align-content:stretch}
+.priority-layout>.indicator-stack{grid-area:indicators;grid-template-rows:auto;align-content:start}
 .priority-layout>.timeline-panel{grid-area:timeline;margin-top:0}
+.status-panel>.card-body{grid-template-rows:minmax(290px,1fr)}
+.status-panel .rich-text{height:100%;min-height:290px;flex:1}
+.rich-text:empty:before{content:attr(data-placeholder);color:#8294a0;pointer-events:none}
+.traffic-section{min-width:0}
+.traffic-section-body{padding:5px}
+.traffic-section .traffic-panel{min-width:0}
+.traffic-section .key-risk{margin-bottom:5px}
+.traffic-section .stakeholder-panel{padding-top:5px}
+.stake-heading{margin:0 0 3px;color:#536c7a;font-size:10px;letter-spacing:.03em;font-weight:700}
+.traffic-section .matrix th,.traffic-section .matrix td{padding:2px}
+.traffic-section .matrix th:first-child{width:37%}
+.traffic-section .matrix th:nth-child(2){width:31%}
+.traffic-section .matrix th:last-child{width:32%}
+.traffic-section .matrix select,.traffic-section .matrix input{width:100%;min-width:0;padding:2px 1px;font-size:9px}
+.traffic-section .stakeholder-panel .matrix .group-label{font-size:9px;font-weight:650;line-height:1.15}
+.traffic-section .qms-row td{background:transparent!important;border-top:0!important}
+.traffic-section .qms-group{color:inherit!important;font-weight:inherit!important}
 .gantt{min-width:630px}
 .gantt-head,.gantt-row{grid-template-columns:minmax(390px,1fr) minmax(220px,1fr)}
 .gantt-fields{grid-template-columns:minmax(85px,1fr) 110px 110px 44px 22px}
@@ -95,8 +112,6 @@
 .key-milestone-track{position:relative;align-self:center;height:30px;margin:0 4px;overflow:visible}
 .key-milestone-marker{position:absolute;top:3px;transform:translateX(-50%);height:23px;border-left:2px solid #b37913;z-index:3}
 .key-milestone-marker::before{content:"";position:absolute;top:0;left:-4px;width:6px;height:6px;border-radius:50%;background:#b37913}
-.key-milestone-marker span{position:absolute;top:7px;left:3px;max-width:95px;white-space:nowrap;font-size:7px;font-weight:700;color:#765000}
-.key-milestone-marker.end span{left:auto;right:3px;transform:translateX(-100%)}
 @media(max-width:1050px){
   .priority-layout{grid-template-areas:"status" "indicators" "timeline";grid-template-columns:1fr}
 }
@@ -108,61 +123,66 @@
   .gantt-fields{grid-template-columns:minmax(65px,1fr) 66px 66px 30px}
   .key-milestone-row{grid-template-columns:minmax(300px,1fr) minmax(140px,1fr)}
   .key-milestone-fields input{height:18px;font-size:7px}
-  .key-milestone-marker span{font-size:6px}
 }
+.traffic-section .stakeholder-panel .matrix .qms-row td{background:transparent!important;border-top:0!important}
+.traffic-section .stakeholder-panel .matrix .qms-group{color:inherit!important;font-weight:inherit!important}
+.rich-print{display:block;white-space:pre-wrap;overflow-wrap:anywhere;min-height:180px}
 </style>
 </head>
 <body>
 <header class="top">
-  <div class="brand">PMO <span style="color:#6edbc9">/</span> WEEKLY REPORT<small>统一填报 · 规则校验 · 跨项目对比</small></div>
+  <div class="brand">PMO <span style="color:#6edbc9">/</span> WEEKLY REPORT<small>Standardized reporting · Rule checks · Portfolio comparison</small></div>
   <div class="toolbar no-print">
-    <button class="btn ghost" id="newReport" type="button">新建项目</button>
-    <button class="btn ghost" id="loadReport" type="button">打开项目 JSON</button>
-    <button class="btn" id="print" type="button">打印 / PDF</button>
-    <button class="btn primary" id="export" type="button">导出项目 JSON</button>
+    <button class="btn ghost" id="newReport" type="button">New Project</button>
+    <button class="btn ghost" id="loadReport" type="button">Open Project JSON</button>
+    <button class="btn" id="print" type="button">Print / PDF</button>
+    <button class="btn primary" id="export" type="button">Export Project JSON</button>
   </div>
 </header>
 <main>
-<nav class="tabs no-print" aria-label="页面导航">
-  <button class="active" id="tabReport" type="button">01 项目周报</button>
-  <button id="tabDashboard" type="button">02 汇总 Dashboard</button>
+<nav class="tabs no-print" aria-label="Page navigation">
+  <button class="active" id="tabReport" type="button">01 Project Report</button>
+  <button id="tabDashboard" type="button">02 Portfolio Dashboard</button>
 </nav>
 <section class="sheet" id="report">
-  <div class="sheet-head"><div><div class="eyebrow">Project governance / weekly update</div><h1>Project Weekly Report</h1><p>一页一个项目 · 选择状态并填写关键事实，导出 JSON 供 PMO 汇总</p></div><div class="tag">PROJECT · WEEKLY</div></div>
+  <div class="sheet-head"><div><div class="eyebrow">Project governance / weekly update</div><h1>Project Weekly Report</h1><p>One project per report · Select indicators and record key updates for portfolio review</p></div><div class="tag">PROJECT · WEEKLY</div></div>
   <div class="meta">
     <div class="field"><label for="projectId">Demand Number *</label><input id="projectId" placeholder="DEM-0000"></div>
-    <div class="field"><label for="name">项目名称 *</label><input id="name" placeholder="Project name"></div>
-    <div class="field"><label for="week">Report Week / 周报代表日期 *</label><input type="date" id="week"></div>
-    <div class="field"><label for="entity">Entity *</label><select id="entity"><option value="">请选择</option><option value="FC">FC</option><option value="NMS">NMS</option><option value="FC&NMS">FC&NMS</option></select></div>
-    <div class="field"><label for="bizPM">Biz PM *</label><input id="bizPM" placeholder="姓名"></div>
-    <div class="field"><label for="department">Department *</label><input id="department" placeholder="部门"></div>
-    <div class="field"><label for="itPM">IT PM / TAM *</label><input id="itPM" placeholder="姓名"></div>
-    <div class="field"><label for="phase">Project Phase *</label><input id="phase" placeholder="如 Implementation & SIT"></div>
+    <div class="field"><label for="name">Project Name *</label><input id="name" placeholder="Project name"></div>
+    <div class="field"><label for="entity">Entity *</label><select id="entity"><option value="">Select</option><option value="FC">FC</option><option value="NMS">NMS</option><option value="FC&NMS">FC&NMS</option></select></div>
+    <div class="field"><label for="bizPM">Biz PM *</label><input id="bizPM" placeholder="Name; Name; Name"></div>
+    <div class="field"><label for="department">Department *</label><input id="department" placeholder="Department"></div>
+    <div class="field"><label for="itPM">IT PM *</label><input id="itPM" placeholder="Name"></div>
+    <div class="field"><label for="phase">Project Phase *</label><input id="phase" placeholder="e.g. Implementation & SIT"></div>
+    <div class="field"><label for="week">Report Date *</label><input type="date" id="week"></div>
   </div>
   <div class="priority-layout full">
-    <section class="card status-panel"><div class="card-head"><h2>01 / STATUS, RISKS, NEXT STEPS & MITIGATIONS</h2><span class="hint">主要填写区 · 可灵活组织进展、风险和应对行动</span></div><div class="card-body status-grid">
-      <div class="field"><label for="statusAndRisks">Status & Key Risks / 当前状态与主要风险 *</label><textarea id="statusAndRisks" placeholder="描述项目目前的主要工作、进展和状态，以及关键风险或问题、影响和可能性"></textarea></div>
-      <div class="field"><label for="nextStepsAndMitigations">Next Steps & Mitigations / 下一步与风险应对 *</label><textarea id="nextStepsAndMitigations" placeholder="描述接下来要完成的工作，以及风险应对措施；尽量注明负责人和目标日期"></textarea></div>
+    <section class="card status-panel"><div class="card-head"><h2>01 / STATUS, RISKS, NEXT STEPS & MITIGATIONS</h2><span class="hint">Primary update area · Organize progress, risks, and actions as needed</span></div><div class="card-body status-grid">
+      <div class="field"><label for="statusAndRisks">Status & Key Risks *</label><div id="statusAndRisks" class="rich-text" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Status and key risks" data-placeholder="Summarize current work and progress, key risks or issues, and their impact"></div></div>
+      <div class="field"><label for="nextStepsAndMitigations">Next Steps & Mitigations *</label><div id="nextStepsAndMitigations" class="rich-text" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Next steps and mitigations" data-placeholder="Describe upcoming work and risk responses, including owners and target dates"></div></div>
     </div></section>
     <div class="indicator-stack">
-    <section class="card traffic-panel"><div class="card-head"><h2>02 / TRAFFIC LIGHT INDICATORS</h2></div><div class="card-body">
-      <div class="field key-risk"><label for="keyRiskReason">Key Risk Reason / 主要影响因素</label><select id="keyRiskReason"><option value="">请选择（AMBER / RED 必填）</option></select></div>
+    <section class="card traffic-section"><div class="card-head"><h2>02 / TRAFFIC LIGHT INDICATORS</h2></div><div class="card-body traffic-section-body">
+      <div class="traffic-panel">
+      <div class="field key-risk"><label for="keyRiskReason">Key Risk Reason</label><select id="keyRiskReason"><option value="">Select if Overall is AMBER / RED</option></select></div>
       <table class="matrix" aria-label="Project indicators">
-        <thead><tr><th>指标</th><th>Old / 上周</th><th>New / 本周</th></tr></thead>
+        <thead><tr><th>Indicator</th><th>Old</th><th>New</th></tr></thead>
         <tbody id="overallRows"></tbody>
         <tbody id="indicatorRows"></tbody>
       </table>
-    </div></section>
-    <section class="card stakeholder-panel"><div class="card-head"><h2>L3 / STAKEHOLDER INDICATORS</h2></div><div class="card-body">
+      </div>
+      <div class="stakeholder-panel">
+      <h3 class="stake-heading">L3 / STAKEHOLDER INDICATORS</h3>
       <table class="matrix" aria-label="QMS and stakeholder indicators">
-        <thead><tr><th>类型</th><th>Name / QG</th><th>Traffic Light / 本周</th></tr></thead>
+        <thead><tr><th>Group</th><th>Name / QG</th><th>Traffic Light</th></tr></thead>
         <tbody id="stakeRows"></tbody>
       </table>
+      </div>
     </div></section>
     </div>
-  <section class="card timeline-panel"><div class="card-head"><h2>03 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ 添加阶段（最多 9 行）</button></div><div class="card-body table-wrap">
+  <section class="card timeline-panel"><div class="card-head"><h2>03 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ Add Task (max 9)</button></div><div class="card-body table-wrap">
     <div class="gantt" id="gantt">
-      <div class="gantt-head"><div class="gantt-title">阶段 / 开始日期 / 结束日期 / 完成度</div><div class="gantt-axis" id="ganttAxis"></div></div>
+      <div class="gantt-head"><div class="gantt-title">Task / Start / End / Progress</div><div class="gantt-axis" id="ganttAxis"></div></div>
       <div class="key-milestone-row" id="keyMilestoneRow">
         <div class="key-milestone-editor"><div class="key-milestone-fields">
           <label>Project Start<input type="date" id="projectStart"></label>
@@ -172,21 +192,21 @@
         <div class="key-milestone-track" id="keyMilestoneTrack" aria-label="Project milestones"></div>
       </div>
       <div id="milestones"></div>
-      <div class="gantt-empty hidden" id="ganttEmpty">添加阶段并填写开始、结束日期后，将在此显示项目甘特图。</div>
+      <div class="gantt-empty hidden" id="ganttEmpty">Add a task or milestone date to display the project timeline.</div>
     </div>
-    <p class="hint">每个阶段填写计划开始与结束日期、完成度；条形填充部分表示已完成比例。旧版里程碑日期将作为迁移范围导入，请检查并调整为真实的阶段起止日期。</p>
-    <p class="hint no-print hidden" id="legacyGanttNotes">旧版阶段备注已保留在导出 JSON 中，不显示于周报；删除阶段也将删除其备注。</p>
+    <p class="hint">Enter task start and end dates and progress. Bar fill indicates completion. Review migrated task dates from older reports.</p>
+    <p class="hint no-print hidden" id="legacyGanttNotes">Legacy task notes are preserved in exported JSON but are not displayed. Deleting a task also deletes its legacy note.</p>
     </div></section>
   </div>
   <div id="validation" class="issue-box no-print" aria-live="polite"></div>
-  <p class="notice no-print">规则：RED &gt; AMBER &gt; GREEN。QMS 本周状态 → Quality 和 Overall；相关方可能同时影响多个二级指标，相关方为 AMBER / RED 时至少一个二级指标须达到相同或更严重状态；Overall 等于四个二级指标中的最严重状态。Overall 为 RED 时，本周二级和三级均须存在 RED；不要求 QMS 必须为 RED。上周未记录相关方或 QMS，仅检查已知的二级、一级关系。打印默认为 A3 横向；内容过多时请缩放或精简，避免跨页。</p>
+  <p class="notice no-print">Rules: RED &gt; AMBER &gt; GREEN. QMS this week rolls up to Quality and Overall. Overall equals the most severe L2 indicator. If Scope, Time, or Financial is AMBER / RED, at least one Business Department, IT Role, or Supporting Application indicator must also be AMBER / RED. A RED Overall requires at least one RED L2 and L3 indicator. Print in A3 landscape; long content may span pages.</p>
 </section>
 <section class="dashboard hidden" id="dashboard">
-  <div class="dash-head"><div><div class="eyebrow">Portfolio / quality review</div><h1>Weekly Report Dashboard</h1><p class="notice">导入多个项目 JSON；可按报告周筛选，点击检查详情。数据仅在当前浏览器页面内处理。</p></div><div class="toolbar"><button class="btn primary" id="importDashboard" type="button">导入项目 JSON（可多选）</button><button class="btn danger" id="clearDashboard" type="button">清空汇总</button></div></div>
-  <div class="field" style="max-width:240px"><label for="weekFilter">报告周筛选</label><select id="weekFilter"><option value="">全部报告周</option></select></div>
+  <div class="dash-head"><div><div class="eyebrow">Portfolio / quality review</div><h1>Weekly Report Dashboard</h1><p class="notice">Import project JSON reports to compare status, review validation findings, and filter by report date. Data is processed in this browser session.</p></div><div class="toolbar"><button class="btn primary" id="importDashboard" type="button">Import Project JSON</button><button class="btn danger" id="clearDashboard" type="button">Clear Dashboard</button></div></div>
+  <div class="field" style="max-width:240px"><label for="weekFilter">Filter by Report Date</label><select id="weekFilter"><option value="">All report dates</option></select></div>
   <div class="dash-stats" id="stats"></div>
-  <div class="table-wrap"><table class="dash-table"><thead><tr><th>项目 / 报告周</th><th>负责人 / 阶段</th><th>Overall<br>上周 → 本周</th><th>QMS<br>本周</th><th>检查结果</th><th>检查详情</th><th>操作</th></tr></thead><tbody id="dashboardRows"></tbody></table></div>
-  <p class="notice">仅按明确的结构和状态规则检查；内容是否真实、阶段语义是否一致及风险措施是否有效仍需人工审核。同一项目相邻 7 天的周报同时导入时，额外核对上周状态与前一周本周状态。</p>
+  <div class="table-wrap"><table class="dash-table"><thead><tr><th>Project / Report Date</th><th>Owners / Phase</th><th>Overall<br>Old → New</th><th>QMS<br>This Week</th><th>Validation</th><th>Details</th><th>Action</th></tr></thead><tbody id="dashboardRows"></tbody></table></div>
+  <p class="notice">Automated checks cover report structure and defined status rules only. Content accuracy, phase meaning, and mitigation quality still require human review. Reports exactly seven days apart are compared for continuity between the prior New and current Old indicators.</p>
 </section>
 </main>
 <input type="file" id="fileProject" accept=".json,application/json" hidden>
@@ -197,10 +217,12 @@ const $ = id => document.getElementById(id);
 const dimensions = ["Scope","Time","Financial","Quality","Overall"];
 const levels = Object.assign(Object.create(null), {Green:1, Yellow:2, Red:3});
 const labels = {Green:"GREEN", Yellow:"AMBER", Red:"RED"};
-const groups = ["BU","IT","Supporting Applications"];
+const groups = ["Business Department","IT Role","Supporting Application"];
+const legacyGroups = {BU:"Business Department",IT:"IT Role","Supporting Applications":"Supporting Application"};
 const textFields = ["projectId","name","week","entity","bizPM","department","itPM","phase","keyRiskReason","statusAndRisks","nextStepsAndMitigations","qg","qmsNew"];
 const previousTextFields = ["projectId","name","week","entity","bizPM","itPM","phase","keyRiskReason","status","nextSteps","riskDetails","mitigations","qg","qmsNew"];
 const olderTextFields = [...previousTextFields,"qmsOld"];
+const schema6TextFields = [...textFields];
 const legacyTextFields = ["projectId","name","week","entity","bizPM","itPM","phase","summary","highlights","nextSteps","qg","qmsOld","qmsNew"];
 const keyRiskReasons = ["Scope & Requirements","Decisions & Approvals","Internal Resources & Priorities","Techology, Data & IT Security","Testing & Business Readiness","Cost & Procurement","Vendor Delivery","External Dependencies"];
 const qualityGates = ["QG1.0","QG1.2","QG2.0","QG3.0"];
@@ -208,17 +230,39 @@ const maxGanttRows = 9;
 let reports = [];
 
 function option(select, value, label) { const el = document.createElement("option"); el.value=value; el.textContent=label; select.appendChild(el); }
+function sanitizeRichHtml(html) {
+  const parsed=new DOMParser().parseFromString(`<body>${html}</body>`,"text/html");
+  const allowed=new Set(["B","STRONG","I","EM","U","BR","P","UL","OL","LI"]);
+  const blocked=new Set(["SCRIPT","STYLE","IFRAME","OBJECT","SVG","MATH"]);
+  const clean=node=>{
+    if(node.nodeType===Node.TEXT_NODE) return document.createTextNode(node.textContent);
+    if(node.nodeType!==Node.ELEMENT_NODE) return document.createDocumentFragment();
+    if(blocked.has(node.tagName)) return document.createDocumentFragment();
+    const children=[...node.childNodes].map(clean);
+    if(!allowed.has(node.tagName)){const fragment=document.createDocumentFragment();children.forEach(child=>fragment.append(child));return fragment;}
+    const element=document.createElement(node.tagName.toLowerCase());children.forEach(child=>element.append(child));return element;
+  };
+  const output=document.createElement("div");[...parsed.body.childNodes].map(clean).forEach(node=>output.append(node));
+  return output.innerHTML;
+}
+function richTextPlainText(html) {
+  const doc=new DOMParser().parseFromString(sanitizeRichHtml(html),"text/html");
+  return doc.body.textContent.replace(/\u00a0/g," ").trim();
+}
+function escapeHtml(text) {
+  const element=document.createElement("div");element.textContent=text;return element.innerHTML.replace(/\n/g,"<br>");
+}
 function statusSelect(id, value="") {
   const el=document.createElement("select"); el.id=id; el.className="indicator"; el.setAttribute("aria-label",id.replace(/([A-Z])/g," $1").trim());
-  option(el,"","请选择"); Object.keys(levels).forEach(s=>option(el,s,labels[s])); el.value=value;
+  option(el,"","Select"); Object.keys(levels).forEach(s=>option(el,s,labels[s])); el.value=value;
   el.dataset.value=el.value; el.addEventListener("change",()=>{el.dataset.value=el.value;});
   return el;
 }
 function initialize() {
   keyRiskReasons.forEach(reason=>option($("keyRiskReason"),reason,reason));
-  const qmsStatus=statusSelect("qmsNew"); qmsStatus.setAttribute("aria-label","QMS 本周状态");
+  const qmsStatus=statusSelect("qmsNew"); qmsStatus.setAttribute("aria-label","QMS this week");
   const qg=document.createElement("select"); qg.id="qg"; qg.setAttribute("aria-label","Quality gate");
-  option(qg,"","选择 QG"); qualityGates.forEach(g=>option(qg,g,g));
+  option(qg,"","Select QG"); qualityGates.forEach(g=>option(qg,g,g));
   for (const d of dimensions) {
     const tr=document.createElement("tr"); if(d==="Overall") tr.className="overall";
     const name=document.createElement("td"); name.textContent=d; tr.appendChild(name);
@@ -226,14 +270,14 @@ function initialize() {
     $(d==="Overall"?"overallRows":"indicatorRows").appendChild(tr);
   }
   const qmsRow=document.createElement("tr"); qmsRow.className="qms-row"; qmsRow.dataset.group="QMS";
-  const qmsName=document.createElement("td"); qmsName.className="group-label qms-group"; qmsName.textContent="QMS";
+  const qmsName=document.createElement("td"); qmsName.className="group-label"; qmsName.textContent="QMS";
   const qmsGate=document.createElement("td"); qmsGate.appendChild(qg);
   const qmsTraffic=document.createElement("td"); qmsTraffic.appendChild(qmsStatus);
   qmsRow.append(qmsName,qmsGate,qmsTraffic); $("stakeRows").appendChild(qmsRow);
   groups.forEach(group=>{for(let i=0;i<3;i++) addStakeRow(group,i);});
 }
 function input(placeholder,value="",type="text") {const e=document.createElement("input"); e.type=type; e.placeholder=placeholder; e.value=value; e.setAttribute("aria-label",placeholder); return e;}
-function removeButton(row) {const b=document.createElement("button"); b.type="button"; b.className="btn tiny no-print"; b.textContent="×"; b.setAttribute("aria-label","删除此行"); b.onclick=()=>{if(row.dataset.note&&!confirm("此阶段包含旧版备注，删除阶段也会删除备注。继续？")) return; row.remove(); updateGanttControls(); refreshValidation(); renderGantt();}; return b;}
+function removeButton(row) {const b=document.createElement("button"); b.type="button"; b.className="btn tiny no-print"; b.textContent="×"; b.setAttribute("aria-label","Remove task"); b.onclick=()=>{if(row.dataset.note&&!confirm("This task has a legacy note. Deleting the task will also delete its note. Continue?")) return; row.remove(); updateGanttControls(); refreshValidation(); renderGantt();}; return b;}
 function addStakeRow(group,index,data={}) {
   const row=document.createElement("tr"); row.dataset.group=group; row.dataset.index=index;
   const groupCell=document.createElement("td"); groupCell.className="group-label"; groupCell.textContent=group;
@@ -242,12 +286,12 @@ function addStakeRow(group,index,data={}) {
   row.append(groupCell,nameCell,statusCell); $("stakeRows").appendChild(row); return row;
 }
 function addGanttRow(data={}) {
-  if($("milestones").children.length>=maxGanttRows) throw new Error("甘特图最多允许 9 个阶段");
+  if($("milestones").children.length>=maxGanttRows) throw new Error("The timeline supports a maximum of 9 tasks.");
   const row=document.createElement("div"); row.className="gantt-row";
   row.dataset.note=data.note||"";
   const editor=document.createElement("div"); editor.className="gantt-editor";
   const fields=document.createElement("div"); fields.className="gantt-fields";
-  const definitions=[["阶段名称","name","text"],["开始日期","start","date"],["结束日期","end","date"],["完成%","progress","number"]];
+  const definitions=[["Task name","name","text"],["Start date","start","date"],["End date","end","date"],["Progress %","progress","number"]];
   for(const [placeholder,key,type] of definitions) {
     const el=input(placeholder,data[key]??"",type);
     el.dataset.key=key; if(key==="progress"){el.min="0";el.max="100";el.step="5";}
@@ -296,8 +340,7 @@ function renderGantt() {
     const bar=document.createElement("div");bar.className="gantt-bar";bar.style.left=`${left}%`;bar.style.width=`${Math.min(width,100-left)}%`;
     const progress=document.createElement("div");progress.className="gantt-progress";const percent=Number(controls.progress);
     progress.style.width=Number.isFinite(percent)?`${Math.min(100,Math.max(0,percent))}%`:"0%";
-    const label=document.createElement("span");label.className="gantt-bar-label";label.textContent=`${controls.name} · ${controls.progress||0}%`;
-    bar.append(progress,label);track.appendChild(bar);
+    bar.append(progress);track.appendChild(bar);
   });
   $("milestones").querySelectorAll(".gantt-track").forEach(track=>{
     const today=Date.now();
@@ -305,21 +348,20 @@ function renderGantt() {
   });
   const milestoneTrack=$("keyMilestoneTrack"); milestoneTrack.replaceChildren();
   const namedDates=[["Project Start","projectStart"],["Final Go-live","finalGoLive"],["Project Closure","projectClosure"]];
-  namedDates.forEach(([label,key],index)=>{
+  namedDates.forEach(([,key],index)=>{
     const date=collectKeyMilestones()[key]; if(!isDate(date)) return;
     const timestamp=Date.parse(date+"T00:00:00Z");
     const marker=document.createElement("div"); marker.className="key-milestone-marker"+(index===namedDates.length-1?" end":"");
     marker.style.left=`${(timestamp-rangeStart)/(rangeEnd-rangeStart)*100}%`;
-    marker.title=`${label}: ${date}`;
-    const text=document.createElement("span"); text.textContent=label; marker.appendChild(text); milestoneTrack.appendChild(marker);
+    marker.setAttribute("aria-label",`${key}: ${date}`); milestoneTrack.appendChild(marker);
   });
 }
 function collectKeyMilestones() {
   return {projectStart:$("projectStart").value,finalGoLive:$("finalGoLive").value,projectClosure:$("projectClosure").value};
 }
 function collect() {
-  const report={schema:"pmo-project-weekly-report",version:6, indicators:{}, stakeholders:[], milestones:[],keyMilestones:collectKeyMilestones()};
-  textFields.forEach(id=>report[id]=$(id).value.trim());
+  const report={schema:"pmo-project-weekly-report",version:7, indicators:{}, stakeholders:[], milestones:[],keyMilestones:collectKeyMilestones()};
+  textFields.forEach(id=>report[id]=id==="statusAndRisks"||id==="nextStepsAndMitigations"?sanitizeRichHtml($(id).innerHTML):$(id).value.trim());
   dimensions.forEach(d=>report.indicators[d]={old:$(d+"Old").value,new:$(d+"New").value});
   groups.forEach(group=>document.querySelectorAll(`#stakeRows tr[data-group="${group}"]`).forEach(row=>{
     const name=row.querySelector(".stake-name").value.trim(), status=row.querySelector(".indicator").value;
@@ -332,51 +374,55 @@ function isDate(s) { if(typeof s!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(s)) ret
 function validate(r) {
   const issues=[];
   const add=message=>issues.push(message);
-  const required={projectId:"Demand Number",name:"项目名称",week:"周报代表日期",entity:"Entity",bizPM:"Biz PM",department:"Department",itPM:"IT PM",phase:"Project Phase",statusAndRisks:"Status & Key Risks",nextStepsAndMitigations:"Next Steps & Mitigations",qg:"Quality gate"};
-  Object.entries(required).forEach(([key,label])=>{if(!r[key]) add(label+"未填写");});
-  if(r.qg&&!qualityGates.includes(r.qg)) add("Quality gate 不是指定选项，请核对旧值并选择 QG1.0、QG1.2、QG2.0 或 QG3.0");
-  if(r.week&&!isDate(r.week)) add("周报代表日期无效");
-  if(r.entity&&!["FC","NMS","FC&NMS"].includes(r.entity)) add("Entity 仅可选择 FC、NMS 或 FC&NMS");
+  const required={projectId:"Demand Number",name:"Project Name",week:"Report Date",entity:"Entity",bizPM:"Biz PM",department:"Department",itPM:"IT PM",phase:"Project Phase",qg:"Quality Gate"};
+  Object.entries(required).forEach(([key,label])=>{if(!r[key]) add(`${label} is required.`);});
+  if(!richTextPlainText(r.statusAndRisks)) add("Status & Key Risks is required.");
+  if(!richTextPlainText(r.nextStepsAndMitigations)) add("Next Steps & Mitigations is required.");
+  if(r.qg&&!qualityGates.includes(r.qg)) add("Quality Gate is not supported. Select QG1.0, QG1.2, QG2.0, or QG3.0.");
+  if(r.week&&!isDate(r.week)) add("Report Date must be a valid date.");
+  if(r.entity&&!["FC","NMS","FC&NMS"].includes(r.entity)) add("Entity must be FC, NMS, or FC&NMS.");
   for(const p of ["old","new"]) {
-    const period=p==="old"?"上周":"本周", q=p==="new"?r.qmsNew:"";
-    if(p==="new"&&!levels[q]) add("QMS 本周状态未选择");
-    dimensions.forEach(d=>{if(!levels[r.indicators[d][p]]) add(`${d} ${period}状态未选择`);});
+    const period=p==="old"?"Old":"New", q=p==="new"?r.qmsNew:"";
+    if(p==="new"&&!levels[q]) add("Select a QMS traffic light for this week.");
+    dimensions.forEach(d=>{if(!levels[r.indicators[d][p]]) add(`Select an ${period} status for ${d}.`);});
     const quality=r.indicators.Quality[p], overall=r.indicators.Overall[p];
-    if(p==="new"&&levels[q]&&levels[quality]&&levels[quality]<levels[q]) add(`本周 QMS 为 ${labels[q]}，Quality 不能低于 ${labels[q]}`);
+    if(p==="new"&&levels[q]&&levels[quality]&&levels[quality]<levels[q]) add(`Quality cannot be less severe than this week's QMS (${labels[q]}).`);
     const l2=dimensions.slice(0,4).map(d=>r.indicators[d][p]);
-    if(levels[overall]&&l2.every(s=>levels[s])&&levels[overall]!==Math.max(...l2.map(s=>levels[s]))) add(`${period} Overall 应等于四个二级指标中的最深色`);
-    if(p==="new"&&levels[q]&&levels[overall]&&levels[overall]<levels[q]) add(`本周 Overall 不能低于 QMS 的 ${labels[q]}`);
+    if(levels[overall]&&l2.every(s=>levels[s])&&levels[overall]!==Math.max(...l2.map(s=>levels[s]))) add(`${period} Overall must match the most severe L2 indicator.`);
+    if(p==="new"&&levels[q]&&levels[overall]&&levels[overall]<levels[q]) add(`Overall cannot be less severe than this week's QMS (${labels[q]}).`);
   }
-  if((r.indicators.Overall.new==="Yellow"||r.indicators.Overall.new==="Red")&&!keyRiskReasons.includes(r.keyRiskReason)) add("Overall 为 AMBER / RED 时必须选择 Key Risk Reason");
-  if(r.keyRiskReason&&!keyRiskReasons.includes(r.keyRiskReason)) add("Key Risk Reason 不是有效选项");
+  if((r.indicators.Overall.new==="Yellow"||r.indicators.Overall.new==="Red")&&!keyRiskReasons.includes(r.keyRiskReason)) add("Select a Key Risk Reason when Overall is AMBER or RED.");
+  if(r.keyRiskReason&&!keyRiskReasons.includes(r.keyRiskReason)) add("Key Risk Reason is not supported.");
   r.stakeholders.forEach((s,i)=>{
-    if(!s.name||!levels[s.status]) {add(`${s.group} 相关方第 ${i+1} 条缺少名称或状态`); return;}
-    const l2Values=dimensions.slice(0,4).map(d=>r.indicators[d].new);
-    if(l2Values.every(status=>levels[status])&&Math.max(...l2Values.map(status=>levels[status]))<levels[s.status]) add(`${s.group} / ${s.name} 为 ${labels[s.status]}，至少一个 L2 指标必须为 ${labels[s.status]} 或更严重`);
+    if(!s.name||!levels[s.status]) add(`${s.group} row ${i+1} requires both a name and a traffic light.`);
   });
+  const monitoredL2=["Scope","Time","Financial"].map(d=>r.indicators[d].new);
+  const anyMonitoredRisk=monitoredL2.some(status=>status==="Yellow"||status==="Red");
+  const anyStakeholderRisk=r.stakeholders.some(s=>s.name&&(s.status==="Yellow"||s.status==="Red"));
+  if(anyMonitoredRisk&&!anyStakeholderRisk) add("When Scope, Time, or Financial is AMBER / RED, at least one Business Department, IT Role, or Supporting Application indicator must also be AMBER / RED.");
   if(r.indicators.Overall.new==="Red") {
     const allL2=dimensions.slice(0,4).map(d=>r.indicators[d].new);
-    if(allL2.every(s=>levels[s])&&!allL2.includes("Red")) add("本周 Overall 为 RED，但二级指标没有 RED");
+    if(allL2.every(s=>levels[s])&&!allL2.includes("Red")) add("Overall is RED, but no L2 indicator is RED.");
     const third=[r.qmsNew,...r.stakeholders.map(s=>s.status)];
-    if(third.every(s=>levels[s])&&!third.includes("Red")) add("本周 Overall 为 RED，但已填写的三级指标没有 RED");
+    if(third.every(s=>levels[s])&&!third.includes("Red")) add("Overall is RED, but no L3 indicator is RED.");
   }
   const filledMilestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
-  if(!filledMilestones.length) add("至少添加一个甘特图阶段");
-  if(filledMilestones.length>maxGanttRows) add("甘特图最多允许 9 个阶段");
+  if(!filledMilestones.length) add("Add at least one timeline task.");
+  if(filledMilestones.length>maxGanttRows) add("The timeline supports a maximum of 9 tasks.");
   filledMilestones.forEach((m,i)=>{
-    if(!m.name||!m.start||!m.end||m.progress==="") add(`甘特图阶段第 ${i+1} 条需填写名称、开始 / 结束日期和完成度`);
-    if((m.start&&!isDate(m.start))||(m.end&&!isDate(m.end))) add(`甘特图阶段第 ${i+1} 条日期无效`);
-    if(isDate(m.start)&&isDate(m.end)&&m.end<m.start) add(`甘特图阶段第 ${i+1} 条结束日期早于开始日期`);
-    if(m.progress!==""&&(!Number.isFinite(Number(m.progress))||Number(m.progress)<0||Number(m.progress)>100)) add(`甘特图阶段第 ${i+1} 条完成度须为 0 至 100`);
+    if(!m.name||!m.start||!m.end||m.progress==="") add(`Timeline task ${i+1} requires a name, start date, end date, and progress.`);
+    if((m.start&&!isDate(m.start))||(m.end&&!isDate(m.end))) add(`Timeline task ${i+1} has an invalid date.`);
+    if(isDate(m.start)&&isDate(m.end)&&m.end<m.start) add(`Timeline task ${i+1} ends before it starts.`);
+    if(m.progress!==""&&(!Number.isFinite(Number(m.progress))||Number(m.progress)<0||Number(m.progress)>100)) add(`Timeline task ${i+1} progress must be between 0 and 100.`);
   });
-  Object.entries(r.keyMilestones).forEach(([key,date])=>{if(date&&!isDate(date)) add(`${key} 里程碑日期无效`);});
+  Object.entries(r.keyMilestones).forEach(([key,date])=>{if(date&&!isDate(date)) add(`${key} milestone date is invalid.`);});
   return issues;
 }
 function refreshValidation() {
   const issues=validate(collect()), box=$("validation"); box.replaceChildren(); box.className="issue-box no-print"+(issues.length?"":" good");
-  const title=document.createElement("strong"); title.textContent=issues.length?`发现 ${issues.length} 项待完善`:"结构与已知状态规则检查通过"; box.appendChild(title);
+  const title=document.createElement("strong"); title.textContent=issues.length?`${issues.length} item(s) need attention`:"Report structure and defined status rules passed."; box.appendChild(title);
   if(issues.length) {
-    const details=document.createElement("details"), summary=document.createElement("summary"); summary.textContent="展开查看问题清单"; details.appendChild(summary);
+    const details=document.createElement("details"), summary=document.createElement("summary"); summary.textContent="Show validation details"; details.appendChild(summary);
     const ul=document.createElement("ul"); issues.forEach(issue=>{const li=document.createElement("li"); li.textContent=issue; ul.appendChild(li);}); details.appendChild(ul); box.appendChild(details);
   }
 }
@@ -386,14 +432,14 @@ function validShape(r) {
   const fields=(x,keys)=>plain(x)&&keys.every(k=>str(x[k]));
   const status=x=>x===""||Boolean(levels[x]);
   const date=x=>x===""||isDate(x);
-  const correctFields=r?.version===1?legacyTextFields.every(k=>str(r[k])):r?.version===6?textFields.every(k=>str(r[k])):r?.version===5?previousTextFields.every(k=>str(r[k])):[2,3,4].includes(r?.version)&&olderTextFields.every(k=>str(r[k]));
+  const correctFields=r?.version===1?legacyTextFields.every(k=>str(r[k])):r?.version===7?textFields.every(k=>str(r[k])):r?.version===6?schema6TextFields.every(k=>str(r[k])):r?.version===5?previousTextFields.every(k=>str(r[k])):[2,3,4].includes(r?.version)&&olderTextFields.every(k=>str(r[k]));
   const legacyMilestones=r=>Array.isArray(r.milestones)&&r.milestones.every(m=>fields(m,["name","plan","forecast","note"])&&date(m.plan)&&date(m.forecast));
   const ganttMilestones=r=>Array.isArray(r.milestones)&&r.milestones.every(m=>fields(m,["name","start","end","progress","note"])&&date(m.start)&&date(m.end)&&(m.progress===""||(Number.isFinite(Number(m.progress))&&Number(m.progress)>=0&&Number(m.progress)<=100)));
   const oldRiskLog=r=>Array.isArray(r.risks)&&r.risks.every(x=>fields(x,["description","mitigation","owner","due","status"])&&date(x.due));
   const stakeholders=r=>Array.isArray(r.stakeholders)&&r.stakeholders.every(s=>
     r.version<4
-      ?fields(s,["group","name","status","dimension"])&&groups.includes(s.group)&&status(s.status)&&(s.dimension===""||dimensions.slice(0,4).includes(s.dimension))
-      :fields(s,["group","name","status"])&&groups.includes(s.group)&&status(s.status)
+      ?fields(s,["group","name","status","dimension"])&&Object.hasOwn(legacyGroups,s.group)&&status(s.status)&&(s.dimension===""||dimensions.slice(0,4).includes(s.dimension))
+      :fields(s,["group","name","status"])&&(r.version<7?Object.hasOwn(legacyGroups,s.group):groups.includes(s.group))&&status(s.status)
   );
   return plain(r)&&r.schema==="pmo-project-weekly-report"&&correctFields&&plain(r.indicators)&&dimensions.every(d=>fields(r.indicators[d],["old","new"]))&&
     date(r.week)&&(r.version>=5||status(r.qmsOld))&&status(r.qmsNew)&&dimensions.every(d=>status(r.indicators[d].old)&&status(r.indicators[d].new))&&
@@ -403,25 +449,26 @@ function validShape(r) {
     (r.version<3?legacyMilestones(r)&&oldRiskLog(r):ganttMilestones(r));
 }
 function normalizeReport(r) {
-  if(r.version===6) return r;
+  if(r.version===7) return r;
+  if(r.version===6) return {...r,version:7,stakeholders:r.stakeholders.map(s=>({...s,group:legacyGroups[s.group]||s.group}))};
   if(r.version===5) {
     const {status,riskDetails,nextSteps,mitigations,...legacy}=r;
-    return {...legacy,version:6,department:"",statusAndRisks:[status&&`Status:\n${status}`,riskDetails&&`Key Risks:\n${riskDetails}`].filter(Boolean).join("\n\n"),nextStepsAndMitigations:[nextSteps&&`Next Steps:\n${nextSteps}`,mitigations&&`Mitigations:\n${mitigations}`].filter(Boolean).join("\n\n"),keyMilestones:{projectStart:"",finalGoLive:"",projectClosure:""}};
+    return {...legacy,version:7,stakeholders:legacy.stakeholders.map(s=>({...s,group:legacyGroups[s.group]||s.group})),department:"",statusAndRisks:[status&&`<p><strong>Status:</strong><br>${escapeHtml(status)}</p>`,riskDetails&&`<p><strong>Key Risks:</strong><br>${escapeHtml(riskDetails)}</p>`].filter(Boolean).join(""),nextStepsAndMitigations:[nextSteps&&`<p><strong>Next Steps:</strong><br>${escapeHtml(nextSteps)}</p>`,mitigations&&`<p><strong>Mitigations:</strong><br>${escapeHtml(mitigations)}</p>`].filter(Boolean).join(""),keyMilestones:{projectStart:"",finalGoLive:"",projectClosure:""}};
   }
   const legacyRisks=r.risks||[];
   const {summary,highlights,risks,qmsOld,...legacy}=r;
   const milestones=r.version<3?legacy.milestones.map(m=>{
     const dates=[m.plan,m.forecast].filter(isDate).sort();
     const start=dates[0]||"",end=dates[dates.length-1]||"";
-    const datesNote=dates.length?`旧版计划 / 实际预测日期：${m.plan||"未填写"} / ${m.forecast||"未填写"}。请调整为真实阶段起止日期。`:"";
+    const datesNote=dates.length?`Legacy planned / forecast dates: ${m.plan||"not provided"} / ${m.forecast||"not provided"}. Review and adjust the task start and end dates.`:"";
     return {name:m.name,start,end,progress:"",note:[m.note,datesNote].filter(Boolean).join(" ")};
   }):legacy.milestones;
-  const stakeholders=legacy.stakeholders.map(({dimension,...stakeholder})=>stakeholder);
+  const stakeholders=legacy.stakeholders.map(({dimension,...stakeholder})=>({...stakeholder,group:legacyGroups[stakeholder.group]||stakeholder.group}));
   const status=legacy.status||[summary,highlights].filter(Boolean).join("\n\n");
   const riskDetails=legacy.riskDetails||legacyRisks.map(x=>x.description).filter(Boolean).join("\n");
   const nextSteps=legacy.nextSteps||"";
   const mitigations=legacy.mitigations||legacyRisks.map(x=>x.mitigation).filter(Boolean).join("\n");
-  return {...legacy,version:6,department:"",keyRiskReason:legacy.keyRiskReason||"",statusAndRisks:[status&&`Status:\n${status}`,riskDetails&&`Key Risks:\n${riskDetails}`].filter(Boolean).join("\n\n"),nextStepsAndMitigations:[nextSteps&&`Next Steps:\n${nextSteps}`,mitigations&&`Mitigations:\n${mitigations}`].filter(Boolean).join("\n\n"),milestones,stakeholders,keyMilestones:{projectStart:"",finalGoLive:"",projectClosure:""}};
+  return {...legacy,version:7,department:"",keyRiskReason:legacy.keyRiskReason||"",statusAndRisks:[status&&`<p><strong>Status:</strong><br>${escapeHtml(status)}</p>`,riskDetails&&`<p><strong>Key Risks:</strong><br>${escapeHtml(riskDetails)}</p>`].filter(Boolean).join(""),nextStepsAndMitigations:[nextSteps&&`<p><strong>Next Steps:</strong><br>${escapeHtml(nextSteps)}</p>`,mitigations&&`<p><strong>Mitigations:</strong><br>${escapeHtml(mitigations)}</p>`].filter(Boolean).join(""),milestones,stakeholders,keyMilestones:{projectStart:"",finalGoLive:"",projectClosure:""}};
 }
 function setStakeholders(stakeholders) {
   $("stakeRows").querySelectorAll('tr[data-group]:not([data-group="QMS"])').forEach(row=>{
@@ -441,22 +488,26 @@ function setStakeholders(stakeholders) {
   });
 }
 function load(r) {
-  if(!validShape(r)) throw new Error("不是受支持的项目周报 JSON（schema / version / 字段不匹配）");
+  if(!validShape(r)) throw new Error("Unsupported project report JSON schema, version, or field structure.");
   r=normalizeReport(r);
   const milestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
   if(milestones.length>maxGanttRows) {
-    alert("此周报包含超过 9 个甘特图阶段，无法在新模板中打开。请先使用旧模板精简阶段后重新导入；原文件不会被修改。");
+    alert("This report contains more than 9 timeline tasks and cannot be opened. Reduce the task count in the previous template and import it again. The original file has not been changed.");
     return;
   }
   $("qg").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
   $("entity").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
   if(r.entity&&!["FC","NMS","FC&NMS"].includes(r.entity)) {
-    const legacy=document.createElement("option"); legacy.value=r.entity; legacy.textContent=`旧值：${r.entity}（请重新选择）`; legacy.dataset.legacy="true"; $("entity").appendChild(legacy);
+    const legacy=document.createElement("option"); legacy.value=r.entity; legacy.textContent=`Legacy value: ${r.entity} (select a supported entity)`; legacy.dataset.legacy="true"; $("entity").appendChild(legacy);
   }
   if(r.qg&&!qualityGates.includes(r.qg)) {
-    const legacy=document.createElement("option"); legacy.value=r.qg; legacy.textContent=`旧值：${r.qg}（请核对）`; legacy.dataset.legacy="true"; $("qg").appendChild(legacy);
+    const legacy=document.createElement("option"); legacy.value=r.qg; legacy.textContent=`Legacy value: ${r.qg} (review and select a supported gate)`; legacy.dataset.legacy="true"; $("qg").appendChild(legacy);
   }
-  textFields.forEach(id=>{$(id).value=r[id]; if($(id).classList.contains("indicator")) $(id).dataset.value=$(id).value;});
+  textFields.forEach(id=>{
+    if(id==="statusAndRisks"||id==="nextStepsAndMitigations") $(id).innerHTML=sanitizeRichHtml(r[id]);
+    else $(id).value=r[id];
+    if($(id).classList.contains("indicator")) $(id).dataset.value=$(id).value;
+  });
   Object.entries(r.keyMilestones).forEach(([key,value])=>$(key).value=value);
   dimensions.forEach(d=>["old","new"].forEach(p=>{const el=$(d+(p==="old"?"Old":"New")); el.value=r.indicators[d][p]; el.dataset.value=el.value;}));
   setStakeholders(r.stakeholders);
@@ -466,7 +517,11 @@ function load(r) {
 function blank() {
   $("qg").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
   $("entity").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
-  textFields.forEach(id=>{$(id).value=""; if($(id).classList.contains("indicator")) $(id).dataset.value="";});
+  textFields.forEach(id=>{
+    if(id==="statusAndRisks"||id==="nextStepsAndMitigations") $(id).replaceChildren();
+    else $(id).value="";
+    if($(id).classList.contains("indicator")) $(id).dataset.value="";
+  });
   ["projectStart","finalGoLive","projectClosure"].forEach(id=>$(id).value="");
   dimensions.forEach(d=>["Old","New"].forEach(p=>{$(d+p).value=""; $(d+p).dataset.value="";}));
   setStakeholders([]);
@@ -486,10 +541,10 @@ function exportReport() {
 async function parseFiles(files) {
   const parsed=[], errors=[];
   for(const file of files) {
-    try {const data=JSON.parse(await file.text()); if(!validShape(data)) throw new Error("文件结构不符合本模板的项目 JSON 格式"); parsed.push(normalizeReport(data));}
+    try {const data=JSON.parse(await file.text()); if(!validShape(data)) throw new Error("The file does not match a supported project report JSON schema."); parsed.push(normalizeReport(data));}
     catch(e) {errors.push(`${file.name}: ${e.message}`);}
   }
-  if(errors.length) alert("以下文件未导入：\n"+errors.join("\n"));
+  if(errors.length) alert("The following files could not be imported:\n"+errors.join("\n"));
   return parsed;
 }
 function priorIssues(r) {
@@ -498,57 +553,66 @@ function priorIssues(r) {
   const previous=reports.find(x=>x.projectId.trim().toLowerCase()===r.projectId.trim().toLowerCase()&&x.week===prevDate);
   if(!previous) return [];
   const issues=[];
-  dimensions.forEach(d=>{if(levels[r.indicators[d].old]&&levels[previous.indicators[d].new]&&r.indicators[d].old!==previous.indicators[d].new) issues.push(`${d} 上周状态与 ${prevDate} 报告的本周状态不一致`);});
+  dimensions.forEach(d=>{if(levels[r.indicators[d].old]&&levels[previous.indicators[d].new]&&r.indicators[d].old!==previous.indicators[d].new) issues.push(`${d} Old status does not match the New status in the ${prevDate} report.`);});
   return issues;
 }
-function badge(value) {const span=document.createElement("span"); span.className="badge "+(levels[value]?value:"missing"); span.textContent=labels[value]||"未填写"; return span;}
+function badge(value) {const span=document.createElement("span"); span.className="badge "+(levels[value]?value:"missing"); span.textContent=labels[value]||"Not set"; return span;}
 function statusPair(a,b) {const el=document.createElement("div"); el.append(badge(a),document.createTextNode(" → "),badge(b)); return el;}
 function cell(row,content) {const td=document.createElement("td"); if(content instanceof Node) td.appendChild(content); else td.textContent=content; row.appendChild(td); return td;}
 function renderDashboard() {
   const filter=$("weekFilter"), selected=filter.value;
   const weeks=[...new Set(reports.map(r=>r.week).filter(isDate))].sort().reverse();
-  filter.replaceChildren(); option(filter,"","全部报告周"); weeks.forEach(w=>option(filter,w,w)); filter.value=weeks.includes(selected)?selected:"";
+  filter.replaceChildren(); option(filter,"","All report dates"); weeks.forEach(w=>option(filter,w,w)); filter.value=weeks.includes(selected)?selected:"";
   const shown=reports.filter(r=>!filter.value||r.week===filter.value);
   const results=shown.map(r=>({r,issues:[...validate(r),...priorIssues(r)]}));
-  const totals=[["报告数",shown.length],["检查通过",results.filter(x=>!x.issues.length).length],["待完善",results.filter(x=>x.issues.length).length],["本周 Overall RED",shown.filter(r=>r.indicators.Overall.new==="Red").length]];
+  const totals=[["Reports",shown.length],["Passed",results.filter(x=>!x.issues.length).length],["Needs attention",results.filter(x=>x.issues.length).length],["Overall RED",shown.filter(r=>r.indicators.Overall.new==="Red").length]];
   $("stats").replaceChildren(); totals.forEach(([label,n])=>{const div=document.createElement("div"); div.className="stat"; const b=document.createElement("b"); b.textContent=n; div.append(b,document.createTextNode(label)); $("stats").appendChild(div);});
   const body=$("dashboardRows"); body.replaceChildren();
-  if(!results.length) {const row=document.createElement("tr"), td=cell(row,"暂无数据，请导入项目 JSON"); td.colSpan=7; td.className="empty"; body.appendChild(row); return;}
+  if(!results.length) {const row=document.createElement("tr"), td=cell(row,"No reports yet. Import one or more project JSON files."); td.colSpan=7; td.className="empty"; body.appendChild(row); return;}
   results.sort((a,b)=>a.r.week===b.r.week?a.r.projectId.localeCompare(b.r.projectId):b.r.week.localeCompare(a.r.week)).forEach(({r,issues})=>{
     const row=document.createElement("tr"), project=document.createElement("div");
-    const name=document.createElement("strong"); name.textContent=(r.projectId||"未填编号")+" · "+(r.name||"未填名称"); project.append(name,document.createElement("br"),document.createTextNode(r.week||"未填日期"));
+    const name=document.createElement("strong"); name.textContent=(r.projectId||"Missing Demand Number")+" · "+(r.name||"Missing project name"); project.append(name,document.createElement("br"),document.createTextNode(r.week||"Missing report date"));
     if(r.keyRiskReason) {const reason=document.createElement("div"); reason.className="hint"; reason.textContent="Key Risk: "+r.keyRiskReason; project.appendChild(reason);} cell(row,project);
-    cell(row,`${r.bizPM||"未填 Biz PM"} · ${r.department||"未填 Department"} / ${r.itPM||"未填 IT PM"} · ${r.phase||"未填阶段"}`);
+    cell(row,`${r.bizPM||"Missing Biz PM"} · ${r.department||"Missing Department"} / ${r.itPM||"Missing IT PM"} · ${r.phase||"Missing phase"}`);
     cell(row,statusPair(r.indicators.Overall.old,r.indicators.Overall.new));     cell(row,badge(r.qmsNew));
-    cell(row,issues.length?`${issues.length} 项待完善`:"已知规则通过");
-    const detail=document.createElement("details"); detail.className="details"; const summary=document.createElement("summary"); summary.textContent=issues.length?"查看问题":"查看说明"; detail.appendChild(summary);
-    if(issues.length) {const ul=document.createElement("ul"); issues.forEach(issue=>{const li=document.createElement("li"); li.textContent=issue; ul.appendChild(li);}); detail.appendChild(ul);} else {const p=document.createElement("p"); p.textContent="未发现本工具覆盖的规则问题，内容仍需人工审核。"; detail.appendChild(p);} cell(row,detail);
-    const button=document.createElement("button"); button.className="btn tiny"; button.textContent="打开"; button.onclick=()=>{if(confirm("打开此报告会替换当前编辑内容。继续？")) load(r);}; cell(row,button); body.appendChild(row);
+    cell(row,issues.length?`${issues.length} item(s) need attention`:"Passed defined checks");
+    const detail=document.createElement("details"); detail.className="details"; const summary=document.createElement("summary"); summary.textContent=issues.length?"View findings":"View notes"; detail.appendChild(summary);
+    if(issues.length) {const ul=document.createElement("ul"); issues.forEach(issue=>{const li=document.createElement("li"); li.textContent=issue; ul.appendChild(li);}); detail.appendChild(ul);} else {const p=document.createElement("p"); p.textContent="No covered rule violations found. Content still requires human review."; detail.appendChild(p);} cell(row,detail);
+    const button=document.createElement("button"); button.className="btn tiny"; button.textContent="Open"; button.onclick=()=>{if(confirm("Opening this report will replace the current editor contents. Continue?")) load(r);}; cell(row,button); body.appendChild(row);
   });
 }
 initialize(); blank();
+$("report").querySelectorAll(".rich-text").forEach(editor=>editor.addEventListener("paste",event=>{
+  event.preventDefault();
+  const clipboard=event.clipboardData;
+  const safeHtml=clipboard?.getData("text/html");
+  const safeContent=safeHtml?sanitizeRichHtml(safeHtml):escapeHtml(clipboard?.getData("text/plain")||"");
+  document.execCommand("insertHTML",false,safeContent);
+}));
 $("report").addEventListener("input",()=>{refreshValidation();renderGantt();}); $("report").addEventListener("change",()=>{refreshValidation();renderGantt();});
 $("addMilestone").onclick=()=>{addGanttRow();refreshValidation();renderGantt();};
-$("newReport").onclick=()=>{if(confirm("新建将清空当前编辑内容，请先导出需要保留的周报。继续？")) blank();};
+$("newReport").onclick=()=>{if(confirm("Starting a new report will clear the current editor. Export any content you want to keep first. Continue?")) blank();};
 $("export").onclick=exportReport; $("print").onclick=()=>{showTab("report"); window.print();};
 $("tabReport").onclick=()=>showTab("report"); $("tabDashboard").onclick=()=>showTab("dashboard");
 $("loadReport").onclick=()=>$("fileProject").click(); $("importDashboard").onclick=()=>$("fileDashboard").click();
-$("fileProject").onchange=async e=>{const found=await parseFiles(e.target.files); if(found.length&&confirm("打开文件将替换当前编辑内容。继续？")) load(found[0]); e.target.value="";};
+$("fileProject").onchange=async e=>{const found=await parseFiles(e.target.files); if(found.length&&confirm("Opening this file will replace the current editor contents. Continue?")) load(found[0]); e.target.value="";};
 $("fileDashboard").onchange=async e=>{
   const found=await parseFiles(e.target.files);
   for(const r of found) {
     const index=r.projectId&&isDate(r.week)?reports.findIndex(x=>x.projectId.trim().toLowerCase()===r.projectId.trim().toLowerCase()&&x.week===r.week):-1;
-    if(index>=0) {if(confirm(`${r.projectId} / ${r.week} 已存在，是否替换？`)) reports[index]=r;} else reports.push(r);
+    if(index>=0) {if(confirm(`${r.projectId} / ${r.week} already exists. Replace it?`)) reports[index]=r;} else reports.push(r);
   }
   e.target.value=""; renderDashboard();
 };
 $("weekFilter").onchange=renderDashboard;
-$("clearDashboard").onclick=()=>{if(confirm("清空当前汇总中的所有报告？不会删除已导出的文件。")) {reports=[]; renderDashboard();}};
+$("clearDashboard").onclick=()=>{if(confirm("Clear all reports from this dashboard? Exported files will not be deleted.")) {reports=[]; renderDashboard();}};
 window.addEventListener("beforeprint",()=>{
   document.querySelectorAll("#report .print-value").forEach(el=>el.remove());
-  document.querySelectorAll("#report input, #report select, #report textarea").forEach(el=>{
-    const span=document.createElement("span"); span.className="print-value";
-    span.textContent=el.tagName==="SELECT"?(el.selectedOptions[0]?.textContent||"—"):(el.value||"—");
+  document.querySelectorAll("#report input, #report select, #report textarea, #report [contenteditable='true']").forEach(el=>{
+    const rich=el.matches("[contenteditable='true']");
+    const span=document.createElement(rich?"div":"span"); span.className="print-value"+(rich?" rich-print":"");
+    if(rich) span.innerHTML=sanitizeRichHtml(el.innerHTML);
+    else span.textContent=el.tagName==="SELECT"?(el.selectedOptions[0]?.textContent||"—"):(el.value||"—");
     if(el.classList.contains("indicator")) {span.classList.add("indicator"); span.dataset.value=el.value;}
     el.after(span);
   });
