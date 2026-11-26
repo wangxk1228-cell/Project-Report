@@ -233,7 +233,7 @@
     </div></section>
   </div>
   <div id="validation" class="issue-box no-print" aria-live="polite"></div>
-  <p class="notice no-print">Rules: RED &gt; AMBER &gt; GREEN. Overall equals the most severe L2 indicator; L2 equals the most severe L3-a QMS or L3-b Stakeholder indicator. When QMS is RED, at least one Stakeholder must be RED and Quality must be RED; when QMS is AMBER, at least one Stakeholder must be AMBER and Quality must be AMBER. If any L2 indicator is AMBER / RED, at least one named Stakeholder indicator must also be AMBER / RED. Print in A3 landscape; long content may span pages.</p>
+  <p class="notice no-print">Rules: RED &gt; AMBER &gt; GREEN. Overall equals the most severe L2 indicator; this week's most severe L2 indicator equals the most severe L3-b Stakeholder indicator. Stakeholders may be left empty when Overall, all L2 indicators, and L3-a QMS are GREEN this week. When QMS is RED, at least one Stakeholder must be RED and Quality must be RED; when QMS is AMBER, at least one Stakeholder must be AMBER and Quality must be AMBER. Print in A3 landscape; long content may span pages.</p>
 </section>
 <section class="dashboard hidden" id="dashboard">
   <div class="dash-head"><div><div class="eyebrow">Portfolio / quality review</div><h1>Weekly Report Dashboard</h1><p class="notice">Import project JSON reports to compare status, review validation findings, and filter by report date. Data is processed in this browser session.</p></div><div class="toolbar"><button class="btn primary" id="importDashboard" type="button">Import Project JSON</button><button class="btn danger" id="clearDashboard" type="button">Clear Dashboard</button></div></div>
@@ -444,17 +444,15 @@ function validate(r) {
   });
   if(r.stakeholders.length>maxStakeholderRows) add("The stakeholder section supports a maximum of 10 rows.");
   const namedStakeholders=r.stakeholders.filter(s=>groups.includes(s.group)&&s.name.trim()&&levels[s.status]);
-  if(!namedStakeholders.length) add("Add at least one named stakeholder with a traffic light to compare with QMS.");
   const highestStakeholder=Math.max(0,...namedStakeholders.map(s=>levels[s.status]));
   if(levels[r.qmsNew]>=2&&!namedStakeholders.some(s=>s.status===r.qmsNew)) add(`When QMS is ${labels[r.qmsNew]}, at least one Stakeholder indicator must also be ${labels[r.qmsNew]}.`);
   const thisWeekL2=dimensions.slice(0,4).map(d=>levels[r.indicators[d].new]);
-  const thisWeekL3=[r.qmsNew,...namedStakeholders.map(s=>s.status)].map(status=>levels[status]).filter(Number.isFinite);
   const l2Complete=thisWeekL2.every(Number.isFinite);
-  const l3Complete=Boolean(levels[r.qmsNew])&&r.stakeholders.every(s=>!s.name.trim()&&!s.status||s.name.trim()&&levels[s.status]);
   const highestL2=Math.max(0,...thisWeekL2.filter(Number.isFinite));
-  const highestL3=thisWeekL3.length?Math.max(...thisWeekL3):0;
-  if(l2Complete&&l3Complete&&highestL2!==highestL3) add(`L2 must match the most severe L3 indicator this week (${labels[Object.keys(levels).find(status=>levels[status]===highestL3)]}).`);
-  if(highestL2>=2&&!namedStakeholders.some(s=>levels[s.status]>=2)) add("When any L2 indicator is AMBER / RED this week, at least one named Stakeholder indicator must also be AMBER / RED.");
+  const allGreen=levels[r.indicators.Overall.new]===1&&l2Complete&&highestL2===1&&levels[r.qmsNew]===1;
+  if(!r.stakeholders.length&&!allGreen) add("Add at least one named Stakeholder with a traffic light unless Overall, all L2 indicators, and QMS are GREEN this week.");
+  const stakeholdersComplete=r.stakeholders.length>0&&namedStakeholders.length===r.stakeholders.length;
+  if(l2Complete&&stakeholdersComplete&&highestL2!==highestStakeholder) add(`The most severe L2 indicator must match the most severe Stakeholder indicator this week (${labels[Object.keys(levels).find(status=>levels[status]===highestStakeholder)]}).`);
   const filledMilestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
   if(!filledMilestones.length) add("Add at least one timeline task.");
   if(filledMilestones.length>maxGanttRows) add("The timeline supports a maximum of 10 tasks.");
