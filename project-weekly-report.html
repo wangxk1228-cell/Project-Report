@@ -225,7 +225,7 @@
     </div></section>
   </div>
   <div id="validation" class="issue-box no-print" aria-live="polite"></div>
-  <p class="notice no-print">Rules: RED &gt; AMBER &gt; GREEN. Overall equals the most severe L2 indicator, and this week's most severe L2 indicator must match the most severe L3 indicator. If QMS or any L2 indicator is AMBER / RED this week, at least one named Business Department, IT Role, or Support Application indicator must also be AMBER / RED. If QMS is RED, Quality must be RED. Print in A3 landscape; long content may span pages.</p>
+  <p class="notice no-print">Rules: RED &gt; AMBER &gt; GREEN. QMS must equal the most severe stakeholder indicator this week; at least one named stakeholder with a status is required. Overall equals the most severe L2 indicator, and this week's most severe L2 indicator must match the most severe L3 indicator. If QMS or any L2 indicator is AMBER / RED this week, at least one named Business Department, IT Role, or Support Application indicator must also be AMBER / RED. If QMS is RED, Quality must be RED. Print in A3 landscape; long content may span pages.</p>
 </section>
 <section class="dashboard hidden" id="dashboard">
   <div class="dash-head"><div><div class="eyebrow">Portfolio / quality review</div><h1>Weekly Report Dashboard</h1><p class="notice">Import project JSON reports to compare status, review validation findings, and filter by report date. Data is processed in this browser session.</p></div><div class="toolbar"><button class="btn primary" id="importDashboard" type="button">Import Project JSON</button><button class="btn danger" id="clearDashboard" type="button">Clear Dashboard</button></div></div>
@@ -420,16 +420,20 @@ function validate(r) {
   if((r.indicators.Overall.new==="Yellow"||r.indicators.Overall.new==="Red")&&!keyRiskReasons.includes(r.keyRiskReason)) add("Select a Key Risk Reason when Overall is AMBER or RED.");
   if(r.keyRiskReason&&!keyRiskReasons.includes(r.keyRiskReason)) add("Key Risk Reason is not supported.");
   r.stakeholders.forEach((s,i)=>{
-    if(!s.name||!levels[s.status]) add(`${s.group} row ${i+1} requires both a name and a traffic light.`);
+    if(!s.name.trim()||!levels[s.status]) add(`${s.group} row ${i+1} requires both a name and a traffic light.`);
   });
+  if(!r.stakeholders.length) add("Add at least one named stakeholder with a traffic light to compare with QMS.");
+  const stakeholdersComplete=r.stakeholders.length>0&&r.stakeholders.every(s=>s.name.trim()&&levels[s.status]);
+  const highestStakeholder=Math.max(0,...r.stakeholders.map(s=>levels[s.status]).filter(Number.isFinite));
+  if(levels[r.qmsNew]&&stakeholdersComplete&&levels[r.qmsNew]!==highestStakeholder) add(`QMS must match the most severe stakeholder indicator this week (${labels[Object.keys(levels).find(status=>levels[status]===highestStakeholder)]}).`);
   const thisWeekL2=dimensions.slice(0,4).map(d=>levels[r.indicators[d].new]);
   const thisWeekL3=[r.qmsNew,...r.stakeholders.map(s=>s.status)].map(status=>levels[status]).filter(Number.isFinite);
   const l2Complete=thisWeekL2.every(Number.isFinite);
-  const l3Complete=Boolean(levels[r.qmsNew])&&r.stakeholders.every(s=>s.name&&levels[s.status]);
+  const l3Complete=Boolean(levels[r.qmsNew])&&r.stakeholders.every(s=>s.name.trim()&&levels[s.status]);
   const highestL2=Math.max(0,...thisWeekL2.filter(Number.isFinite));
   const highestL3=thisWeekL3.length?Math.max(...thisWeekL3):0;
   if(l2Complete&&l3Complete&&highestL2!==highestL3) add(`L2 must match the most severe L3 indicator this week (${labels[Object.keys(levels).find(status=>levels[status]===highestL3)]}).`);
-  if((highestL2>=2||levels[r.qmsNew]>=2)&&!r.stakeholders.some(s=>groups.includes(s.group)&&s.name&&levels[s.status]>=2)) add("When QMS or any L2 indicator is AMBER / RED this week, at least one named Business Department, IT Role, or Support Application indicator must also be AMBER / RED.");
+  if((highestL2>=2||levels[r.qmsNew]>=2)&&!r.stakeholders.some(s=>groups.includes(s.group)&&s.name.trim()&&levels[s.status]>=2)) add("When QMS or any L2 indicator is AMBER / RED this week, at least one named Business Department, IT Role, or Support Application indicator must also be AMBER / RED.");
   const filledMilestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
   if(!filledMilestones.length) add("Add at least one timeline task.");
   if(filledMilestones.length>maxGanttRows) add("The timeline supports a maximum of 9 tasks.");
