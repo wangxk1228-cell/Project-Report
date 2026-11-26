@@ -121,12 +121,10 @@
 .key-milestone-fields{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
 .key-milestone-fields label{min-width:0;color:#536c7a;font-size:8px;font-weight:700;line-height:1.1}
 .key-milestone-fields input{display:block;width:100%;height:22px;margin-top:2px;padding:1px 2px;border:1px solid #d5e1e6;border-radius:3px;font-size:9px}
-.key-milestone-track{position:relative;align-self:center;height:30px;margin:0 4px;overflow:visible}
-.key-milestone-marker{position:absolute;top:2px;transform:translateX(-50%);width:20px;height:25px;z-index:3;color:var(--teal)}
-.key-milestone-marker.start{color:#007f78}
-.key-milestone-marker.go-live{color:#2877b8}
-.key-milestone-marker.closure{color:#b37913}
-.key-milestone-marker svg{display:block;width:100%;height:100%;overflow:visible}
+.key-milestone-track{position:relative;align-self:center;height:30px;margin:0 10px;overflow:visible}
+.key-milestone-marker{position:absolute;top:1px;transform:translateX(-50%);width:24px;height:27px;z-index:3;font-size:19px;line-height:27px;text-align:center;white-space:nowrap}
+.gantt-axis{margin-inline:10px}
+.gantt-track{margin:0 10px}
 @media(max-width:1050px){
   .priority-layout{grid-template-areas:"status" "indicators" "timeline";grid-template-columns:1fr}
 }
@@ -404,33 +402,17 @@ function renderGantt() {
   });
   const milestoneTrack=$("keyMilestoneTrack"); milestoneTrack.replaceChildren();
   const namedDates=[
-    {label:"Project Start",key:"projectStart",kind:"start"},
-    {label:"Project Final Go-live",key:"finalGoLive",kind:"go-live"},
-    {label:"Project Closure",key:"projectClosure",kind:"closure"}
+    {label:"Project Start",key:"projectStart",icon:"▶️",kind:"start"},
+    {label:"Project Final Go-live",key:"finalGoLive",icon:"🚩",kind:"go-live"},
+    {label:"Project Closure",key:"projectClosure",icon:"🏁",kind:"closure"}
   ];
-  namedDates.forEach(({label,key,kind})=>{
+  namedDates.forEach(({label,key,icon,kind})=>{
     const date=collectKeyMilestones()[key]; if(!isDate(date)) return;
     const timestamp=Date.parse(date+"T00:00:00Z");
     const marker=document.createElement("div"); marker.className=`key-milestone-marker ${kind}`;
     marker.style.left=`${(timestamp-rangeStart)/(rangeEnd-rangeStart)*100}%`;
     marker.setAttribute("role","img"); marker.setAttribute("aria-label",`${label}: ${date}`);
-    const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
-    svg.setAttribute("viewBox","0 0 24 30"); svg.setAttribute("aria-hidden","true");
-    const shape=(tag,attrs)=>{
-      const element=document.createElementNS("http://www.w3.org/2000/svg",tag);
-      Object.entries(attrs).forEach(([name,value])=>element.setAttribute(name,value));
-      svg.appendChild(element);
-    };
-    if(kind==="start") {
-      shape("path",{d:"M5 28V3M6 4h13l-3.5 4L19 12H6",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});
-    } else if(kind==="go-live") {
-      shape("circle",{cx:"12",cy:"15",r:"10",fill:"none",stroke:"currentColor","stroke-width":"2"});
-      shape("path",{d:"m10 10 7 5-7 5z",fill:"currentColor"});
-    } else {
-      shape("path",{d:"M5 28V3M6 4h13v13H6",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});
-      [["6","4"],["12.5","10.5"],["12.5","4"]].forEach(([x,y])=>shape("rect",{x,y,width:"6.5",height:"6.5",fill:"currentColor"}));
-    }
-    marker.appendChild(svg); milestoneTrack.appendChild(marker);
+    marker.textContent=icon; milestoneTrack.appendChild(marker);
   });
 }
 function collectKeyMilestones() {
