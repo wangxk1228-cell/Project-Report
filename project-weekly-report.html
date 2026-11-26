@@ -131,14 +131,17 @@
   .meta{grid-template-columns:minmax(100px,.8fr) minmax(200px,1.9fr) minmax(78px,.65fr) minmax(220px,1.7fr) minmax(120px,1fr) minmax(120px,1fr) minmax(140px,1.15fr) minmax(130px,1fr)}
 }
 .traffic-section .key-risk select{background:#f1f8f6}
+.traffic-section .key-risk select[data-value="Green"]{background:#e9f7ef}
+.traffic-section .key-risk select[data-value="Yellow"]{background:#fff7dc}
+.traffic-section .key-risk select[data-value="Red"]{background:#fff0f0}
 .traffic-section .stakeholder-panel .matrix .group-label{white-space:nowrap}
 .gantt{min-width:900px}
-.gantt-head,.gantt-row,.key-milestone-row{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+.gantt-head,.gantt-row,.key-milestone-row{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
 .gantt-fields{grid-template-columns:minmax(70px,1fr) 80px 80px 36px 20px}
 .gantt-fields input[type="date"]{width:100%;min-width:0}
 @media print{
   .gantt{min-width:0}
-  .gantt-head,.gantt-row,.key-milestone-row{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+  .gantt-head,.gantt-row,.key-milestone-row{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
 }
 </style>
 </head>
@@ -433,6 +436,7 @@ function validate(r) {
   return issues;
 }
 function refreshValidation() {
+  $("keyRiskReason").dataset.value=$("OverallNew").value;
   const issues=validate(collect()), box=$("validation"); box.replaceChildren(); box.className="issue-box no-print"+(issues.length?"":" good");
   const title=document.createElement("strong"); title.textContent=issues.length?`${issues.length} item(s) need attention`:"Report structure and defined status rules passed."; box.appendChild(title);
   if(issues.length) {
