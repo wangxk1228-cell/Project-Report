@@ -122,7 +122,8 @@
 .key-milestone-fields label{min-width:0;color:#536c7a;font-size:8px;font-weight:700;line-height:1.1}
 .key-milestone-fields input{display:block;width:100%;height:22px;margin-top:2px;padding:1px 2px;border:1px solid #d5e1e6;border-radius:3px;font-size:9px}
 .key-milestone-track{position:relative;align-self:center;height:30px;margin:0 10px;overflow:visible}
-.key-milestone-marker{position:absolute;top:1px;transform:translateX(-50%);width:24px;height:27px;z-index:3;font-size:19px;line-height:27px;text-align:center;white-space:nowrap}
+.key-milestone-marker{position:absolute;top:3px;transform:translateX(-50%);height:23px;border-left:2px solid #b37913;z-index:3}
+.key-milestone-marker::before{content:"";position:absolute;top:0;left:-4px;width:6px;height:6px;border-radius:50%;background:#b37913}
 .gantt-axis{margin-inline:10px}
 .gantt-track{margin:0 10px}
 @media(max-width:1050px){
@@ -402,17 +403,17 @@ function renderGantt() {
   });
   const milestoneTrack=$("keyMilestoneTrack"); milestoneTrack.replaceChildren();
   const namedDates=[
-    {label:"Project Start",key:"projectStart",icon:"▶️",kind:"start"},
-    {label:"Project Final Go-live",key:"finalGoLive",icon:"🚩",kind:"go-live"},
-    {label:"Project Closure",key:"projectClosure",icon:"🏁",kind:"closure"}
+    {label:"Project Start",key:"projectStart"},
+    {label:"Project Final Go-live",key:"finalGoLive"},
+    {label:"Project Closure",key:"projectClosure"}
   ];
-  namedDates.forEach(({label,key,icon,kind})=>{
+  namedDates.forEach(({label,key})=>{
     const date=collectKeyMilestones()[key]; if(!isDate(date)) return;
     const timestamp=Date.parse(date+"T00:00:00Z");
-    const marker=document.createElement("div"); marker.className=`key-milestone-marker ${kind}`;
+    const marker=document.createElement("div"); marker.className="key-milestone-marker";
     marker.style.left=`${(timestamp-rangeStart)/(rangeEnd-rangeStart)*100}%`;
     marker.setAttribute("role","img"); marker.setAttribute("aria-label",`${label}: ${date}`);
-    marker.textContent=icon; milestoneTrack.appendChild(marker);
+    milestoneTrack.appendChild(marker);
   });
 }
 function collectKeyMilestones() {
