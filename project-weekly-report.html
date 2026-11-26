@@ -89,12 +89,15 @@
 .traffic-section-body{padding:5px}
 .traffic-section .traffic-panel{min-width:0}
 .traffic-section .key-risk{margin-bottom:5px}
-.traffic-section .stakeholder-panel{padding-top:5px}
+.traffic-section .qms-panel,.traffic-section .stakeholder-panel{padding-top:5px}
 .stake-heading{margin:0 0 3px;color:#536c7a;font-size:10px;letter-spacing:.03em;font-weight:700}
 .traffic-section .matrix th,.traffic-section .matrix td{padding:2px}
 .traffic-section .matrix th:first-child{width:37%}
 .traffic-section .matrix th:nth-child(2){width:31%}
 .traffic-section .matrix th:last-child{width:32%}
+.traffic-section .qms-panel .matrix col:first-child{width:37%}
+.traffic-section .qms-panel .matrix col:nth-child(2){width:31%}
+.traffic-section .qms-panel .matrix col:last-child{width:32%}
 .traffic-section .matrix select,.traffic-section .matrix input{width:100%;min-width:0;padding:2px 1px;font-size:9px}
 .traffic-section .stakeholder-panel .matrix .group-label{font-size:9px;font-weight:650;line-height:1.15}
 .traffic-section .qms-row td{background:transparent!important;border-top:0!important}
@@ -187,13 +190,20 @@
         <tbody id="indicatorRows"></tbody>
       </table>
       </div>
-      <div class="stakeholder-panel">
-      <h3 class="stake-heading">L3 / STAKEHOLDER INDICATORS</h3>
-      <table class="matrix" aria-label="QMS and stakeholder indicators">
-        <thead><tr><th>Group</th><th>Name / QG</th><th>Traffic Light</th></tr></thead>
+      <section class="qms-panel" aria-labelledby="qms-heading">
+      <h3 class="stake-heading" id="qms-heading">L3 / QMS INDICATOR</h3>
+      <table class="matrix" aria-label="QMS indicator">
+        <colgroup><col><col><col></colgroup>
+        <tbody id="qmsRows"></tbody>
+      </table>
+      </section>
+      <section class="stakeholder-panel" aria-labelledby="stakeholder-heading">
+      <h3 class="stake-heading" id="stakeholder-heading">L3 / STAKEHOLDER INDICATORS</h3>
+      <table class="matrix" aria-label="Stakeholder indicators">
+        <thead><tr><th>Group</th><th>Name</th><th>Traffic Light</th></tr></thead>
         <tbody id="stakeRows"></tbody>
       </table>
-      </div>
+      </section>
     </div></section>
     </div>
   <section class="card timeline-panel"><div class="card-head"><h2>03 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ Add Task (max 9)</button></div><div class="card-body table-wrap">
@@ -290,7 +300,7 @@ function initialize() {
   const qmsName=document.createElement("td"); qmsName.className="group-label"; qmsName.textContent="QMS";
   const qmsGate=document.createElement("td"); qmsGate.appendChild(qg);
   const qmsTraffic=document.createElement("td"); qmsTraffic.appendChild(qmsStatus);
-  qmsRow.append(qmsName,qmsGate,qmsTraffic); $("stakeRows").appendChild(qmsRow);
+  qmsRow.append(qmsName,qmsGate,qmsTraffic); $("qmsRows").appendChild(qmsRow);
   groups.forEach(group=>{for(let i=0;i<3;i++) addStakeRow(group,i);});
 }
 function input(placeholder,value="",type="text") {const e=document.createElement("input"); e.type=type; e.placeholder=placeholder; e.value=value; e.setAttribute("aria-label",placeholder); return e;}
