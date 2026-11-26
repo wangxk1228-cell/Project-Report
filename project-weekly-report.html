@@ -414,11 +414,11 @@ function validate(r) {
   });
   const thisWeekL2=dimensions.slice(0,4).map(d=>levels[r.indicators[d].new]);
   const thisWeekL3=[r.qmsNew,...r.stakeholders.map(s=>s.status)].map(status=>levels[status]).filter(Number.isFinite);
+  const l2Complete=thisWeekL2.every(Number.isFinite);
+  const l3Complete=Boolean(levels[r.qmsNew])&&r.stakeholders.every(s=>s.name&&levels[s.status]);
   const highestL2=Math.max(0,...thisWeekL2.filter(Number.isFinite));
   const highestL3=thisWeekL3.length?Math.max(...thisWeekL3):0;
-  if(levels[r.indicators.Overall.new]>=2&&highestL2<2) add("When Overall is AMBER / RED this week, at least one L2 indicator must also be AMBER / RED.");
-  if(highestL3>=2&&highestL2<highestL3) add(`L2 indicators must reflect the most severe L3 status this week (${highestL3===3?labels.Red:labels.Yellow}).`);
-  if(highestL2>=2&&highestL3<2) add("When any L2 indicator is AMBER / RED this week, at least one L3 indicator (QMS or stakeholder) must also be AMBER / RED.");
+  if(l2Complete&&l3Complete&&highestL2!==highestL3) add(`L2 must match the most severe L3 indicator this week (${labels[Object.keys(levels).find(status=>levels[status]===highestL3)]}).`);
   const filledMilestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
   if(!filledMilestones.length) add("Add at least one timeline task.");
   if(filledMilestones.length>maxGanttRows) add("The timeline supports a maximum of 9 tasks.");
