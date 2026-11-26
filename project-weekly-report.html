@@ -99,7 +99,15 @@
 .traffic-section .qms-panel .matrix col:nth-child(2){width:31%}
 .traffic-section .qms-panel .matrix col:last-child{width:32%}
 .traffic-section .matrix select,.traffic-section .matrix input{width:100%;min-width:0;padding:2px 1px;font-size:9px}
-.traffic-section .stakeholder-panel .matrix .group-label{font-size:9px;font-weight:650;line-height:1.15}
+.traffic-section .stakeholder-panel .matrix .group-select{white-space:nowrap}
+.traffic-section .stakeholder-heading{display:flex;align-items:center;justify-content:space-between;gap:4px;flex-wrap:wrap}
+.traffic-section .stakeholder-heading .stake-heading{margin-bottom:3px}
+.traffic-section .stakeholder-panel .matrix th:first-child{width:42%}
+.traffic-section .stakeholder-panel .matrix th:nth-child(2){width:27%}
+.traffic-section .stakeholder-panel .matrix th:nth-child(3){width:22%}
+.traffic-section .stakeholder-panel .matrix th:last-child{width:9%}
+.traffic-section .stakeholder-panel .matrix td:last-child{text-align:center}
+.traffic-section .stakeholder-panel .matrix td:last-child button{padding:1px 4px}
 .traffic-section .qms-row td{background:transparent!important;border-top:0!important}
 .traffic-section .qms-group{color:inherit!important;font-weight:inherit!important}
 .gantt{min-width:630px}
@@ -198,15 +206,15 @@
       </table>
       </section>
       <section class="stakeholder-panel" aria-labelledby="stakeholder-heading">
-      <h3 class="stake-heading" id="stakeholder-heading">L3 / STAKEHOLDER INDICATORS</h3>
+      <div class="stakeholder-heading"><h3 class="stake-heading" id="stakeholder-heading">L3 / STAKEHOLDER INDICATORS</h3><button class="btn tiny no-print" id="addStakeholder" type="button">＋ Add Stakeholder (max 10)</button></div>
       <table class="matrix" aria-label="Stakeholder indicators">
-        <thead><tr><th>Group</th><th>Name</th><th>Traffic Light</th></tr></thead>
+        <thead><tr><th>Group</th><th>Name</th><th>Traffic Light</th><th></th></tr></thead>
         <tbody id="stakeRows"></tbody>
       </table>
       </section>
     </div></section>
     </div>
-  <section class="card timeline-panel"><div class="card-head"><h2>03 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ Add Task (max 9)</button></div><div class="card-body table-wrap">
+  <section class="card timeline-panel"><div class="card-head"><h2>03 / PROJECT TIMELINE · GANTT</h2><button class="btn tiny no-print" id="addMilestone" type="button">＋ Add Task (max 10)</button></div><div class="card-body table-wrap">
     <div class="gantt" id="gantt">
       <div class="gantt-head"><div class="gantt-title">Task / Start / End / Progress</div><div class="gantt-axis" id="ganttAxis"></div></div>
       <div class="key-milestone-row" id="keyMilestoneRow">
@@ -253,8 +261,10 @@ const schema6TextFields = [...textFields];
 const legacyTextFields = ["projectId","name","week","entity","bizPM","itPM","phase","summary","highlights","nextSteps","qg","qmsOld","qmsNew"];
 const keyRiskReasons = ["Scope & Requirements","Decisions & Approvals","Internal Resources & Priorities","Techology, Data & IT Security","Testing & Business Readiness","Cost & Procurement","Vendor Delivery","External Dependencies"];
 const qualityGates = ["QG1.0","QG1.2","QG2.0","QG3.0"];
-const maxGanttRows = 9;
+const maxGanttRows = 10;
+const maxStakeholderRows = 10;
 let reports = [];
+let stakeholderRowSequence = 0;
 
 function option(select, value, label) { const el = document.createElement("option"); el.value=value; el.textContent=label; select.appendChild(el); }
 function sanitizeRichHtml(html) {
@@ -301,19 +311,28 @@ function initialize() {
   const qmsGate=document.createElement("td"); qmsGate.appendChild(qg);
   const qmsTraffic=document.createElement("td"); qmsTraffic.appendChild(qmsStatus);
   qmsRow.append(qmsName,qmsGate,qmsTraffic); $("qmsRows").appendChild(qmsRow);
-  groups.forEach(group=>{for(let i=0;i<3;i++) addStakeRow(group,i);});
+  groups.forEach(group=>addStakeRow(group));
 }
 function input(placeholder,value="",type="text") {const e=document.createElement("input"); e.type=type; e.placeholder=placeholder; e.value=value; e.setAttribute("aria-label",placeholder); return e;}
 function removeButton(row) {const b=document.createElement("button"); b.type="button"; b.className="btn tiny no-print"; b.textContent="×"; b.setAttribute("aria-label","Remove task"); b.onclick=()=>{if(row.dataset.note&&!confirm("This task has a legacy note. Deleting the task will also delete its note. Continue?")) return; row.remove(); updateGanttControls(); refreshValidation(); renderGantt();}; return b;}
-function addStakeRow(group,index,data={}) {
-  const row=document.createElement("tr"); row.dataset.group=group; row.dataset.index=index;
-  const groupCell=document.createElement("td"); groupCell.className="group-label"; groupCell.textContent=group;
-  const nameCell=document.createElement("td"), name=input("Name",data.name||""); name.className="stake-name"; name.setAttribute("aria-label",`${group} name`); nameCell.appendChild(name);
-  const statusCell=document.createElement("td"), status=statusSelect(`stake-${groups.indexOf(group)}-${index}`,data.status||""); status.setAttribute("aria-label",`${group} Traffic Light`); statusCell.appendChild(status);
-  row.append(groupCell,nameCell,statusCell); $("stakeRows").appendChild(row); return row;
+function addStakeRow(group="",data={}) {
+  if($("stakeRows").children.length>=maxStakeholderRows) return;
+  const index=stakeholderRowSequence++;
+  const row=document.createElement("tr"); row.dataset.index=index;
+  const groupCell=document.createElement("td"), groupSelect=document.createElement("select"); groupSelect.className="group-select"; groupSelect.setAttribute("aria-label","Stakeholder group");
+  option(groupSelect,"","Select group"); groups.forEach(name=>option(groupSelect,name,name)); groupSelect.value=group; row.dataset.group=groupSelect.value;
+  groupSelect.addEventListener("change",()=>{row.dataset.group=groupSelect.value;refreshValidation();});
+  groupCell.appendChild(groupSelect);
+  const nameCell=document.createElement("td"), name=input("Name",data.name||""); name.className="stake-name"; name.setAttribute("aria-label","Stakeholder name"); nameCell.appendChild(name);
+  const statusCell=document.createElement("td"), status=statusSelect(`stake-${index}`,data.status||""); status.setAttribute("aria-label","Stakeholder Traffic Light"); statusCell.appendChild(status);
+  const actionCell=document.createElement("td"), remove=document.createElement("button"); remove.type="button"; remove.className="btn tiny no-print"; remove.textContent="×"; remove.setAttribute("aria-label","Remove stakeholder"); remove.addEventListener("click",()=>{row.remove();updateStakeholderControls();refreshValidation();}); actionCell.appendChild(remove);
+  row.append(groupCell,nameCell,statusCell,actionCell); $("stakeRows").appendChild(row); updateStakeholderControls(); return row;
+}
+function updateStakeholderControls() {
+  $("addStakeholder").disabled=$("stakeRows").children.length>=maxStakeholderRows;
 }
 function addGanttRow(data={}) {
-  if($("milestones").children.length>=maxGanttRows) throw new Error("The timeline supports a maximum of 9 tasks.");
+  if($("milestones").children.length>=maxGanttRows) throw new Error("The timeline supports a maximum of 10 tasks.");
   const row=document.createElement("div"); row.className="gantt-row";
   row.dataset.note=data.note||"";
   const editor=document.createElement("div"); editor.className="gantt-editor";
@@ -390,10 +409,11 @@ function collect() {
   const report={schema:"pmo-project-weekly-report",version:8, indicators:{}, stakeholders:[], milestones:[],keyMilestones:collectKeyMilestones()};
   textFields.forEach(id=>report[id]=id==="statusAndRisks"||id==="nextStepsAndMitigations"?sanitizeRichHtml($(id).innerHTML):$(id).value.trim());
   dimensions.forEach(d=>report.indicators[d]={old:$(d+"Old").value,new:$(d+"New").value});
-  groups.forEach(group=>document.querySelectorAll(`#stakeRows tr[data-group="${group}"]`).forEach(row=>{
+  document.querySelectorAll("#stakeRows tr").forEach(row=>{
+    const group=row.querySelector(".group-select").value;
     const name=row.querySelector(".stake-name").value.trim(), status=row.querySelector(".indicator").value;
     if(name||status) report.stakeholders.push({group,name,status});
-  }));
+  });
   report.milestones=collectGantt();
   return report;
 }
@@ -420,8 +440,9 @@ function validate(r) {
   if((r.indicators.Overall.new==="Yellow"||r.indicators.Overall.new==="Red")&&!keyRiskReasons.includes(r.keyRiskReason)) add("Select a Key Risk Reason when Overall is AMBER or RED.");
   if(r.keyRiskReason&&!keyRiskReasons.includes(r.keyRiskReason)) add("Key Risk Reason is not supported.");
   r.stakeholders.forEach((s,i)=>{
-    if(!s.name.trim()||!levels[s.status]) add(`${s.group} row ${i+1} requires both a name and a traffic light.`);
+    if(!groups.includes(s.group)||!s.name.trim()||!levels[s.status]) add(`Stakeholder row ${i+1} requires a supported group, name, and traffic light.`);
   });
+  if(r.stakeholders.length>maxStakeholderRows) add("The stakeholder section supports a maximum of 10 rows.");
   const namedStakeholders=r.stakeholders.filter(s=>groups.includes(s.group)&&s.name.trim()&&levels[s.status]);
   if(!namedStakeholders.length) add("Add at least one named stakeholder with a traffic light to compare with QMS.");
   const highestStakeholder=Math.max(0,...namedStakeholders.map(s=>levels[s.status]));
@@ -436,7 +457,7 @@ function validate(r) {
   if(highestL2>=2&&!namedStakeholders.some(s=>levels[s.status]>=2)) add("When any L2 indicator is AMBER / RED this week, at least one named Stakeholder indicator must also be AMBER / RED.");
   const filledMilestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
   if(!filledMilestones.length) add("Add at least one timeline task.");
-  if(filledMilestones.length>maxGanttRows) add("The timeline supports a maximum of 9 tasks.");
+  if(filledMilestones.length>maxGanttRows) add("The timeline supports a maximum of 10 tasks.");
   filledMilestones.forEach((m,i)=>{
     if(!m.name||!m.start||!m.end||m.progress==="") add(`Timeline task ${i+1} requires a name, start date, end date, and progress.`);
     if((m.start&&!isDate(m.start))||(m.end&&!isDate(m.end))) add(`Timeline task ${i+1} has an invalid date.`);
@@ -501,28 +522,20 @@ function normalizeReport(r) {
   return {...legacy,version:8,department:"",keyRiskReason:legacy.keyRiskReason||"",statusAndRisks:[status&&`<p><strong>Status:</strong><br>${escapeHtml(status)}</p>`,riskDetails&&`<p><strong>Key Risks:</strong><br>${escapeHtml(riskDetails)}</p>`].filter(Boolean).join(""),nextStepsAndMitigations:[nextSteps&&`<p><strong>Next Steps:</strong><br>${escapeHtml(nextSteps)}</p>`,mitigations&&`<p><strong>Mitigations:</strong><br>${escapeHtml(mitigations)}</p>`].filter(Boolean).join(""),milestones,stakeholders,keyMilestones:{projectStart:"",finalGoLive:"",projectClosure:""}};
 }
 function setStakeholders(stakeholders) {
-  $("stakeRows").querySelectorAll('tr[data-group]:not([data-group="QMS"])').forEach(row=>{
-    row.querySelector(".stake-name").value="";
-    row.querySelector(".indicator").value="";
-    row.querySelector(".indicator").dataset.value="";
-    if(row.dataset.extra) row.remove();
-  });
-  groups.forEach(group=>{
-    const entries=stakeholders.filter(s=>s.group===group);
-    entries.forEach((s,index)=>{
-      let row=$("stakeRows").querySelector(`tr[data-group="${group}"][data-index="${index}"]`);
-      if(!row) {row=addStakeRow(group,index); row.dataset.extra="true";}
-      row.querySelector(".stake-name").value=s.name;
-      const status=row.querySelector(".indicator"); status.value=s.status; status.dataset.value=s.status;
-    });
-  });
+  $("stakeRows").replaceChildren();
+  (stakeholders.length?stakeholders:groups.map(group=>({group,name:"",status:""}))).forEach(s=>addStakeRow(s.group,s));
+  updateStakeholderControls();
 }
 function load(r) {
   if(!validShape(r)) throw new Error("Unsupported project report JSON schema, version, or field structure.");
   r=normalizeReport(r);
   const milestones=r.milestones.filter(m=>Object.values(m).some(Boolean));
+  if(r.stakeholders.length>maxStakeholderRows) {
+    alert("This report contains more than 10 stakeholder indicators and cannot be opened. Reduce the stakeholder count in the previous template and import it again. The original file has not been changed.");
+    return;
+  }
   if(milestones.length>maxGanttRows) {
-    alert("This report contains more than 9 timeline tasks and cannot be opened. Reduce the task count in the previous template and import it again. The original file has not been changed.");
+    alert("This report contains more than 10 timeline tasks and cannot be opened. Reduce the task count in the previous template and import it again. The original file has not been changed.");
     return;
   }
   $("qg").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
@@ -620,6 +633,7 @@ $("report").querySelectorAll(".rich-text").forEach(editor=>editor.addEventListen
   document.execCommand("insertHTML",false,safeContent);
 }));
 $("report").addEventListener("input",()=>{refreshValidation();renderGantt();}); $("report").addEventListener("change",()=>{refreshValidation();renderGantt();});
+$("addStakeholder").onclick=()=>{addStakeRow();refreshValidation();};
 $("addMilestone").onclick=()=>{addGanttRow();refreshValidation();renderGantt();};
 $("newReport").onclick=()=>{if(confirm("Starting a new report will clear the current editor. Export any content you want to keep first. Continue?")) blank();};
 $("export").onclick=exportReport; $("print").onclick=()=>{showTab("report"); window.print();};
