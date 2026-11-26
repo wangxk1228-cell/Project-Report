@@ -131,13 +131,13 @@
   .meta{grid-template-columns:minmax(100px,.8fr) minmax(200px,1.9fr) minmax(78px,.65fr) minmax(220px,1.7fr) minmax(120px,1fr) minmax(120px,1fr) minmax(140px,1.15fr) minmax(130px,1fr)}
 }
 .traffic-section .key-risk select{background:#f1f8f6}
-.traffic-section .key-risk select[data-value="Green"]{background:#e9f7ef}
-.traffic-section .key-risk select[data-value="Yellow"]{background:#fff7dc}
-.traffic-section .key-risk select[data-value="Red"]{background:#fff0f0}
+.traffic-section .key-risk select[data-value="Green"],.traffic-section .key-risk .print-value[data-value="Green"]{color:var(--green);background:#e9f7ef}
+.traffic-section .key-risk select[data-value="Yellow"],.traffic-section .key-risk .print-value[data-value="Yellow"]{color:var(--yellow);background:#fff7dc}
+.traffic-section .key-risk select[data-value="Red"],.traffic-section .key-risk .print-value[data-value="Red"]{color:var(--red);background:#fff0f0}
 .traffic-section .stakeholder-panel .matrix .group-label{white-space:nowrap}
 .gantt{min-width:900px}
 .gantt-head,.gantt-row,.key-milestone-row{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
-.gantt-fields{grid-template-columns:minmax(70px,1fr) 80px 80px 36px 20px}
+.gantt-fields{grid-template-columns:minmax(70px,1fr) 80px 80px 52px 20px}
 .gantt-fields input[type="date"]{width:100%;min-width:0}
 @media print{
   .gantt{min-width:0}
@@ -629,6 +629,7 @@ window.addEventListener("beforeprint",()=>{
     if(rich) span.innerHTML=sanitizeRichHtml(el.innerHTML);
     else span.textContent=el.tagName==="SELECT"?(el.selectedOptions[0]?.textContent||"—"):(el.value||"—");
     if(el.classList.contains("indicator")) {span.classList.add("indicator"); span.dataset.value=el.value;}
+    if(el.id==="keyRiskReason") span.dataset.value=el.dataset.value;
     el.after(span);
   });
 });
