@@ -127,6 +127,19 @@
 .traffic-section .stakeholder-panel .matrix .qms-row td{background:transparent!important;border-top:0!important}
 .traffic-section .stakeholder-panel .matrix .qms-group{color:inherit!important;font-weight:inherit!important}
 .rich-print{display:block;white-space:pre-wrap;overflow-wrap:anywhere;min-height:180px}
+@media screen and (min-width:1051px){
+  .meta{grid-template-columns:minmax(100px,.8fr) minmax(200px,1.9fr) minmax(78px,.65fr) minmax(220px,1.7fr) minmax(120px,1fr) minmax(120px,1fr) minmax(140px,1.15fr) minmax(130px,1fr)}
+}
+.traffic-section .key-risk select{background:#f1f8f6}
+.traffic-section .stakeholder-panel .matrix .group-label{white-space:nowrap}
+.gantt{min-width:900px}
+.gantt-head,.gantt-row,.key-milestone-row{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+.gantt-fields{grid-template-columns:minmax(70px,1fr) 80px 80px 36px 20px}
+.gantt-fields input[type="date"]{width:100%;min-width:0}
+@media print{
+  .gantt{min-width:0}
+  .gantt-head,.gantt-row,.key-milestone-row{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+}
 </style>
 </head>
 <body>
@@ -166,7 +179,7 @@
       <div class="traffic-panel">
       <div class="field key-risk"><label for="keyRiskReason">Key Risk Reason</label><select id="keyRiskReason"><option value="">Select if Overall is AMBER / RED</option></select></div>
       <table class="matrix" aria-label="Project indicators">
-        <thead><tr><th>Indicator</th><th>Old</th><th>New</th></tr></thead>
+        <thead><tr><th>Indicator</th><th>Last Week</th><th>This Week</th></tr></thead>
         <tbody id="overallRows"></tbody>
         <tbody id="indicatorRows"></tbody>
       </table>
@@ -199,13 +212,13 @@
     </div></section>
   </div>
   <div id="validation" class="issue-box no-print" aria-live="polite"></div>
-  <p class="notice no-print">Rules: RED &gt; AMBER &gt; GREEN. QMS this week rolls up to Quality and Overall. Overall equals the most severe L2 indicator. If Scope, Time, or Financial is AMBER / RED, at least one Business Department, IT Role, or Supporting Application indicator must also be AMBER / RED. A RED Overall requires at least one RED L2 and L3 indicator. Print in A3 landscape; long content may span pages.</p>
+  <p class="notice no-print">Rules: RED &gt; AMBER &gt; GREEN. QMS this week rolls up to Quality and Overall. Overall equals the most severe L2 indicator. If Scope, Time, or Financial is AMBER / RED, at least one Business Department, IT Role, or Support Application indicator must also be AMBER / RED. A RED Overall requires at least one RED L2 and L3 indicator. Print in A3 landscape; long content may span pages.</p>
 </section>
 <section class="dashboard hidden" id="dashboard">
   <div class="dash-head"><div><div class="eyebrow">Portfolio / quality review</div><h1>Weekly Report Dashboard</h1><p class="notice">Import project JSON reports to compare status, review validation findings, and filter by report date. Data is processed in this browser session.</p></div><div class="toolbar"><button class="btn primary" id="importDashboard" type="button">Import Project JSON</button><button class="btn danger" id="clearDashboard" type="button">Clear Dashboard</button></div></div>
   <div class="field" style="max-width:240px"><label for="weekFilter">Filter by Report Date</label><select id="weekFilter"><option value="">All report dates</option></select></div>
   <div class="dash-stats" id="stats"></div>
-  <div class="table-wrap"><table class="dash-table"><thead><tr><th>Project / Report Date</th><th>Owners / Phase</th><th>Overall<br>Old → New</th><th>QMS<br>This Week</th><th>Validation</th><th>Details</th><th>Action</th></tr></thead><tbody id="dashboardRows"></tbody></table></div>
+  <div class="table-wrap"><table class="dash-table"><thead><tr><th>Project / Report Date</th><th>Owners / Phase</th><th>Overall<br>Last Week → This Week</th><th>QMS<br>This Week</th><th>Validation</th><th>Details</th><th>Action</th></tr></thead><tbody id="dashboardRows"></tbody></table></div>
   <p class="notice">Automated checks cover report structure and defined status rules only. Content accuracy, phase meaning, and mitigation quality still require human review. Reports exactly seven days apart are compared for continuity between the prior New and current Old indicators.</p>
 </section>
 </main>
@@ -217,8 +230,9 @@ const $ = id => document.getElementById(id);
 const dimensions = ["Scope","Time","Financial","Quality","Overall"];
 const levels = Object.assign(Object.create(null), {Green:1, Yellow:2, Red:3});
 const labels = {Green:"GREEN", Yellow:"AMBER", Red:"RED"};
-const groups = ["Business Department","IT Role","Supporting Application"];
-const legacyGroups = {BU:"Business Department",IT:"IT Role","Supporting Applications":"Supporting Application"};
+const groups = ["Business Department","IT Role","Support Application"];
+const priorGroups = ["Business Department","IT Role","Supporting Application"];
+const legacyGroups = {BU:"Business Department",IT:"IT Role","Supporting Application":"Support Application","Supporting Applications":"Support Application"};
 const textFields = ["projectId","name","week","entity","bizPM","department","itPM","phase","keyRiskReason","statusAndRisks","nextStepsAndMitigations","qg","qmsNew"];
 const previousTextFields = ["projectId","name","week","entity","bizPM","itPM","phase","keyRiskReason","status","nextSteps","riskDetails","mitigations","qg","qmsNew"];
 const olderTextFields = [...previousTextFields,"qmsOld"];
@@ -360,7 +374,7 @@ function collectKeyMilestones() {
   return {projectStart:$("projectStart").value,finalGoLive:$("finalGoLive").value,projectClosure:$("projectClosure").value};
 }
 function collect() {
-  const report={schema:"pmo-project-weekly-report",version:7, indicators:{}, stakeholders:[], milestones:[],keyMilestones:collectKeyMilestones()};
+  const report={schema:"pmo-project-weekly-report",version:8, indicators:{}, stakeholders:[], milestones:[],keyMilestones:collectKeyMilestones()};
   textFields.forEach(id=>report[id]=id==="statusAndRisks"||id==="nextStepsAndMitigations"?sanitizeRichHtml($(id).innerHTML):$(id).value.trim());
   dimensions.forEach(d=>report.indicators[d]={old:$(d+"Old").value,new:$(d+"New").value});
   groups.forEach(group=>document.querySelectorAll(`#stakeRows tr[data-group="${group}"]`).forEach(row=>{
@@ -399,7 +413,7 @@ function validate(r) {
   const monitoredL2=["Scope","Time","Financial"].map(d=>r.indicators[d].new);
   const anyMonitoredRisk=monitoredL2.some(status=>status==="Yellow"||status==="Red");
   const anyStakeholderRisk=r.stakeholders.some(s=>s.name&&(s.status==="Yellow"||s.status==="Red"));
-  if(anyMonitoredRisk&&!anyStakeholderRisk) add("When Scope, Time, or Financial is AMBER / RED, at least one Business Department, IT Role, or Supporting Application indicator must also be AMBER / RED.");
+  if(anyMonitoredRisk&&!anyStakeholderRisk) add("When Scope, Time, or Financial is AMBER / RED, at least one Business Department, IT Role, or Support Application indicator must also be AMBER / RED.");
   if(r.indicators.Overall.new==="Red") {
     const allL2=dimensions.slice(0,4).map(d=>r.indicators[d].new);
     if(allL2.every(s=>levels[s])&&!allL2.includes("Red")) add("Overall is RED, but no L2 indicator is RED.");
@@ -432,14 +446,14 @@ function validShape(r) {
   const fields=(x,keys)=>plain(x)&&keys.every(k=>str(x[k]));
   const status=x=>x===""||Boolean(levels[x]);
   const date=x=>x===""||isDate(x);
-  const correctFields=r?.version===1?legacyTextFields.every(k=>str(r[k])):r?.version===7?textFields.every(k=>str(r[k])):r?.version===6?schema6TextFields.every(k=>str(r[k])):r?.version===5?previousTextFields.every(k=>str(r[k])):[2,3,4].includes(r?.version)&&olderTextFields.every(k=>str(r[k]));
+  const correctFields=r?.version===1?legacyTextFields.every(k=>str(r[k])):[7,8].includes(r?.version)?textFields.every(k=>str(r[k])):r?.version===6?schema6TextFields.every(k=>str(r[k])):r?.version===5?previousTextFields.every(k=>str(r[k])):[2,3,4].includes(r?.version)&&olderTextFields.every(k=>str(r[k]));
   const legacyMilestones=r=>Array.isArray(r.milestones)&&r.milestones.every(m=>fields(m,["name","plan","forecast","note"])&&date(m.plan)&&date(m.forecast));
   const ganttMilestones=r=>Array.isArray(r.milestones)&&r.milestones.every(m=>fields(m,["name","start","end","progress","note"])&&date(m.start)&&date(m.end)&&(m.progress===""||(Number.isFinite(Number(m.progress))&&Number(m.progress)>=0&&Number(m.progress)<=100)));
   const oldRiskLog=r=>Array.isArray(r.risks)&&r.risks.every(x=>fields(x,["description","mitigation","owner","due","status"])&&date(x.due));
   const stakeholders=r=>Array.isArray(r.stakeholders)&&r.stakeholders.every(s=>
     r.version<4
       ?fields(s,["group","name","status","dimension"])&&Object.hasOwn(legacyGroups,s.group)&&status(s.status)&&(s.dimension===""||dimensions.slice(0,4).includes(s.dimension))
-      :fields(s,["group","name","status"])&&(r.version<7?Object.hasOwn(legacyGroups,s.group):groups.includes(s.group))&&status(s.status)
+      :fields(s,["group","name","status"])&&(r.version<7?Object.hasOwn(legacyGroups,s.group):r.version===7?priorGroups.includes(s.group):groups.includes(s.group))&&status(s.status)
   );
   return plain(r)&&r.schema==="pmo-project-weekly-report"&&correctFields&&plain(r.indicators)&&dimensions.every(d=>fields(r.indicators[d],["old","new"]))&&
     date(r.week)&&(r.version>=5||status(r.qmsOld))&&status(r.qmsNew)&&dimensions.every(d=>status(r.indicators[d].old)&&status(r.indicators[d].new))&&
@@ -449,11 +463,12 @@ function validShape(r) {
     (r.version<3?legacyMilestones(r)&&oldRiskLog(r):ganttMilestones(r));
 }
 function normalizeReport(r) {
-  if(r.version===7) return r;
-  if(r.version===6) return {...r,version:7,stakeholders:r.stakeholders.map(s=>({...s,group:legacyGroups[s.group]||s.group}))};
+  if(r.version===8) return r;
+  if(r.version===7) return {...r,version:8,stakeholders:r.stakeholders.map(s=>({...s,group:legacyGroups[s.group]||s.group}))};
+  if(r.version===6) return {...r,version:8,stakeholders:r.stakeholders.map(s=>({...s,group:legacyGroups[s.group]||s.group}))};
   if(r.version===5) {
     const {status,riskDetails,nextSteps,mitigations,...legacy}=r;
-    return {...legacy,version:7,stakeholders:legacy.stakeholders.map(s=>({...s,group:legacyGroups[s.group]||s.group})),department:"",statusAndRisks:[status&&`<p><strong>Status:</strong><br>${escapeHtml(status)}</p>`,riskDetails&&`<p><strong>Key Risks:</strong><br>${escapeHtml(riskDetails)}</p>`].filter(Boolean).join(""),nextStepsAndMitigations:[nextSteps&&`<p><strong>Next Steps:</strong><br>${escapeHtml(nextSteps)}</p>`,mitigations&&`<p><strong>Mitigations:</strong><br>${escapeHtml(mitigations)}</p>`].filter(Boolean).join(""),keyMilestones:{projectStart:"",finalGoLive:"",projectClosure:""}};
+    return {...legacy,version:8,stakeholders:legacy.stakeholders.map(s=>({...s,group:legacyGroups[s.group]||s.group})),department:"",statusAndRisks:[status&&`<p><strong>Status:</strong><br>${escapeHtml(status)}</p>`,riskDetails&&`<p><strong>Key Risks:</strong><br>${escapeHtml(riskDetails)}</p>`].filter(Boolean).join(""),nextStepsAndMitigations:[nextSteps&&`<p><strong>Next Steps:</strong><br>${escapeHtml(nextSteps)}</p>`,mitigations&&`<p><strong>Mitigations:</strong><br>${escapeHtml(mitigations)}</p>`].filter(Boolean).join(""),keyMilestones:{projectStart:"",finalGoLive:"",projectClosure:""}};
   }
   const legacyRisks=r.risks||[];
   const {summary,highlights,risks,qmsOld,...legacy}=r;
@@ -468,7 +483,7 @@ function normalizeReport(r) {
   const riskDetails=legacy.riskDetails||legacyRisks.map(x=>x.description).filter(Boolean).join("\n");
   const nextSteps=legacy.nextSteps||"";
   const mitigations=legacy.mitigations||legacyRisks.map(x=>x.mitigation).filter(Boolean).join("\n");
-  return {...legacy,version:7,department:"",keyRiskReason:legacy.keyRiskReason||"",statusAndRisks:[status&&`<p><strong>Status:</strong><br>${escapeHtml(status)}</p>`,riskDetails&&`<p><strong>Key Risks:</strong><br>${escapeHtml(riskDetails)}</p>`].filter(Boolean).join(""),nextStepsAndMitigations:[nextSteps&&`<p><strong>Next Steps:</strong><br>${escapeHtml(nextSteps)}</p>`,mitigations&&`<p><strong>Mitigations:</strong><br>${escapeHtml(mitigations)}</p>`].filter(Boolean).join(""),milestones,stakeholders,keyMilestones:{projectStart:"",finalGoLive:"",projectClosure:""}};
+  return {...legacy,version:8,department:"",keyRiskReason:legacy.keyRiskReason||"",statusAndRisks:[status&&`<p><strong>Status:</strong><br>${escapeHtml(status)}</p>`,riskDetails&&`<p><strong>Key Risks:</strong><br>${escapeHtml(riskDetails)}</p>`].filter(Boolean).join(""),nextStepsAndMitigations:[nextSteps&&`<p><strong>Next Steps:</strong><br>${escapeHtml(nextSteps)}</p>`,mitigations&&`<p><strong>Mitigations:</strong><br>${escapeHtml(mitigations)}</p>`].filter(Boolean).join(""),milestones,stakeholders,keyMilestones:{projectStart:"",finalGoLive:"",projectClosure:""}};
 }
 function setStakeholders(stakeholders) {
   $("stakeRows").querySelectorAll('tr[data-group]:not([data-group="QMS"])').forEach(row=>{
