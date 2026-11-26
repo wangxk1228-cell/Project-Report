@@ -108,6 +108,7 @@
 .traffic-section .stakeholder-panel .matrix th:last-child{width:9%}
 .traffic-section .stakeholder-panel .matrix td:last-child{text-align:center}
 .traffic-section .stakeholder-panel .matrix td:last-child button{padding:1px 4px}
+.traffic-rules p{margin:3px 0}
 .traffic-section .qms-row td{background:transparent!important;border-top:0!important}
 .traffic-section .qms-group{color:inherit!important;font-weight:inherit!important}
 .gantt{min-width:630px}
@@ -233,7 +234,13 @@
     </div></section>
   </div>
   <div id="validation" class="issue-box no-print" aria-live="polite"></div>
-  <p class="notice no-print">Rules: RED &gt; AMBER &gt; GREEN. Overall equals the most severe L2 indicator; this week's most severe L2 indicator equals the most severe L3-b Stakeholder indicator. Stakeholders may be left empty when Overall, all L2 indicators, and L3-a QMS are GREEN this week. When QMS is RED, at least one Stakeholder must be RED and Quality must be RED; when QMS is AMBER, at least one Stakeholder must be AMBER and Quality must be AMBER. Print in A3 landscape; long content may span pages.</p>
+  <div class="notice no-print traffic-rules">
+    <p><strong>Severity:</strong> RED &gt; AMBER &gt; GREEN.</p>
+    <p><strong>Roll-up:</strong> Overall equals the most severe L2 indicator. This week's most severe L2 indicator must equal the most severe L3-b Stakeholder indicator. Last Week's Overall must equal the most severe Last Week L2 indicator.</p>
+    <p><strong>QMS special rules:</strong> When QMS is RED, at least one Stakeholder must be RED and Quality must be RED. When QMS is AMBER, at least one Stakeholder must be AMBER or RED and Quality must be AMBER or RED.</p>
+    <p><strong>Empty Stakeholders:</strong> Stakeholder indicators may be left blank only when this week's Overall, all L2 indicators, and L3-a QMS are GREEN.</p>
+    <p>Print in A3 landscape; long content may span pages.</p>
+  </div>
 </section>
 <section class="dashboard hidden" id="dashboard">
   <div class="dash-head"><div><div class="eyebrow">Portfolio / quality review</div><h1>Weekly Report Dashboard</h1><p class="notice">Import project JSON reports to compare status, review validation findings, and filter by report date. Data is processed in this browser session.</p></div><div class="toolbar"><button class="btn primary" id="importDashboard" type="button">Import Project JSON</button><button class="btn danger" id="clearDashboard" type="button">Clear Dashboard</button></div></div>
