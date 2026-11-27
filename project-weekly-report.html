@@ -168,6 +168,17 @@ header.top{padding:10px max(20px,calc((100vw - 1868px)/2))}
   .sheet,.dashboard{padding:12px}
   .status-panel .status-grid{grid-template-columns:1fr}
 }
+.meeting-head{display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap}
+.meeting-head h1{margin:0;font-size:21px}
+.meeting-tools{display:flex;gap:8px;align-items:end;flex-wrap:wrap}
+.meeting-tools .field{min-width:190px}
+.meeting-list{margin:12px 0;padding:0;list-style:none}
+.meeting-list li{display:flex;align-items:center;gap:10px;padding:8px;border-bottom:1px solid var(--line)}
+.meeting-list .project-label{flex:1;min-width:0;overflow-wrap:anywhere}
+.meeting-list .position{font-weight:700;min-width:2em}
+.meeting-view{position:fixed;inset:0;z-index:20;background:var(--bg);padding:12px;display:flex;flex-direction:column}
+.meeting-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.meeting-frame{display:block;width:100%;flex:1;min-height:0;border:1px solid var(--line);background:white}
 </style>
 </head>
 <body>
@@ -183,6 +194,7 @@ header.top{padding:10px max(20px,calc((100vw - 1868px)/2))}
 <nav class="tabs no-print" aria-label="Page navigation">
   <button class="active" id="tabReport" type="button">01 Project Report</button>
   <button id="tabDashboard" type="button">02 Portfolio Dashboard</button>
+  <button id="tabMeeting" type="button">03 Weekly Meeting</button>
 </nav>
 <section class="sheet" id="report">
   <div class="sheet-head"><div><div class="eyebrow">Project governance / weekly update</div><h1>Project Weekly Report</h1><p>One project per report · Select indicators and record key updates for portfolio review</p></div><div class="tag">PROJECT · WEEKLY</div></div>
@@ -260,9 +272,24 @@ header.top{padding:10px max(20px,calc((100vw - 1868px)/2))}
   <div class="table-wrap"><table class="dash-table"><thead><tr><th>Project / Report Date</th><th>Owners / Phase</th><th>Overall<br>Last Week → This Week</th><th>QMS<br>This Week</th><th>Validation</th><th>Details</th><th>Action</th></tr></thead><tbody id="dashboardRows"></tbody></table></div>
   <p class="notice">Automated checks cover report structure and defined status rules only. Content accuracy, phase meaning, and mitigation quality still require human review. Reports exactly seven days apart are compared for continuity between the prior New and current Old indicators.</p>
 </section>
+<section class="dashboard hidden" id="meeting">
+  <div class="meeting-head"><div><div class="eyebrow">Portfolio / weekly meeting</div><h1>Weekly Meeting</h1><p class="notice">Import project JSON reports, select a Monday–Sunday week and arrange the speaking order. Only projects with a report in that week are included; if a project has multiple reports, its latest Report Date is shown. Export the meeting file to save the reports and order for later.</p></div>
+    <div class="toolbar"><button class="btn primary" id="importMeetingReports" type="button">Import Project JSON</button><button class="btn" id="useDashboardReports" type="button">Use Dashboard Reports</button><button class="btn" id="openMeeting" type="button">Open Meeting JSON</button><button class="btn" id="saveMeeting" type="button">Export Meeting JSON</button></div>
+  </div>
+  <div class="meeting-tools"><div class="field"><label for="meetingDate">Report Week (Monday–Sunday)</label><select id="meetingDate"><option value="">Select a report week</option></select></div><button class="btn primary" id="startMeeting" type="button">Present Projects</button></div>
+  <p class="hint">New projects are added at the end. Use the arrows to change the order; previously saved projects retain their relative order when new reports are imported.</p>
+  <ol class="meeting-list" id="meetingList" aria-label="Speaking order"></ol>
+  <p class="notice" id="meetingEmpty">Import project reports to prepare the meeting.</p>
+  <div class="meeting-view hidden" id="meetingView">
+    <div class="meeting-nav"><button class="btn" id="meetingPrev" type="button">← Previous</button><strong id="meetingPosition" aria-live="polite"></strong><div class="toolbar"><button class="btn" id="meetingNext" type="button">Next →</button><button class="btn" id="exitMeeting" type="button">Exit Presentation</button></div></div>
+    <iframe class="meeting-frame" id="meetingFrame" title="Project report presentation"></iframe>
+  </div>
+</section>
 </main>
 <input type="file" id="fileProject" accept=".json,application/json" hidden>
 <input type="file" id="fileDashboard" accept=".json,application/json" multiple hidden>
+<input type="file" id="fileMeetingReports" accept=".json,application/json" multiple hidden>
+<input type="file" id="fileMeeting" accept=".json,application/json" hidden>
 <script>
 "use strict";
 const $ = id => document.getElementById(id);
@@ -282,6 +309,7 @@ const qualityGates = ["QG1.0","QG1.2","QG2.0","QG3.0"];
 const maxGanttRows = 10;
 const maxStakeholderRows = 10;
 let reports = [];
+let meetingReports = [], meetingOrder = [], meetingIndex = 0, meetingFrameReady = false;
 let stakeholderRowSequence = 0;
 
 function option(select, value, label) { const el = document.createElement("option"); el.value=value; el.textContent=label; select.appendChild(el); }
@@ -600,9 +628,10 @@ function blank() {
   $("milestones").replaceChildren(); addGanttRow(); refreshValidation(); renderGantt(); showTab("report");
 }
 function showTab(tab) {
-  $("report").classList.toggle("hidden",tab!=="report"); $("dashboard").classList.toggle("hidden",tab!=="dashboard");
-  $("tabReport").classList.toggle("active",tab==="report"); $("tabDashboard").classList.toggle("active",tab==="dashboard");
+  $("report").classList.toggle("hidden",tab!=="report"); $("dashboard").classList.toggle("hidden",tab!=="dashboard"); $("meeting").classList.toggle("hidden",tab!=="meeting");
+  $("tabReport").classList.toggle("active",tab==="report"); $("tabDashboard").classList.toggle("active",tab==="dashboard"); $("tabMeeting").classList.toggle("active",tab==="meeting");
   if(tab==="dashboard") renderDashboard();
+  if(tab==="meeting") renderMeeting();
 }
 function exportReport() {
   const r=collect(), json=JSON.stringify(r,null,2), blob=new Blob([json],{type:"application/json"});
@@ -631,6 +660,93 @@ function priorIssues(r) {
 function badge(value) {const span=document.createElement("span"); span.className="badge "+(levels[value]?value:"missing"); span.textContent=labels[value]||"Not set"; return span;}
 function statusPair(a,b) {const el=document.createElement("div"); el.append(badge(a),document.createTextNode(" → "),badge(b)); return el;}
 function cell(row,content) {const td=document.createElement("td"); if(content instanceof Node) td.appendChild(content); else td.textContent=content; row.appendChild(td); return td;}
+function meetingKey(r) {return r.projectId.trim().toLowerCase();}
+function meetingWeek(date) {
+  const day=new Date(date+"T00:00:00Z");
+  day.setUTCDate(day.getUTCDate()-(day.getUTCDay()+6)%7);
+  return day.toISOString().slice(0,10);
+}
+function meetingWeekEnd(start) {
+  const day=new Date(start+"T00:00:00Z"); day.setUTCDate(day.getUTCDate()+6); return day.toISOString().slice(0,10);
+}
+function meetingCompatible(r) {
+  return validShape(r)&&r.projectId.trim()&&isDate(r.week)&&r.stakeholders.length<=maxStakeholderRows&&r.milestones.filter(m=>Object.values(m).some(Boolean)).length<=maxGanttRows;
+}
+function meetingProjects() {
+  const week=$("meetingDate").value, byKey=new Map();
+  for(const r of meetingReports) {
+    if(meetingWeek(r.week)!==week) continue;
+    const key=meetingKey(r), previous=byKey.get(key);
+    if(!previous||r.week>previous.week) byKey.set(key,r);
+  }
+  return meetingOrder.filter(key=>byKey.has(key)).map(key=>byKey.get(key));
+}
+function renderMeeting() {
+  const filter=$("meetingDate"), selected=filter.value;
+  const dates=[...new Set(meetingReports.map(r=>meetingWeek(r.week)))].sort().reverse();
+  filter.replaceChildren(); option(filter,"","Select a report week"); dates.forEach(date=>option(filter,date,`${date} – ${meetingWeekEnd(date)}`)); filter.value=dates.includes(selected)?selected:"";
+  const projects=meetingProjects(), list=$("meetingList"); list.replaceChildren();
+  projects.forEach((r,index)=>{
+    const row=document.createElement("li"), position=document.createElement("span"), label=document.createElement("span");
+    position.className="position"; position.textContent=`${index+1}.`;
+    label.className="project-label"; label.textContent=`${r.projectId} · ${r.name||"Missing project name"} · ${r.week}`;
+    row.append(position,label);
+    for(const [delta,text] of [[-1,"↑"],[1,"↓"]]) {
+      const button=document.createElement("button"); button.type="button"; button.className="btn tiny"; button.textContent=text;
+      button.setAttribute("aria-label",`Move ${r.projectId} ${delta<0?"earlier":"later"}`);
+      button.disabled=index+delta<0||index+delta>=projects.length;
+      button.onclick=()=>{
+        const a=meetingOrder.indexOf(meetingKey(r)), b=meetingOrder.indexOf(meetingKey(projects[index+delta]));
+        [meetingOrder[a],meetingOrder[b]]=[meetingOrder[b],meetingOrder[a]];
+        meetingIndex=meetingProjects().findIndex(project=>meetingKey(project)===meetingKey(r));
+        renderMeeting();
+      };
+      row.append(button);
+    }
+    list.append(row);
+  });
+  $("meetingEmpty").textContent=dates.length?selected?"No reports for this week.":"Select a report week to prepare the meeting.":"Import project reports to prepare the meeting.";
+  $("meetingEmpty").classList.toggle("hidden",projects.length>0);
+  $("startMeeting").disabled=!projects.length;
+  $("useDashboardReports").disabled=!reports.length;
+  if(!projects.length) $("meetingView").classList.add("hidden");
+  else if(!$("meetingView").classList.contains("hidden")) showMeetingProject();
+}
+function showMeetingProject() {
+  const projects=meetingProjects();
+  if(!projects.length) return;
+  meetingIndex=Math.max(0,Math.min(meetingIndex,projects.length-1));
+  const r=projects[meetingIndex];
+  $("meetingPosition").textContent=`${meetingIndex+1} / ${projects.length} · ${r.projectId} · ${r.name||"Missing project name"} · ${r.week}`;
+  $("meetingPrev").disabled=meetingIndex===0; $("meetingNext").disabled=meetingIndex===projects.length-1;
+  if(!meetingFrameReady) return;
+  const frame=$("meetingFrame"), win=frame.contentWindow, doc=frame.contentDocument;
+  win.load(r);
+  doc.querySelectorAll("#report input, #report select, #report textarea, #report button").forEach(el=>el.disabled=true);
+  doc.querySelectorAll("#report [contenteditable]").forEach(el=>el.setAttribute("contenteditable","false"));
+  doc.documentElement.scrollTop=0; doc.body.scrollTop=0;
+}
+function downloadMeeting() {
+  const data={schema:"pmo-weekly-meeting",version:1,reportDate:$("meetingDate").value,order:meetingOrder,reports:meetingReports};
+  const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"})), a=document.createElement("a");
+  a.href=url; a.download=`weekly-meeting-${data.reportDate||"undated"}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function openMeetingFile(file) {
+  let data;
+  try {data=JSON.parse(await file.text());}
+  catch(error) {alert(`Cannot read meeting file: ${error.message}`); return;}
+  const validOrder=Array.isArray(data?.order)&&data.order.every(key=>typeof key==="string"&&key.trim()&&key===key.trim().toLowerCase())&&new Set(data.order).size===data.order.length;
+  if(data?.schema!=="pmo-weekly-meeting"||data.version!==1||!validOrder||!Array.isArray(data.reports)||!data.reports.every(meetingCompatible)||typeof data.reportDate!=="string"||(data.reportDate!==""&&!isDate(data.reportDate))) {
+    alert("This file is not a supported meeting file, or contains an unsupported project report."); return;
+  }
+  const identities=data.reports.map(r=>`${meetingKey(r)}\n${r.week}`);
+  if(new Set(identities).size!==identities.length||data.reports.some(r=>!data.order.includes(meetingKey(r)))||(data.reportDate&&!data.reports.some(r=>meetingWeek(r.week)===data.reportDate))) {
+    alert("This meeting file contains duplicate reports or an inconsistent order or report date."); return;
+  }
+  if((meetingReports.length||meetingOrder.length)&&!confirm("Opening this meeting will replace the current meeting data and order. Export it first if you want to keep it. Continue?")) return;
+  meetingReports=data.reports.map(normalizeReport); meetingOrder=[...data.order]; meetingIndex=0;
+  $("meetingView").classList.add("hidden"); renderMeeting(); $("meetingDate").value=data.reportDate; renderMeeting();
+}
 function renderDashboard() {
   const filter=$("weekFilter"), selected=filter.value;
   const weeks=[...new Set(reports.map(r=>r.week).filter(isDate))].sort().reverse();
@@ -653,6 +769,7 @@ function renderDashboard() {
     const button=document.createElement("button"); button.className="btn tiny"; button.textContent="Open"; button.onclick=()=>{if(confirm("Opening this report will replace the current editor contents. Continue?")) load(r);}; cell(row,button); body.appendChild(row);
   });
 }
+const presentationSource="<!doctype html>"+document.documentElement.outerHTML;
 initialize(); blank();
 $("report").querySelectorAll(".rich-text").forEach(editor=>editor.addEventListener("paste",event=>{
   event.preventDefault();
@@ -667,6 +784,7 @@ $("addMilestone").onclick=()=>{addGanttRow();refreshValidation();renderGantt();}
 $("newReport").onclick=()=>{if(confirm("Starting a new report will clear the current editor. Export any content you want to keep first. Continue?")) blank();};
 $("export").onclick=exportReport;
 $("tabReport").onclick=()=>showTab("report"); $("tabDashboard").onclick=()=>showTab("dashboard");
+$("tabMeeting").onclick=()=>showTab("meeting");
 $("loadReport").onclick=()=>$("fileProject").click(); $("importDashboard").onclick=()=>$("fileDashboard").click();
 $("fileProject").onchange=async e=>{const found=await parseFiles(e.target.files); if(found.length&&confirm("Opening this file will replace the current editor contents. Continue?")) load(found[0]); e.target.value="";};
 $("fileDashboard").onchange=async e=>{
@@ -679,6 +797,45 @@ $("fileDashboard").onchange=async e=>{
 };
 $("weekFilter").onchange=renderDashboard;
 $("clearDashboard").onclick=()=>{if(confirm("Clear all reports from this dashboard? Exported files will not be deleted.")) {reports=[]; renderDashboard();}};
+$("importMeetingReports").onclick=()=>$("fileMeetingReports").click();
+$("openMeeting").onclick=()=>$("fileMeeting").click();
+$("saveMeeting").onclick=downloadMeeting;
+function addMeetingReports(found) {
+  const rejected=[], importedDates=[];
+  for(const r of found) {
+    if(!meetingCompatible(r)) {rejected.push(`${r.projectId||"Missing Demand Number"} / ${r.week||"Missing Report Date"}`); continue;}
+    const key=meetingKey(r), index=meetingReports.findIndex(existing=>meetingKey(existing)===key&&existing.week===r.week);
+    if(index>=0) {
+      if(!confirm(`${r.projectId} / ${r.week} already exists in this meeting. Replace it?`)) continue;
+      meetingReports[index]=r;
+    } else meetingReports.push(r);
+    if(!meetingOrder.includes(key)) meetingOrder.push(key);
+    importedDates.push(r.week);
+  }
+  if(rejected.length) alert(`These reports cannot be added: a Demand Number and valid Report Date are required, with at most 10 stakeholders and 10 tasks:\n${rejected.join("\n")}`);
+  $("meetingView").classList.add("hidden"); renderMeeting();
+  if(importedDates.length) {$("meetingDate").value=meetingWeek(importedDates.sort().at(-1)); meetingIndex=0; renderMeeting();}
+}
+$("fileMeetingReports").onchange=async e=>{const found=await parseFiles(e.target.files); e.target.value=""; addMeetingReports(found);};
+$("useDashboardReports").onclick=()=>addMeetingReports(reports);
+$("fileMeeting").onchange=async e=>{if(e.target.files.length) await openMeetingFile(e.target.files[0]); e.target.value="";};
+$("meetingDate").onchange=()=>{meetingIndex=0; $("meetingView").classList.add("hidden"); renderMeeting();};
+$("startMeeting").onclick=()=>{
+  if(!meetingProjects().length) return;
+  meetingIndex=0; $("meetingView").classList.remove("hidden");
+  if(!$("meetingFrame").srcdoc) $("meetingFrame").srcdoc=presentationSource;
+  showMeetingProject();
+};
+$("meetingFrame").onload=()=>{
+  const frame=$("meetingFrame");
+  if(!frame.srcdoc) return;
+  const style=frame.contentDocument.createElement("style");
+  style.textContent="header.top,.tabs,#dashboard,#meeting,#report button,#report .traffic-rules{display:none!important}main{margin:0 auto}#report input:disabled,#report select:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:currentColor}#report .indicator[data-value='Green']{color:var(--green)}#report .indicator[data-value='Yellow']{color:var(--yellow)}#report .indicator[data-value='Red']{color:var(--red)}";
+  frame.contentDocument.head.append(style); meetingFrameReady=true; showMeetingProject();
+};
+$("meetingPrev").onclick=()=>{meetingIndex--; showMeetingProject();};
+$("meetingNext").onclick=()=>{meetingIndex++; showMeetingProject();};
+$("exitMeeting").onclick=()=>{$("meetingView").classList.add("hidden"); $("startMeeting").focus();};
 </script>
 </body>
 </html>
