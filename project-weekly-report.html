@@ -205,7 +205,7 @@ header.top{padding:10px max(20px,calc((100vw - 1868px)/2))}
     <div class="field"><label for="bizPM">Biz PM *</label><input id="bizPM" placeholder="Name"></div>
     <div class="field"><label for="department">Department *</label><input id="department" placeholder="Department"></div>
     <div class="field"><label for="itPM">IT PM *</label><input id="itPM" placeholder="Name"></div>
-    <div class="field"><label for="phase">Project Phase *</label><input id="phase" placeholder="e.g. Implementation & SIT"></div>
+    <div class="field"><label for="phase">Main Project Phase *</label><input id="phase" placeholder="e.g. Implementation & SIT"></div>
     <div class="field"><label for="week">Report Date *</label><input type="date" id="week"></div>
   </div>
   <div class="priority-layout full">
@@ -224,14 +224,14 @@ header.top{padding:10px max(20px,calc((100vw - 1868px)/2))}
       </table>
       </div>
       <section class="qms-panel" aria-labelledby="qms-heading">
-      <h3 class="stake-heading" id="qms-heading">L3 / QMS INDICATOR</h3>
+      <h3 class="stake-heading" id="qms-heading">QMS INDICATOR</h3>
       <table class="matrix" aria-label="QMS indicator">
         <colgroup><col><col><col></colgroup>
         <tbody id="qmsRows"></tbody>
       </table>
       </section>
       <section class="stakeholder-panel" aria-labelledby="stakeholder-heading">
-      <div class="stakeholder-heading"><h3 class="stake-heading" id="stakeholder-heading">L3 / STAKEHOLDER INDICATORS</h3><button class="btn tiny no-print" id="addStakeholder" type="button">＋ Add Stakeholder (max 10)</button></div>
+      <div class="stakeholder-heading"><h3 class="stake-heading" id="stakeholder-heading">STAKEHOLDER INDICATORS</h3><button class="btn tiny no-print" id="addStakeholder" type="button">＋ Add Stakeholder (max 10)</button></div>
       <table class="matrix" aria-label="Stakeholder indicators">
         <thead><tr><th>Group</th><th>Name</th><th>Traffic Light</th><th></th></tr></thead>
         <tbody id="stakeRows"></tbody>
@@ -260,6 +260,7 @@ header.top{padding:10px max(20px,calc((100vw - 1868px)/2))}
   <div id="validation" class="issue-box no-print" aria-live="polite"></div>
   <div class="notice no-print traffic-rules">
     <p><strong>Severity:</strong> RED &gt; AMBER &gt; GREEN.</p>
+    <p><strong>Indicator levels:</strong> Level 1 is Overall; Level 2 comprises Scope, Time, Financial and Quality; Level 3 comprises QMS (Level 3-a) and Stakeholders (Level 3-b).</p>
     <p><strong>Roll-up:</strong> Overall equals the most severe L2 indicator. This week's most severe L2 indicator must equal the most severe L3-b Stakeholder indicator. Last Week's Overall must equal the most severe Last Week L2 indicator.</p>
     <p><strong>QMS special rules:</strong> When QMS is RED, at least one Stakeholder must be RED and Quality must be RED. When QMS is AMBER, at least one Stakeholder must be AMBER or RED and Quality must be AMBER or RED.</p>
     <p><strong>Empty Stakeholders:</strong> Stakeholder indicators may be left blank only when this week's Overall, all L2 indicators, and L3-a QMS are GREEN.</p>
@@ -304,7 +305,8 @@ const previousTextFields = ["projectId","name","week","entity","bizPM","itPM","p
 const olderTextFields = [...previousTextFields,"qmsOld"];
 const schema6TextFields = [...textFields];
 const legacyTextFields = ["projectId","name","week","entity","bizPM","itPM","phase","summary","highlights","nextSteps","qg","qmsOld","qmsNew"];
-const keyRiskReasons = ["Scope & Requirements","Decisions & Approvals","Internal Resources & Priorities","Techology, Data & IT Security","Testing & Business Readiness","Cost & Procurement","Vendor Delivery","External Dependencies"];
+const keyRiskReasons = ["Scope & Requirements","Resources & Planning","Priorities & Dependencies","Procurement & Contracting","Technical & IT Security","Vendor Delivery","Third-Party Dependencies"];
+const legacyKeyRiskReasons = ["Decisions & Approvals","Internal Resources & Priorities","Techology, Data & IT Security","Testing & Business Readiness","Cost & Procurement","External Dependencies"];
 const qualityGates = ["QG1.0","QG1.2","QG2.0","QG3.0"];
 const maxGanttRows = 10;
 const maxStakeholderRows = 10;
@@ -475,7 +477,7 @@ function isDate(s) { if(typeof s!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(s)) ret
 function validate(r) {
   const issues=[];
   const add=message=>issues.push(message);
-  const required={projectId:"Demand Number",name:"Project Name",week:"Report Date",entity:"Entity",bizPM:"Biz PM",department:"Department",itPM:"IT PM",phase:"Project Phase",qg:"Quality Gate"};
+  const required={projectId:"Demand Number",name:"Project Name",week:"Report Date",entity:"Entity",bizPM:"Biz PM",department:"Department",itPM:"IT PM",phase:"Main Project Phase",qg:"Quality Gate"};
   Object.entries(required).forEach(([key,label])=>{if(!r[key]) add(`${label} is required.`);});
   if(!richTextPlainText(r.statusAndRisks)) add("Status & Key Risks is required.");
   if(!richTextPlainText(r.nextStepsAndMitigations)) add("Next Steps & Mitigations is required.");
@@ -491,8 +493,8 @@ function validate(r) {
     if(levels[overall]&&l2.every(s=>levels[s])&&levels[overall]!==Math.max(...l2.map(s=>levels[s]))) add(`${period} Overall must match the most severe L2 indicator.`);
     if(p==="new"&&levels[q]>=2&&levels[r.indicators.Quality[p]]<levels[q]) add(`When QMS is ${labels[q]}, Quality must be ${labels[q]} or more severe this week.`);
   }
-  if((r.indicators.Overall.new==="Yellow"||r.indicators.Overall.new==="Red")&&!keyRiskReasons.includes(r.keyRiskReason)) add("Select a Key Risk Reason when Overall is AMBER or RED.");
-  if(r.keyRiskReason&&!keyRiskReasons.includes(r.keyRiskReason)) add("Key Risk Reason is not supported.");
+  if((r.indicators.Overall.new==="Yellow"||r.indicators.Overall.new==="Red")&&!r.keyRiskReason) add("Select a Key Risk Reason when Overall is AMBER or RED.");
+  if(r.keyRiskReason&&!keyRiskReasons.includes(r.keyRiskReason)) add(legacyKeyRiskReasons.includes(r.keyRiskReason)?"Key Risk Reason uses a legacy value; select a current reason.":"Key Risk Reason is not supported.");
   r.stakeholders.forEach((s,i)=>{
     if(!groups.includes(s.group)||!s.name.trim()||!levels[s.status]) add(`Stakeholder row ${i+1} requires a supported group, name, and traffic light.`);
   });
@@ -551,7 +553,7 @@ function validShape(r) {
   return plain(r)&&r.schema==="pmo-project-weekly-report"&&correctFields&&plain(r.indicators)&&dimensions.every(d=>fields(r.indicators[d],["old","new"]))&&
     date(r.week)&&(r.version>=5||status(r.qmsOld))&&status(r.qmsNew)&&dimensions.every(d=>status(r.indicators[d].old)&&status(r.indicators[d].new))&&
     (r.version<6||plain(r.keyMilestones)&&["projectStart","finalGoLive","projectClosure"].every(k=>str(r.keyMilestones[k])&&date(r.keyMilestones[k])))&&
-    (r.version===1||r.keyRiskReason===""||keyRiskReasons.includes(r.keyRiskReason))&&
+    (r.version===1||r.keyRiskReason===""||keyRiskReasons.includes(r.keyRiskReason)||legacyKeyRiskReasons.includes(r.keyRiskReason))&&
     stakeholders(r)&&
     (r.version<3?legacyMilestones(r)&&oldRiskLog(r):ganttMilestones(r));
 }
@@ -597,11 +599,15 @@ function load(r) {
   }
   $("qg").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
   $("entity").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
+  $("keyRiskReason").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
   if(r.entity&&!["FC","NMS","FC&NMS"].includes(r.entity)) {
     const legacy=document.createElement("option"); legacy.value=r.entity; legacy.textContent=`Legacy value: ${r.entity} (select a supported entity)`; legacy.dataset.legacy="true"; $("entity").appendChild(legacy);
   }
   if(r.qg&&!qualityGates.includes(r.qg)) {
     const legacy=document.createElement("option"); legacy.value=r.qg; legacy.textContent=`Legacy value: ${r.qg} (review and select a supported gate)`; legacy.dataset.legacy="true"; $("qg").appendChild(legacy);
+  }
+  if(r.keyRiskReason&&legacyKeyRiskReasons.includes(r.keyRiskReason)) {
+    const legacy=document.createElement("option"); legacy.value=r.keyRiskReason; legacy.textContent=`Legacy value: ${r.keyRiskReason} (select a current reason)`; legacy.dataset.legacy="true"; $("keyRiskReason").appendChild(legacy);
   }
   textFields.forEach(id=>{
     if(id==="statusAndRisks"||id==="nextStepsAndMitigations") $(id).innerHTML=sanitizeRichHtml(r[id]);
@@ -617,6 +623,7 @@ function load(r) {
 function blank() {
   $("qg").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
   $("entity").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
+  $("keyRiskReason").querySelectorAll("[data-legacy]").forEach(el=>el.remove());
   textFields.forEach(id=>{
     if(id==="statusAndRisks"||id==="nextStepsAndMitigations") $(id).replaceChildren();
     else $(id).value="";
